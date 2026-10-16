@@ -1,0 +1,907 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><title>Natação Criativa - A natação além da piscina</title><meta name="description" content="Plataforma oficial da Natação Criativa: cursos, pós-graduação, workshops e gestão acadêmica em natação e pedagogia aquática."><meta property="og:title" content="Natação Criativa - A natação além da piscina"><meta property="og:description" content="Plataforma oficial da Natação Criativa: cursos, pós-graduação, workshops e gestão acadêmica em natação e pedagogia aquática."><meta property="og:type" content="website"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}
+/* Sidebar collapse utility classes */
+#sidebar.sidebar-collapsed {
+  width: 5rem; /* w-20 = 80px */
+}
+#sidebar.sidebar-collapsed .sidebar-label,
+#sidebar.sidebar-collapsed #sidebar-search-box {
+  display: none !important;
+  opacity: 0;
+}
+#sidebar.sidebar-collapsed .sidebar-header {
+  justify-content: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+#sidebar.sidebar-collapsed .nav-item {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+#sidebar.sidebar-collapsed #login-btn {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+#sidebar.sidebar-collapsed #brand-expanded {
+  display: none !important;
+}
+#sidebar.sidebar-collapsed #brand-collapsed {
+  display: flex !important;
+}
+</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"outline-variant":"#c1c6d5","on-error":"#ffffff","tertiary":"#b50063","on-primary-fixed-variant":"#004789","inverse-on-surface":"#edf1f3","on-tertiary":"#ffffff","on-primary-container":"#fefcff","tertiary-fixed":"#ffd9e3","on-secondary-fixed":"#001c38","outline":"#717784","inverse-primary":"#a7c8ff","surface-container-high":"#e5e9eb","inverse-surface":"#2c3133","on-secondary-fixed-variant":"#27486f","on-surface":"#171c1e","primary-container":"#0074da","secondary-fixed":"#d3e4ff","surface-variant":"#dfe3e5","surface-container-low":"#f0f4f6","primary-fixed-dim":"#a7c8ff","background":"#f6fafc","on-primary":"#ffffff","secondary-fixed-dim":"#a9c9f7","on-tertiary-fixed":"#3e001e","on-tertiary-container":"#fffbff","tertiary-fixed-dim":"#ffb0c9","surface-bright":"#f6fafc","surface-container":"#eaeef0","tertiary-container":"#dd1c7c","on-primary-fixed":"#001b3c","error":"#ba1a1a","error-container":"#ffdad6","surface-tint":"#005eb3","primary":"#005cae","surface-dim":"#d6dbdd","on-secondary-container":"#395982","surface":"#f6fafc","on-surface-variant":"#414753","on-secondary":"#ffffff","on-error-container":"#93000a","primary-fixed":"#d5e3ff","secondary-container":"#b1d1ff","on-tertiary-fixed-variant":"#8e004c","secondary":"#406089","on-background":"#171c1e","surface-container-lowest":"#ffffff","surface-container-highest":"#dfe3e5"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1.5rem","space-sm":"0.5rem","space-md":"1rem","space-xl":"2.5rem","margin":"2rem","margin-mobile":"1rem","space-xs":"0.25rem","gutter":"1.5rem","gutter-mobile":"1rem"},"fontFamily":{"body-md":["Inter"],"body-lg":["Inter"],"label-caps":["Plus Jakarta Sans"],"body-sm":["Inter"],"headline-md":["Plus Jakarta Sans"],"display-hero":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"display-hero-mobile":["Plus Jakarta Sans"]},"fontSize":{"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"body-lg":["18px",{"lineHeight":"28px","letterSpacing":"-0.005em","fontWeight":"400"}],"label-caps":["11px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"800"}],"body-sm":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-md":["22px",{"lineHeight":"30px","letterSpacing":"-0.015em","fontWeight":"700"}],"display-hero":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"800"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"700"}],"headline-xl-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-xl":["40px",{"lineHeight":"48px","letterSpacing":"-0.025em","fontWeight":"700"}],"display-hero-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"800"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-on-secondary-fixed text-on-primary z-50 flex flex-col justify-between transition-all duration-300 shadow-[0_1px_8px_rgba(0,0,0,0.04)]" id="sidebar"><div class="flex flex-col flex-1 min-h-0"><div class="sidebar-header p-space-md flex items-center justify-between border-b border-on-secondary-fixed-variant/40"><div class="flex items-center gap-space-sm overflow-hidden" id="brand-expanded"><a href="/" class="flex items-center gap-space-sm overflow-hidden"><img alt="Logo Natação Criativa" class="h-9 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtKT6LtXtfO5sJbo-7aWj6lPc-Y3b82eQgf9opaJyG3yyMmq5wwz908lkj3pnkrxEUMlqBdO_lyumylFYrAusaHpdy2SgM3DCScDlf4pKVYatnkckPK1arxZz9daeZiiJFqNllaAAYZQIg_VA-moFVtPCjviabyN6QvQOnV0dfunFeUfBVzIIMxB8nd5C7Xmc_Sv3g2zbWGT84gdFl4gtk-ZnWnTCaqiVRDFY5bPgdlqpV90hI4Mn3"><div class="sidebar-label flex flex-col min-w-0 transition-opacity duration-200"><span class="font-headline-sm text-headline-sm text-on-primary tracking-tight truncate">NATAÇÃO CRIATIVA</span><span class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase truncate">A natação além da piscina</span></div></a></div><div class="hidden flex-col items-center justify-center py-1" id="brand-collapsed"><a href="/"><img alt="Logo Natação Criativa" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtKT6LtXtfO5sJbo-7aWj6lPc-Y3b82eQgf9opaJyG3yyMmq5wwz908lkj3pnkrxEUMlqBdO_lyumylFYrAusaHpdy2SgM3DCScDlf4pKVYatnkckPK1arxZz9daeZiiJFqNllaAAYZQIg_VA-moFVtPCjviabyN6QvQOnV0dfunFeUfBVzIIMxB8nd5C7Xmc_Sv3g2zbWGT84gdFl4gtk-ZnWnTCaqiVRDFY5bPgdlqpV90hI4Mn3"></a></div><button aria-label="Recolher menu lateral" class="p-space-xs rounded-lg text-secondary-fixed-dim hover:text-on-primary hover:bg-on-secondary-fixed-variant transition-colors flex-shrink-0 ml-1" id="sidebar-toggle-btn" title="Recolher / Expandir menu" type="button"><span class="material-symbols-outlined text-[20px] transition-transform duration-300" id="sidebar-toggle-icon">keyboard_double_arrow_left</span></button></div><div class="px-space-md py-space-xs" id="sidebar-search-box"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-3 text-secondary-fixed-dim text-[18px] pointer-events-none">search</span><input class="w-full pl-9 pr-3 py-2 bg-on-secondary-fixed-variant text-on-primary placeholder:text-secondary-fixed-dim rounded-lg text-body-sm font-body-sm outline-none focus:ring-2 focus:ring-primary-container transition-all" placeholder="Buscar cursos, conteúdos..." type="search"></div></div><nav class="flex-1 overflow-y-auto px-space-sm py-space-sm space-y-space-xs" data-active-classes="bg-primary-container text-on-primary font-bold"><a class="nav-item flex items-center gap-3 px-space-md py-2.5 rounded-lg bg-primary-container text-on-primary font-bold transition-all font-label-lg text-label-lg" data-path="inicio" href="/" title="Início"><span class="material-symbols-outlined text-[20px] flex-shrink-0">home</span><span class="sidebar-label truncate">Início</span></a><a class="nav-item flex items-center gap-3 px-space-md py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-secondary-fixed-variant transition-all font-label-lg text-label-lg" data-path="formacoes" href="/formacoes" title="Formações"><span class="material-symbols-outlined text-[20px] flex-shrink-0">school</span><span class="sidebar-label truncate">Formações</span></a><a class="nav-item flex items-center gap-3 px-space-md py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-secondary-fixed-variant transition-all font-label-lg text-label-lg" data-path="publicos" href="/cursos" title="Cursos e Workshops"><span class="material-symbols-outlined text-[20px] flex-shrink-0">group</span><span class="sidebar-label truncate">Públicos / Cursos</span></a><a class="nav-item flex items-center gap-3 px-space-md py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-secondary-fixed-variant transition-all font-label-lg text-label-lg" data-path="conteudos" href="/formacoes" title="Conteúdos"><span class="material-symbols-outlined text-[20px] flex-shrink-0">menu_book</span><span class="sidebar-label truncate">Conteúdos</span></a><a class="nav-item flex items-center gap-3 px-space-md py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-secondary-fixed-variant transition-all font-label-lg text-label-lg" data-path="solucoes" href="/cursos" title="Soluções"><span class="material-symbols-outlined text-[20px] flex-shrink-0">lightbulb</span><span class="sidebar-label truncate">Soluções</span></a><a class="nav-item flex items-center gap-3 px-space-md py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-secondary-fixed-variant transition-all font-label-lg text-label-lg" data-path="certificados" href="/formacoes" title="Certificados"><span class="material-symbols-outlined text-[20px] flex-shrink-0">workspace_premium</span><span class="sidebar-label truncate">Certificados</span></a><a class="nav-item flex items-center gap-3 px-space-md py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-secondary-fixed-variant transition-all font-label-lg text-label-lg" data-path="loja" href="/cursos" title="Loja"><span class="material-symbols-outlined text-[20px] flex-shrink-0">shopping_bag</span><span class="sidebar-label truncate">Loja</span></a><a class="nav-item flex items-center gap-3 px-space-md py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-secondary-fixed-variant transition-all font-label-lg text-label-lg" data-path="atendimento" href="/cursos" title="Atendimento"><span class="material-symbols-outlined text-[20px] flex-shrink-0">support_agent</span><span class="sidebar-label truncate">Atendimento</span></a></nav></div><div class="p-space-md flex flex-col gap-space-xs"><a class="flex items-center justify-center gap-2 w-full py-2.5 px-space-md bg-primary hover:bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg transition-colors" data-path="login" href="/admin" id="login-btn" title="Área do Aluno / Painel Admin"><span class="material-symbols-outlined text-[18px] flex-shrink-0">admin_panel_settings</span><span class="sidebar-label truncate">Painel Admin / Aluno</span></a></div></aside><div class="pl-72 flex flex-col min-h-screen transition-all duration-300" id="main-content-layout"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] transition-all duration-300" id="top-header"><div class="flex items-center gap-space-md"><a href="/" class="flex items-center gap-space-md"><img alt="Logo Natação Criativa" class="h-9 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtKT6LtXtfO5sJbo-7aWj6lPc-Y3b82eQgf9opaJyG3yyMmq5wwz908lkj3pnkrxEUMlqBdO_lyumylFYrAusaHpdy2SgM3DCScDlf4pKVYatnkckPK1arxZz9daeZiiJFqNllaAAYZQIg_VA-moFVtPCjviabyN6QvQOnV0dfunFeUfBVzIIMxB8nd5C7Xmc_Sv3g2zbWGT84gdFl4gtk-ZnWnTCaqiVRDFY5bPgdlqpV90hI4Mn3"><span class="font-headline-sm text-headline-sm text-on-surface">Plataforma Natação Criativa</span></a></div><div class="flex items-center gap-space-md"><a href="/formacoes" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors"><span class="material-symbols-outlined text-[18px] text-primary">school</span><span>Cursos</span></a><a href="/admin" class="w-8 h-8 rounded-full bg-primary hover:bg-primary-container flex items-center justify-center transition-all shadow-sm" title="Painel Admin"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></a></div></header><main class="relative pt-16 bg-surface flex-1 w-full px-space-lg"><div class="flex flex-col w-full">
+<!-- 1. HERO EM CARROSSEL COM 3 DESTAQUES -->
+<section class="relative w-full rounded-2xl overflow-hidden shadow-xl mb-space-xl text-on-primary">
+<!-- Fluid ambient background gradient with hydro curves -->
+<div class="absolute inset-0 bg-gradient-to-r from-primary via-[#7B2CBF] to-tertiary opacity-95"></div>
+<div class="absolute -right-24 -bottom-24 w-96 h-96 rounded-full bg-primary-container/20 blur-3xl pointer-events-none"></div>
+<div class="absolute left-1/4 -top-20 w-80 h-80 rounded-full bg-tertiary-container/25 blur-3xl pointer-events-none"></div>
+<div class="relative z-10 px-space-lg py-space-xl lg:px-space-xl lg:py-16 flex flex-col justify-between min-h-[460px]">
+<!-- Top Bar: Indicator & Mini Navigation -->
+<div class="flex items-center justify-between w-full pb-space-md">
+<div class="flex items-center gap-space-xs bg-on-secondary-fixed/30 backdrop-blur-md px-3.5 py-1.5 rounded-full">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-on-primary tracking-widest uppercase" id="hero-counter">DESTAQUE 1/3</span>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="Destaque anterior" class="w-10 h-10 rounded-full bg-on-primary/10 hover:bg-on-primary/25 backdrop-blur-sm flex items-center justify-center transition-all" id="hero-prev" type="button">
+<span class="material-symbols-outlined text-[20px] text-on-primary">chevron_left</span>
+</button>
+<button aria-label="Próximo destaque" class="w-10 h-10 rounded-full bg-on-primary/10 hover:bg-on-primary/25 backdrop-blur-sm flex items-center justify-center transition-all" id="hero-next" type="button">
+<span class="material-symbols-outlined text-[20px] text-on-primary">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Slide Items Container -->
+<div class="relative w-full overflow-hidden my-space-md">
+<!-- Slide 1 (Active) -->
+<div class="hero-slide flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg transition-all duration-500" id="slide-0">
+<div class="max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-on-primary/15 backdrop-blur-md mb-space-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">school</span>
+<span class="font-label-caps text-label-caps tracking-wider uppercase text-secondary-fixed">PÓS-GRADUAÇÃO</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-primary font-extrabold tracking-tight mb-space-sm leading-tight">
+              Natação Aplicada ao Personal Trainer Aquático
+            </h1>
+<p class="font-body-lg text-body-lg text-secondary-fixed-dim font-medium max-w-xl mb-space-lg">
+              Especialização 100% Online com Prática Supervisionada
+            </p>
+<div class="flex flex-wrap items-center gap-space-md">
+<a class="px-space-lg py-3.5 bg-surface-container-lowest text-primary hover:bg-surface-container transition-transform active:scale-98 rounded-lg font-label-lg text-label-lg shadow-lg flex items-center gap-2 font-bold" href="/formacoes">
+                Conheça a formação
+                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+<span class="font-label-md text-label-md text-on-primary/80 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">verified</span>
+                Certificação Reconhecida
+              </span>
+</div>
+</div>
+<div class="w-full lg:w-96 rounded-xl overflow-hidden shadow-2xl relative group bg-on-secondary-fixed/20 backdrop-blur-sm p-2">
+<div class="relative h-56 rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Fotografia de um personal trainer aquático profissional demonstrando movimentos biomecânicos de nado em piscina límpida com iluminação subaquática e reflexos azuis vívidos, estilo moderno esportivo e educacional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-JwfIDc9PpTOYOhX6sgdSPRDEecVyoQUKEo2EVvWM8N1sgfbjFLZXh3eHQozmBTJloxBLd_T8k1DS8vGZtL21iIyO0CEUjOXDqhDIVDIqXWFFV6_f-FCZTGbob1Fawd4DRfENL8A_t72741KPHHpSI5GyLIIYH3s0Z6yFrcmPj1LDxzJKciYOixVChkuXgp3GspW_j4D2u2DRAqvYi4npYogsLezfbcia4fsNKFo">
+<div class="absolute inset-0 bg-gradient-to-t from-on-secondary-fixed/80 via-transparent to-transparent flex items-end p-space-md">
+<span class="font-label-caps text-label-caps text-on-primary uppercase tracking-widest">Inscrições com Vagas Limitadas</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Slide 2 (Hidden) -->
+<div class="hero-slide hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg transition-all duration-500" id="slide-1">
+<div class="max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-on-primary/15 backdrop-blur-md mb-space-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">groups</span>
+<span class="font-label-caps text-label-caps tracking-wider uppercase text-secondary-fixed">GRUPO DE ESTUDOS</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl text-on-primary font-extrabold tracking-tight mb-space-sm leading-tight">
+              Aula ao vivo + gravação
+            </h2>
+<p class="font-body-lg text-body-lg text-secondary-fixed-dim font-medium max-w-xl mb-space-lg">
+              Encontros quinzenais com discussão de casos reais e suporte contínuo
+            </p>
+<div class="flex flex-wrap items-center gap-space-md">
+<a class="px-space-lg py-3.5 bg-surface-container-lowest text-primary hover:bg-surface-container transition-transform active:scale-98 rounded-lg font-label-lg text-label-lg shadow-lg flex items-center gap-2 font-bold" href="/formacoes">
+                Ver programação
+                <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+</a>
+<span class="font-label-md text-label-md text-on-primary/80 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">videocam</span>
+                Interação Direta ao Vivo
+              </span>
+</div>
+</div>
+<div class="w-full lg:w-96 rounded-xl overflow-hidden shadow-2xl relative group bg-on-secondary-fixed/20 backdrop-blur-sm p-2">
+<div class="relative h-56 rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Ambiente profissional de aula e conferência online sobre natação e pedagogia aquática, tela mostrando gráficos biomecânicos e educadores participando ativamente com visual refinado azul marinho." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUkkgrjBOv_2Ql75yJy6TsMap-jCTI0C7xim3lynbdgb2dnzt-Zz3O9yyJQo_eGq5CkztAgojDwtW2X5zqVk8-DnfrpCxxpL2o2kFUcJJ-j80tz1ycenEIJDOQCowBr8yno1F_ytY5my6w_LfjM26rrMxjPN0yO-jdEGFm9WmA_k8PpXxinHZ-a82i56L6royiyRmNvc600DzeLggNvDHGH1O6wjY6sHpzT_w8k90">
+<div class="absolute inset-0 bg-gradient-to-t from-on-secondary-fixed/80 via-transparent to-transparent flex items-end p-space-md">
+<span class="font-label-caps text-label-caps text-on-primary uppercase tracking-widest">Encontros Quinzenais</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Slide 3 (Hidden) -->
+<div class="hero-slide hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg transition-all duration-500" id="slide-2">
+<div class="max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-on-primary/15 backdrop-blur-md mb-space-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">pool</span>
+<span class="font-label-caps text-label-caps tracking-wider uppercase text-secondary-fixed">TREINOS</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl text-on-primary font-extrabold tracking-tight mb-space-sm leading-tight">
+              30 dias para evoluir com direção
+            </h2>
+<p class="font-body-lg text-body-lg text-secondary-fixed-dim font-medium max-w-xl mb-space-lg">
+              Periodização prática para piscina com foco em eficiência e condicionamento
+            </p>
+<div class="flex flex-wrap items-center gap-space-md">
+<a class="px-space-lg py-3.5 bg-surface-container-lowest text-primary hover:bg-surface-container transition-transform active:scale-98 rounded-lg font-label-lg text-label-lg shadow-lg flex items-center gap-2 font-bold" href="/formacoes">
+                Experimentar agora
+                <span class="material-symbols-outlined text-[18px]">sports_score</span>
+</a>
+<span class="font-label-md text-label-md text-on-primary/80 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">timer</span>
+                Planilhas Digitais Inclusas
+              </span>
+</div>
+</div>
+<div class="w-full lg:w-96 rounded-xl overflow-hidden shadow-2xl relative group bg-on-secondary-fixed/20 backdrop-blur-sm p-2">
+<div class="relative h-56 rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Nadador focado na borda da piscina preparando-se para treinamento intensivo de alta performance com raias azuis cristalinas e luz solar matinal cintilante na água." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA53Qt07X05PGC5PWmkXyfr6aFcrw6U1c4aQHyI9mPWIutGw5W5WRpHJ8Fi5yQ1kS9SyL9PhWisPBlbztfTiQLDIhQ_iR0AZ4d3GXD_CPILIMLBCWAbkHDfljdLjvnOfuqyAHgaV-RAGTV7gI7NsQMa1freFH0eSOIWrOLXYfq4fHJd2w4kk_R-r479v6BD8XdUY1GPjcXIpzxusgo4vycSr2dee0O0G_tlRXcXb6s">
+<div class="absolute inset-0 bg-gradient-to-t from-on-secondary-fixed/80 via-transparent to-transparent flex items-end p-space-md">
+<span class="font-label-caps text-label-caps text-on-primary uppercase tracking-widest">Acompanhamento e Metas</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Carousel Pagination Bullets -->
+<div class="flex items-center gap-2 pt-space-xs">
+<button aria-label="Slide 1" class="h-2 rounded-full transition-all duration-300 w-8 bg-surface-container-lowest" id="dot-0" onclick="goToSlide(0)" type="button"></button>
+<button aria-label="Slide 2" class="h-2 rounded-full transition-all duration-300 w-2.5 bg-on-primary/40 hover:bg-on-primary/70" id="dot-1" onclick="goToSlide(1)" type="button"></button>
+<button aria-label="Slide 3" class="h-2 rounded-full transition-all duration-300 w-2.5 bg-on-primary/40 hover:bg-on-primary/70" id="dot-2" onclick="goToSlide(2)" type="button"></button>
+</div>
+</div>
+</section>
+<!-- 2. "QUAL É O SEU CAMINHO?" -->
+<section class="w-full mb-space-xl">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-space-sm">
+<div>
+<div class="flex items-center gap-2 text-primary mb-1">
+<span class="material-symbols-outlined text-[20px]">explore</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider">Jornada Direcionada</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-secondary-fixed font-extrabold">Qual é o seu caminho?</h2>
+</div>
+<p class="font-body-md text-body-md text-secondary max-w-md">
+        Soluções sob medida para o seu momento profissional, institucional ou pessoal na água.
+      </p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1: Profissionais -->
+<a class="group flex flex-col justify-between p-space-lg bg-surface-container-lowest hover:bg-surface-container-low rounded-2xl shadow-sm hover:shadow-md transition-all duration-300" href="#">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed text-primary flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[26px]">badge</span>
+</div>
+<span class="font-label-caps text-label-caps text-primary uppercase font-bold tracking-wider">Carreira &amp; Método</span>
+<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mt-1 mb-2">Profissionais</h3>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed">
+            Formação, atualização e ferramentas para atuar melhor em aulas e treinos aquáticos.
+          </p>
+</div>
+<div class="pt-space-md flex items-center text-primary font-label-lg text-label-lg font-bold group-hover:translate-x-1 transition-transform">
+          Acessar caminho →
+        </div>
+</a>
+<!-- Card 2: Gestores -->
+<a class="group flex flex-col justify-between p-space-lg bg-surface-container-lowest hover:bg-surface-container-low rounded-2xl shadow-sm hover:shadow-md transition-all duration-300" href="#">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed text-primary flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[26px]">domain</span>
+</div>
+<span class="font-label-caps text-label-caps text-primary uppercase font-bold tracking-wider">Escolas &amp; Clubes</span>
+<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mt-1 mb-2">Gestores</h3>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed">
+            Gestão, atendimento, equipe, operação e resultados para academias e centros aquáticos.
+          </p>
+</div>
+<div class="pt-space-md flex items-center text-primary font-label-lg text-label-lg font-bold group-hover:translate-x-1 transition-transform">
+          Acessar caminho →
+        </div>
+</a>
+<!-- Card 3: Famílias -->
+<a class="group flex flex-col justify-between p-space-lg bg-surface-container-lowest hover:bg-surface-container-low rounded-2xl shadow-sm hover:shadow-md transition-all duration-300" href="#">
+<div>
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-tertiary flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[26px]">family_restroom</span>
+</div>
+<span class="font-label-caps text-label-caps text-tertiary uppercase font-bold tracking-wider">Natação Infantil</span>
+<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mt-1 mb-2">Famílias</h3>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed">
+            Segurança, desenvolvimento e escolhas para as crianças na iniciação e sobrevivência aquática.
+          </p>
+</div>
+<div class="pt-space-md flex items-center text-primary font-label-lg text-label-lg font-bold group-hover:translate-x-1 transition-transform">
+          Acessar caminho →
+        </div>
+</a>
+<!-- Card 4: Alunos -->
+<a class="group flex flex-col justify-between p-space-lg bg-surface-container-lowest hover:bg-surface-container-low rounded-2xl shadow-sm hover:shadow-md transition-all duration-300" href="#">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed text-primary flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[26px]">surfing</span>
+</div>
+<span class="font-label-caps text-label-caps text-primary uppercase font-bold tracking-wider">Prática &amp; Técnica</span>
+<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mt-1 mb-2">Alunos</h3>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed">
+            Treinos, prática, acompanhamento e evolução contínua para nadadores de todos os níveis.
+          </p>
+</div>
+<div class="pt-space-md flex items-center text-primary font-label-lg text-label-lg font-bold group-hover:translate-x-1 transition-transform">
+          Acessar caminho →
+        </div>
+</a>
+</div>
+</section>
+<!-- 3. NÚMEROS DA TRAJETÓRIA -->
+<section class="w-full bg-surface-container-lowest rounded-2xl shadow-sm p-space-lg mb-space-xl">
+<div class="grid grid-cols-2 md:grid-cols-5 gap-space-md items-center text-center divide-y md:divide-y-0 md:divide-x divide-surface-container">
+<!-- Item 1 -->
+<div class="p-space-sm flex flex-col items-center">
+<span class="font-display-hero-mobile md:font-display-hero text-display-hero-mobile md:text-display-hero text-on-secondary-fixed font-extrabold tracking-tight leading-none">[n]</span>
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-wider font-extrabold mt-space-xs">EXPERIÊNCIA (anos)</span>
+<span class="font-body-sm text-body-sm text-outline mt-1">Vivência na borda da piscina</span>
+</div>
+<!-- Item 2 -->
+<div class="p-space-sm flex flex-col items-center">
+<span class="font-display-hero-mobile md:font-display-hero text-display-hero-mobile md:text-display-hero text-primary font-extrabold tracking-tight leading-none">[n]</span>
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-wider font-extrabold mt-space-xs">CERTIFICADOS</span>
+<span class="font-body-sm text-body-sm text-outline mt-1">Conquistas chanceladas</span>
+</div>
+<!-- Item 3 -->
+<div class="p-space-sm flex flex-col items-center">
+<span class="font-display-hero-mobile md:font-display-hero text-display-hero-mobile md:text-display-hero text-on-secondary-fixed font-extrabold tracking-tight leading-none">[n]</span>
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-wider font-extrabold mt-space-xs">ALUNOS</span>
+<span class="font-body-sm text-body-sm text-outline mt-1">Pessoas impactadas</span>
+</div>
+<!-- Item 4 -->
+<div class="p-space-sm flex flex-col items-center">
+<span class="font-display-hero-mobile md:font-display-hero text-display-hero-mobile md:text-display-hero text-tertiary font-extrabold tracking-tight leading-none">[n]</span>
+<span class="font-label-caps text-label-caps text-tertiary uppercase tracking-wider font-extrabold mt-space-xs">E-BOOKS</span>
+<span class="font-body-sm text-body-sm text-outline mt-1">Publicações autorais</span>
+</div>
+<!-- Item 5 -->
+<div class="p-space-sm flex flex-col items-center col-span-2 md:col-span-1">
+<span class="font-display-hero-mobile md:font-display-hero text-display-hero-mobile md:text-display-hero text-on-secondary-fixed font-extrabold tracking-tight leading-none">[n]</span>
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-wider font-extrabold mt-space-xs">CURSOS</span>
+<span class="font-body-sm text-body-sm text-outline mt-1">Módulos especializados</span>
+</div>
+</div>
+</section>
+<!-- 4. OFERTAS E EVENTOS ATUAIS -->
+<section class="w-full mb-space-xl">
+<div class="flex items-center justify-between mb-space-lg">
+<div>
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-wider font-bold">Agenda &amp; Formações</span>
+<h2 class="font-headline-lg text-headline-lg text-on-secondary-fixed font-extrabold mt-0.5">Ofertas e eventos em destaque</h2>
+</div>
+<a class="hidden sm:flex items-center gap-1 text-primary hover:text-primary-container font-label-lg text-label-lg font-bold" href="/formacoes">
+        Ver catálogo completo
+        <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Card 1: CURSO Aberto -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="font-label-caps text-label-caps text-outline uppercase font-bold">CURSO</span>
+<span class="bg-[#89B113] text-on-primary font-label-caps text-label-caps px-3 py-1 rounded-full uppercase tracking-wider font-extrabold">
+              ABERTO
+            </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mb-space-xs">
+            Metodologia Lúdica da Natação Infantil
+          </h3>
+<p class="font-body-sm text-body-sm text-secondary mb-space-md">
+            Abordagem pedagógica integrada para retenção e desenvolvimento motor sem traumas na água.
+          </p>
+<div class="space-y-1.5 py-space-sm bg-surface-container-low px-3.5 rounded-xl mb-space-lg">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">schedule</span>
+<span class="">Carga horária: 40 horas</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">laptop_chromebook</span>
+<span class="">Modalidade: 100% Online gravado</span>
+</div>
+</div>
+</div>
+<a class="w-full py-3 bg-primary hover:bg-primary-container text-on-primary rounded-lg text-center font-label-lg text-label-lg font-bold transition-colors shadow-sm" href="/formacoes">
+          Garantir vaga
+        </a>
+</div>
+<!-- Card 2: PALESTRA Em Breve -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="font-label-caps text-label-caps text-outline uppercase font-bold">PALESTRA</span>
+<span class="bg-[#FAC61C] text-on-secondary-fixed font-label-caps text-label-caps px-3 py-1 rounded-full uppercase tracking-wider font-extrabold">
+              EM BREVE
+            </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mb-space-xs">
+            Biomecânica e Eficiência no Nado Crawl
+          </h3>
+<p class="font-body-sm text-body-sm text-secondary mb-space-md">
+            Análise cinemática de pegada, rolamento corporal e redução de arrasto para nadadores e treinadores.
+          </p>
+<div class="space-y-1.5 py-space-sm bg-surface-container-low px-3.5 rounded-xl mb-space-lg">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">event</span>
+<span class="">Data agendada: Próxima terça-feira</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">live_tv</span>
+<span class="">Transmissão síncrona exclusiva</span>
+</div>
+</div>
+</div>
+<a class="w-full py-3 bg-secondary-fixed hover:bg-secondary-container text-on-secondary-fixed font-label-lg text-label-lg font-bold rounded-lg text-center transition-colors" href="/formacoes">
+          Entrar na lista de espera
+        </a>
+</div>
+<!-- Card 3: WORKSHOP Gravação -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="font-label-caps text-label-caps text-outline uppercase font-bold">WORKSHOP</span>
+<span class="bg-outline text-on-primary font-label-caps text-label-caps px-3 py-1 rounded-full uppercase tracking-wider font-extrabold">
+              GRAVAÇÃO
+            </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mb-space-xs">
+            Segurança Aquática e Primeiros Socorros
+          </h3>
+<p class="font-body-sm text-body-sm text-secondary mb-space-md">
+            Protocolos de prevenção a afogamentos, resgate rápido e condutas de suporte básico para instrutores.
+          </p>
+<div class="space-y-1.5 py-space-sm bg-surface-container-low px-3.5 rounded-xl mb-space-lg">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">play_circle</span>
+<span class="">Acesso imediato vitalício</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">attachment</span>
+<span class="">Planilhas e apostilas inclusas</span>
+</div>
+</div>
+</div>
+<a class="w-full py-3 bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-lg text-label-lg font-bold rounded-lg text-center transition-colors" href="/formacoes">
+          Acessar gravação
+        </a>
+</div>
+</div>
+</section>
+<!-- 5. CONTEÚDO RECENTE -->
+<section class="w-full mb-space-xl">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-space-xs">
+<div>
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-wider font-bold">Atualizações Semanais</span>
+<h2 class="font-headline-lg text-headline-lg text-on-secondary-fixed font-extrabold mt-0.5">Conteúdo no Ecossistema Criativo</h2>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+        Acompanhe podcasts, pílulas pedagógicas e tutoriais práticos.
+      </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Card Instagram -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between group">
+<div>
+<div class="relative h-48 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Ilustração didática com infográfico aquático em tons de azul e rosa detalhando a biomecânica da respiração bilateral no nado crawl com dicas visuais de posicionamento." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuop2T7wZLjS36Tn5k_gA0hTmJDbq8WOvhKt9PXhtDM03mELA7DDy1DsZtMqk67dmLrNBadfja6pgwxZIOlJlUopvJmcNP-3L-9fhfiGP6932eKQlDitC5xBguAkLu5iyBr4Vu9sQ-YYr8Hw-AMfU7NXqX8ogJzPx3DxWiBbMMdaE9roU92kicqDPpIWlMRwDstnO7Bm708Wd52VkkKT_-TOBxeEzoRMtSAKYqh9M">
+<div class="absolute top-3 left-3 bg-[#E1306C] text-on-primary px-3 py-1 rounded-full font-label-caps text-label-caps font-extrabold flex items-center gap-1 shadow-md">
+<span class="material-symbols-outlined text-[14px]">photo_camera</span>
+              INSTAGRAM
+            </div>
+</div>
+<div class="p-space-lg">
+<div class="flex items-center gap-2 text-outline font-label-caps text-label-caps uppercase mb-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+              Publicado há 2 dias
+            </div>
+<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mb-2">
+              3 Dicas Práticas de Respiração Lateral sem Desequilíbrio
+            </h3>
+<p class="font-body-sm text-body-sm text-secondary line-clamp-2">
+              Como manter o alinhamento corporal na respiração do crawl e evitar o afundamento do quadril.
+            </p>
+</div>
+</div>
+<div class="px-space-lg pb-space-lg">
+<a class="w-full py-2.5 px-space-md bg-surface-container-low hover:bg-surface-container text-[#E1306C] rounded-lg font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 transition-colors" href="#">
+            Ver no Instagram
+            <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Card Spotify -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between group">
+<div>
+<div class="relative h-48 bg-on-secondary-fixed p-space-md flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<div class="bg-[#1DB954] text-on-secondary-fixed px-3 py-1 rounded-full font-label-caps text-label-caps font-extrabold flex items-center gap-1 shadow-md">
+<span class="material-symbols-outlined text-[14px]">podcasts</span>
+                SPOTIFY
+              </div>
+<span class="font-label-caps text-label-caps text-secondary-fixed-dim bg-on-secondary-fixed-variant px-2.5 py-0.5 rounded-full">+400 Entrevistas</span>
+</div>
+<!-- Spotify Mini Wave Player Mock -->
+<div class="flex items-center gap-3 bg-on-secondary-fixed-variant/80 p-3 rounded-xl backdrop-blur-sm">
+<div class="w-10 h-10 rounded-full bg-[#1DB954] text-on-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="font-label-md text-label-md text-on-primary truncate">Natação Criativa Podcast</div>
+<div class="flex items-center gap-1 mt-1">
+<div class="h-1.5 w-1 bg-[#1DB954] rounded-full animate-bounce"></div>
+<div class="h-3 w-1 bg-[#1DB954] rounded-full animate-bounce" style="animation-delay: 150ms;"></div>
+<div class="h-2 w-1 bg-[#1DB954] rounded-full"></div>
+<div class="h-4 w-1 bg-[#1DB954] rounded-full animate-bounce" style="animation-delay: 300ms;"></div>
+<div class="h-2 w-1 bg-outline rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-space-lg">
+<div class="flex items-center gap-2 text-outline font-label-caps text-label-caps uppercase mb-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+              Duração: 48 min · Episódio #412
+            </div>
+<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mb-2">
+              A Revolução do Personal Trainer Aquático
+            </h3>
+<p class="font-body-sm text-body-sm text-secondary line-clamp-2">
+              Conversa com especialistas sobre precificação, montagem de turmas exclusivas e posicionamento de mercado.
+            </p>
+</div>
+</div>
+<div class="px-space-lg pb-space-lg">
+<a class="w-full py-2.5 px-space-md bg-surface-container-low hover:bg-surface-container text-[#16853C] rounded-lg font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 transition-colors" href="#">
+            Ouvir no Spotify
+            <span class="material-symbols-outlined text-[18px]">volume_up</span>
+</a>
+</div>
+</div>
+<!-- Card YouTube -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between group">
+<div>
+<div class="relative h-48 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Vídeo educacional de natação mostrando um atleta em câmera lenta executando virada olímpica em piscina com linhas guia coloridas e cronômetro em display digital no canto superior." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhCVKSURettc6srdvyw1TXatK002FIpDQvY9Zu6aTkB54onNoeOWktBTyaRq0vKNlGdr0pqIjNSIWwMBUqbJ2-zGZXCoOGUZDlIf-ZLTlxlF_mfiCTzeuqxQxHi_aFI1N2r-KGlhEN30L0UAeVfAtsMc9RemN8H4aVormXrl2nZgzEZRpe_v4laYMSb3dSOJ1RfU2dTf9_lxOLAHTlVd_qZKgha1MRJaYL93Y2WCY">
+<div class="absolute top-3 left-3 bg-[#FF0000] text-on-primary px-3 py-1 rounded-full font-label-caps text-label-caps font-extrabold flex items-center gap-1 shadow-md">
+<span class="material-symbols-outlined text-[14px]">smart_display</span>
+              YOUTUBE
+            </div>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-12 h-12 rounded-full bg-on-secondary-fixed/70 text-on-primary flex items-center justify-center backdrop-blur-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[24px]">play_arrow</span>
+</div>
+</div>
+</div>
+<div class="p-space-lg">
+<div class="flex items-center gap-2 text-outline font-label-caps text-label-caps uppercase mb-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+              Publicado há 5 dias
+            </div>
+<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mb-2">
+              Passo a Passo dos Educativos de Virada Olímpica
+            </h3>
+<p class="font-body-sm text-body-sm text-secondary line-clamp-2">
+              Progressão didática segura para ensinar cambalhota e impulsão eficiente na parede sem perda de velocidade.
+            </p>
+</div>
+</div>
+<div class="px-space-lg pb-space-lg">
+<a class="w-full py-2.5 px-space-md bg-surface-container-low hover:bg-surface-container text-[#CC0000] rounded-lg font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 transition-colors" href="#">
+            Assistir no YouTube
+            <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. RENATO E O ECOSSISTEMA -->
+<section class="w-full bg-surface-container-lowest rounded-2xl p-space-lg lg:p-space-xl shadow-sm mb-space-xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<!-- Profile Image Column -->
+<div class="lg:col-span-5 flex justify-center">
+<div class="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-xl bg-surface-container">
+<img class="w-full h-[400px] object-cover" data-alt="Retrato profissional de Renato, fundador da Natação Criativa, em ambiente de piscina moderna de treinamento, transmitindo liderança pedagógica, autoridade e acolhimento com uniforme esportivo azul." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8JO3in5AHDnyllptoLSBnb0key0LmtlEAu72-T5AS6EyQuu87UdF1m6Y0VKdmf4eJ8fLqPrHK9AEO9xeQetFZzWaSJGqIXiXyEe0zCzCrDPFIzMKwR048_JG0AHzn0JOlMPeceu3z3feCjGOLxDvI7fIopX3xtMCUBLYyGgBCWAYEWQ32h4JLPTGFa0vOlJGk9IZqP0FIBDD5HN_FwFb0DW_7BDo6r5KZIkunCxo">
+<div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-on-secondary-fixed/90 via-on-secondary-fixed/40 to-transparent p-space-md text-on-primary">
+<div class="font-headline-sm text-headline-sm font-bold">Renato</div>
+<div class="font-body-sm text-body-sm text-secondary-fixed-dim">Fundador da Natação Criativa &amp; Especialista Pedagógico</div>
+</div>
+</div>
+</div>
+<!-- Content Column -->
+<div class="lg:col-span-7 flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-wider font-extrabold mb-1">Propósito &amp; Trajetória</span>
+<h2 class="font-headline-xl text-headline-xl text-on-secondary-fixed font-extrabold mb-space-md">
+          Renato e o ecossistema
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md leading-relaxed">
+          A Natação Criativa nasceu da convicção de que o ambiente aquático é uma ferramenta transformadora de desenvolvimento motor, cognitivo e humano. Combinando metodologia científica rigorosa com criatividade aplicada, o projeto evoluiu para um ecossistema completo que capacita educadores físicos e centros esportivos em todo o país.
+        </p>
+<!-- Ecosystem Mini Grid -->
+<div class="grid grid-cols-2 gap-space-sm mb-space-lg">
+<div class="p-3 bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-2 text-primary font-bold mb-1">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+<span class="font-label-lg text-label-lg">Podcast Oficial</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">+400 entrevistas gravadas</span>
+</div>
+<div class="p-3 bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-2 text-primary font-bold mb-1">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+<span class="font-label-lg text-label-lg">Formações Continuadas</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Aulas ao vivo &amp; imersões</span>
+</div>
+<div class="p-3 bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-2 text-primary font-bold mb-1">
+<span class="material-symbols-outlined text-[20px]">library_books</span>
+<span class="font-label-lg text-label-lg">Cursos Temáticos</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Pedagogia e biomecânica</span>
+</div>
+<div class="p-3 bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-2 text-primary font-bold mb-1">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+<span class="font-label-lg text-label-lg">Pós-Graduação</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Especialização reconhecida</span>
+</div>
+</div>
+<div>
+<a class="inline-flex items-center gap-2 px-space-lg py-3 bg-primary hover:bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg font-bold transition-colors shadow-sm" href="#">
+            Conheça a história
+            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. AULAS PARTICULARES -->
+<section class="w-full bg-gradient-to-r from-on-secondary-fixed via-on-secondary-fixed-variant to-primary p-space-lg lg:p-space-xl rounded-2xl shadow-md text-on-primary mb-space-xl">
+<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg">
+<div class="max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-on-primary/15 backdrop-blur-md mb-space-sm text-secondary-fixed">
+<span class="material-symbols-outlined text-[16px]">person_pin_circle</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider">ATENDIMENTO EXCLUSIVO</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-extrabold mb-space-xs text-on-primary">
+          Aulas personalizadas e acompanhamento individual na piscina
+        </h2>
+<p class="font-body-md text-body-md text-secondary-fixed-dim mb-space-md">
+          Metodologia customizada para superação de traumas aquáticos, aperfeiçoamento técnico avançado para triathlon ou condicionamento sob medida.
+        </p>
+<!-- Quick Info Tags -->
+<div class="flex flex-wrap items-center gap-space-sm text-body-sm font-body-sm">
+<span class="bg-on-primary/10 px-3 py-1 rounded-lg backdrop-blur-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">target</span>
+            Público: Adultos, Crianças e Atletas
+          </span>
+<span class="bg-on-primary/10 px-3 py-1 rounded-lg backdrop-blur-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">location_on</span>
+            Atendimento Regional &amp; Consultoria
+          </span>
+<span class="bg-on-primary/10 px-3 py-1 rounded-lg backdrop-blur-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-[#FAC61C]">star</span>
+            Disponibilidade Limitada por Período
+          </span>
+</div>
+</div>
+<div class="flex-shrink-0 w-full sm:w-auto">
+<a class="w-full sm:w-auto px-space-lg py-3.5 bg-surface-container-lowest hover:bg-surface-container text-on-secondary-fixed rounded-lg font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 transition-transform active:scale-98 shadow-lg" href="#">
+          Acessar aulas personalizadas ↗
+        </a>
+</div>
+</div>
+</section>
+<!-- 8. DEPOIMENTOS -->
+<section class="w-full mb-space-xl">
+<div class="text-center max-w-2xl mx-auto mb-space-lg">
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-wider font-extrabold">Depoimentos &amp; Experiências</span>
+<h2 class="font-headline-lg text-headline-lg text-on-secondary-fixed font-extrabold mt-1">
+        O que diz quem vive a natação além da piscina
+      </h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Depoimento 1 -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="text-primary text-4xl font-serif mb-space-xs leading-none">“</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md italic">
+            A formação de Personal Trainer Aquático mudou totalmente a minha abordagem na borda da piscina. Consegui estruturar planos de aula mais claros, precificar meu trabalho com dignidade e dobrar minha carteira de alunos particulares.
+          </p>
+</div>
+<div>
+<div class="pt-space-sm border-t-0 bg-surface-container-low p-3 rounded-xl mb-2">
+<div class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold">Camila Vasconcelos</div>
+<div class="font-body-sm text-body-sm text-secondary">Professora e Personal Aquática · São Paulo/SP</div>
+</div>
+<div class="inline-flex items-center gap-1.5 text-[#587309] font-label-caps text-label-caps uppercase font-bold">
+<span class="material-symbols-outlined text-[16px] text-[#89B113]">check_circle</span>
+            Depoimento verificado e autorizado
+          </div>
+</div>
+</div>
+<!-- Depoimento 2 -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="text-primary text-4xl font-serif mb-space-xs leading-none">“</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md italic">
+            Como gestor de academia de natação, as capacitações da Natação Criativa elevaram o padrão de atendimento de toda a minha equipe. O método lúdico reduziu drasticamente o cancelamento de matrículas infantis no inverno.
+          </p>
+</div>
+<div>
+<div class="pt-space-sm border-t-0 bg-surface-container-low p-3 rounded-xl mb-2">
+<div class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold">Rodrigo Alcantara</div>
+<div class="font-body-sm text-body-sm text-secondary">Coordenador Pedagógico · Curitiba/PR</div>
+</div>
+<div class="inline-flex items-center gap-1.5 text-[#587309] font-label-caps text-label-caps uppercase font-bold">
+<span class="material-symbols-outlined text-[16px] text-[#89B113]">check_circle</span>
+            Depoimento verificado e autorizado
+          </div>
+</div>
+</div>
+<!-- Depoimento 3 -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="text-primary text-4xl font-serif mb-space-xs leading-none">“</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md italic">
+            Meu filho de 5 anos tinha pavor de colocar a cabeça na água. A visão de respeito e adaptação gradual apresentada pelos cursos me deu segurança como mãe para escolher a escola certa e acompanhar a evolução dele com tranquilidade.
+          </p>
+</div>
+<div>
+<div class="pt-space-sm border-t-0 bg-surface-container-low p-3 rounded-xl mb-2">
+<div class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold">Mariana Silveira</div>
+<div class="font-body-sm text-body-sm text-secondary">Mãe do Theo (5 anos) · Belo Horizonte/MG</div>
+</div>
+<div class="inline-flex items-center gap-1.5 text-[#587309] font-label-caps text-label-caps uppercase font-bold">
+<span class="material-symbols-outlined text-[16px] text-[#89B113]">check_circle</span>
+            Depoimento verificado e autorizado
+          </div>
+</div>
+</div>
+</div>
+</section>
+<!-- 9. CARDUME CRIATIVO -->
+<section class="w-full relative rounded-2xl overflow-hidden shadow-xl p-space-lg lg:p-space-xl text-on-primary mb-space-xl">
+<!-- Kinetic Gradient: #047AE4 -> #7B2CBF -> #D41076 -->
+<div class="absolute inset-0 bg-gradient-to-r from-primary via-[#7B2CBF] to-tertiary"></div>
+<!-- Ambient Wave Vector Motifs with Low Opacity (3% - 6%) -->
+<div class="absolute inset-0 opacity-5 pointer-events-none">
+<svg class="w-full h-full" fill="none" preserveAspectRatio="none" stroke="currentColor" viewBox="0 0 1000 300">
+<path d="M0,100 C150,200 350,0 500,100 C650,200 850,0 1000,100 L1000,300 L0,300 Z" stroke-width="4"></path>
+<path d="M0,50 C200,150 300,-50 500,50 C700,150 800,-50 1000,50 L1000,300 L0,300 Z" stroke-width="2"></path>
+</svg>
+</div>
+<div class="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
+<div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-on-primary/20 backdrop-blur-md mb-space-sm">
+<span class="material-symbols-outlined text-[18px] text-secondary-fixed">waves</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest text-on-primary font-extrabold">COMUNIDADE EXCLUSIVA</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl text-on-primary font-extrabold tracking-tight mb-space-sm uppercase">
+        ENTRE PARA O CARDUME CRIATIVO
+      </h2>
+<p class="font-body-lg text-body-lg text-secondary-fixed-dim max-w-2xl mb-space-lg font-medium">
+        Receba novos cursos, episódios, treinos, e-books e oportunidades da Natação Criativa antes de todo mundo.
+      </p>
+<!-- Integrated Horizontal Form -->
+<form class="w-full flex flex-col sm:flex-row gap-space-sm items-center justify-center max-w-3xl" onsubmit="event.preventDefault(); alert('Inscrição confirmada no Cardume Criativo!');">
+<div class="w-full sm:flex-1">
+<input class="w-full h-12 px-4 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="Seu melhor e-mail" required="" type="email">
+</div>
+<div class="w-full sm:w-64">
+<select class="w-full h-12 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-sm text-body-sm outline-none focus:ring-2 focus:ring-primary shadow-sm cursor-pointer">
+<option value="">Selecione: Perfil</option>
+<option value="professor">Professor(a)</option>
+<option value="gestor">Gestor(a)</option>
+<option value="familia">Família</option>
+<option value="aluno">Aluno(a)</option>
+</select>
+</div>
+<div class="w-full sm:w-auto">
+<button class="w-full sm:w-auto h-12 px-6 bg-on-secondary-fixed hover:bg-on-secondary-fixed-variant text-on-primary font-label-lg text-label-lg font-extrabold rounded-lg shadow-md transition-all active:scale-98 whitespace-nowrap flex items-center justify-center gap-2" type="submit">
+            QUERO FAZER PARTE DO CARDUME
+            <span class="material-symbols-outlined text-[18px]">forward</span>
+</button>
+</div>
+</form>
+<span class="font-body-sm text-body-sm text-secondary-fixed-dim/90 mt-space-sm">
+        Você pode sair quando quiser. Seus dados não serão compartilhados.
+      </span>
+</div>
+</section>
+<!-- 10. RODAPÉ AZUL-MARINHO (#0B3258) -->
+<footer class="w-full bg-on-secondary-fixed text-on-primary rounded-t-2xl p-space-lg lg:p-space-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-space-lg mb-space-xl">
+<!-- Coluna 1: Logo & Resumo -->
+<div class="lg:col-span-2">
+<div class="flex items-center gap-space-sm mb-space-md">
+<img alt="Logo Natação Criativa" class="h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtKT6LtXtfO5sJbo-7aWj6lPc-Y3b82eQgf9opaJyG3yyMmq5wwz908lkj3pnkrxEUMlqBdO_lyumylFYrAusaHpdy2SgM3DCScDlf4pKVYatnkckPK1arxZz9daeZiiJFqNllaAAYZQIg_VA-moFVtPCjviabyN6QvQOnV0dfunFeUfBVzIIMxB8nd5C7Xmc_Sv3g2zbWGT84gdFl4gtk-ZnWnTCaqiVRDFY5bPgdlqpV90hI4Mn3">
+<div>
+<div class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-primary leading-tight">NATAÇÃO CRIATIVA</div>
+<div class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase">A natação além da piscina</div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary-fixed-dim max-w-sm mb-space-md leading-relaxed">
+          Plataforma de ensino continuado, formação profissional e disseminação de conhecimentos inovadores para todo o universo aquático.
+        </p>
+<div class="flex items-center gap-3">
+<a aria-label="Instagram" class="w-9 h-9 rounded-full bg-on-secondary-fixed-variant hover:bg-primary flex items-center justify-center transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+</a>
+<a aria-label="YouTube" class="w-9 h-9 rounded-full bg-on-secondary-fixed-variant hover:bg-primary flex items-center justify-center transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">smart_display</span>
+</a>
+<a aria-label="Podcast" class="w-9 h-9 rounded-full bg-on-secondary-fixed-variant hover:bg-primary flex items-center justify-center transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">podcasts</span>
+</a>
+</div>
+</div>
+<!-- Coluna 2: Institucional -->
+<div>
+<h4 class="font-headline-sm text-headline-sm font-bold mb-space-md text-on-primary">Institucional</h4>
+<ul class="space-y-2 font-body-sm text-body-sm text-secondary-fixed-dim">
+<li class=""><a class="hover:text-on-primary transition-colors" href="#">Sobre o Projeto</a></li>
+<li class=""><a class="hover:text-on-primary transition-colors" href="#">O Mentor Renato</a></li>
+<li class=""><a class="hover:text-on-primary transition-colors" href="#">Depoimentos &amp; Casos</a></li>
+<li class=""><a class="hover:text-on-primary transition-colors" href="#">Para Gestores e Escolas</a></li>
+<li class=""><a class="hover:text-on-primary transition-colors" href="#">Aulas Particulares</a></li>
+</ul>
+</div>
+<!-- Coluna 3: Formações & Conteúdos -->
+<div>
+<h4 class="font-headline-sm text-headline-sm font-bold mb-space-md text-on-primary">Formações</h4>
+<ul class="space-y-2 font-body-sm text-body-sm text-secondary-fixed-dim">
+<li class=""><a class="hover:text-on-primary transition-colors" href="#">Pós-Graduação Aquática</a></li>
+<li class=""><a class="hover:text-on-primary transition-colors" href="#">Grupo de Estudos</a></li>
+<li class=""><a class="hover:text-on-primary transition-colors" href="#">Metodologia Lúdica</a></li>
+<li class=""><a class="hover:text-on-primary transition-colors" href="#">E-books e Planilhas</a></li>
+<li class=""><a class="hover:text-on-primary transition-colors" href="#">Apostilas &amp; Materiais</a></li>
+</ul>
+</div>
+<!-- Coluna 4: Atendimento & Políticas -->
+<div>
+<h4 class="font-headline-sm text-headline-sm font-bold mb-space-md text-on-primary">Atendimento</h4>
+<div class="space-y-3 font-body-sm text-body-sm text-secondary-fixed-dim mb-space-md">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary-fixed">chat</span>
+<span class="">WhatsApp Institucional:<br><strong class="text-on-primary">Atendimento Direto</strong></span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary-fixed">mail</span>
+<span class="">E-mail:<br><strong class="text-on-primary">contato@natacaocriativa.com.br</strong></span>
+</div>
+</div>
+<div class="space-y-1 font-label-md text-label-md text-secondary-fixed-dim">
+<div><a class="hover:text-on-primary transition-colors underline" href="#">Políticas de Privacidade</a></div>
+<div><a class="hover:text-on-primary transition-colors underline" href="#">Termos de Uso</a></div>
+</div>
+</div>
+</div>
+<!-- Linha Inferior com Chancelas e Direitos Reservados -->
+<div class="pt-space-lg bg-on-secondary-fixed-variant/40 rounded-xl px-space-md py-space-md flex flex-col md:flex-row items-center justify-between gap-space-md text-center md:text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-secondary-fixed">workspace_premium</span>
+<span class="font-body-sm text-body-sm text-secondary-fixed-dim">
+          Chancelas e Metodologia em conformidade com as diretrizes do Conselho Federal de Educação Física.
+        </span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary-fixed-dim">
+        © Natação Criativa. Todos os direitos reservados.
+      </div>
+</div>
+</footer>
+</div>
+<script>
+  let currentSlide = 0;
+  const totalSlides = 3;
+
+  function updateHeroSlide() {
+    for (let i = 0; i < totalSlides; i++) {
+      const slide = document.getElementById('slide-' + i);
+      const dot = document.getElementById('dot-' + i);
+      if (slide && dot) {
+        if (i === currentSlide) {
+          slide.classList.remove('hidden');
+          dot.classList.remove('w-2.5', 'bg-on-primary/40');
+          dot.classList.add('w-8', 'bg-surface-container-lowest');
+        } else {
+          slide.classList.add('hidden');
+          dot.classList.remove('w-8', 'bg-surface-container-lowest');
+          dot.classList.add('w-2.5', 'bg-on-primary/40');
+        }
+      }
+    }
+    const counter = document.getElementById('hero-counter');
+    if (counter) {
+      counter.innerText = 'DESTAQUE ' + (currentSlide + 1) + '/' + totalSlides;
+    }
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    updateHeroSlide();
+  }
+
+  const prevBtn = document.getElementById('hero-prev');
+  const nextBtn = document.getElementById('hero-next');
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateHeroSlide();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateHeroSlide();
+    });
+  }
+
+  // Sidebar Collapse / Expand Functionality
+  const sidebar = document.getElementById('sidebar');
+  const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+  const sidebarToggleIcon = document.getElementById('sidebar-toggle-icon');
+  const mainContentLayout = document.getElementById('main-content-layout');
+  const topHeader = document.getElementById('top-header');
+
+  let isSidebarCollapsed = false;
+
+  function toggleSidebar() {
+    isSidebarCollapsed = !isSidebarCollapsed;
+
+    if (isSidebarCollapsed) {
+      sidebar.classList.add('sidebar-collapsed');
+      sidebar.classList.remove('w-72');
+      sidebar.classList.add('w-20');
+      
+      mainContentLayout.classList.remove('pl-72');
+      mainContentLayout.classList.add('pl-20');
+      
+      topHeader.classList.remove('left-72');
+      topHeader.classList.add('left-20');
+
+      sidebarToggleIcon.innerText = 'keyboard_double_arrow_right';
+      sidebarToggleBtn.setAttribute('aria-label', 'Expandir menu lateral');
+      sidebarToggleBtn.setAttribute('title', 'Expandir menu');
+    } else {
+      sidebar.classList.remove('sidebar-collapsed');
+      sidebar.classList.remove('w-20');
+      sidebar.classList.add('w-72');
+      
+      mainContentLayout.classList.remove('pl-20');
+      mainContentLayout.classList.add('pl-72');
+      
+      topHeader.classList.remove('left-20');
+      topHeader.classList.add('left-72');
+
+      sidebarToggleIcon.innerText = 'keyboard_double_arrow_left';
+      sidebarToggleBtn.setAttribute('aria-label', 'Recolher menu lateral');
+      sidebarToggleBtn.setAttribute('title', 'Recolher menu');
+    }
+  }
+
+  if (sidebarToggleBtn) {
+    sidebarToggleBtn.addEventListener('click', toggleSidebar);
+  }
+</script></main></div>
+
+</body></html>

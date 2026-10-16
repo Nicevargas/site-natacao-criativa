@@ -1,0 +1,8 @@
+{
+  "name": "Natação Criativa",
+  "description": "Plataforma oficial da Natação Criativa: cursos, pós-graduação, workshops e gestão acadêmica em natação e pedagogia aquática.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

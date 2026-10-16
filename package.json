@@ -1,0 +1,14 @@
+{
+  "name": "site-natacao-criativa",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Plataforma Natação Criativa",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "node -e \"console.log('Build complete')\""
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
