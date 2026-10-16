@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-primary-container":"#fefcff","on-secondary-fixed-variant":"#27486f","on-tertiary-container":"#fffbff","error":"#ba1a1a","on-tertiary-fixed-variant":"#8e004c","inverse-primary":"#a7c8ff","surface":"#f6fafc","secondary-fixed-dim":"#a9c9f7","inverse-on-surface":"#edf1f3","on-surface-variant":"#414753","surface-bright":"#f6fafc","surface-container-lowest":"#ffffff","error-container":"#ffdad6","on-primary-fixed-variant":"#004789","secondary-container":"#b1d1ff","inverse-surface":"#2c3133","outline-variant":"#c1c6d5","surface-variant":"#dfe3e5","primary-fixed":"#d5e3ff","on-tertiary":"#ffffff","secondary":"#406089","on-secondary-fixed":"#001c38","on-error-container":"#93000a","surface-container-high":"#e5e9eb","surface-container-highest":"#dfe3e5","on-primary-fixed":"#001b3c","primary-container":"#0074da","secondary-fixed":"#d3e4ff","on-tertiary-fixed":"#3e001e","outline":"#717784","on-surface":"#171c1e","surface-tint":"#005eb3","background":"#f6fafc","primary":"#005cae","on-secondary-container":"#395982","tertiary-fixed":"#ffd9e3","surface-container-low":"#f0f4f6","on-secondary":"#ffffff","tertiary":"#b50063","on-background":"#171c1e","surface-container":"#eaeef0","on-error":"#ffffff","tertiary-container":"#dd1c7c","primary-fixed-dim":"#a7c8ff","surface-dim":"#d6dbdd","on-primary":"#ffffff","tertiary-fixed-dim":"#ffb0c9"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"gutter":"1.5rem","space-xl":"2.5rem","space-xs":"0.25rem","margin":"2rem","space-sm":"0.5rem","space-lg":"1.5rem","gutter-mobile":"1rem","margin-mobile":"1rem","space-md":"1rem"},"fontFamily":{"body-lg":["Inter"],"headline-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"display-hero-mobile":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"label-caps":["Plus Jakarta Sans"],"body-sm":["Inter"],"body-md":["Inter"],"display-hero":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"]},"fontSize":{"body-lg":["18px",{"lineHeight":"28px","letterSpacing":"-0.005em","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["22px",{"lineHeight":"30px","letterSpacing":"-0.015em","fontWeight":"700"}],"display-hero-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"800"}],"headline-sm":["18px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-caps":["11px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"800"}],"body-sm":["14px",{"lineHeight":"20px","fontWeight":"400"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"display-hero":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"800"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"700"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"700"}],"headline-xl":["40px",{"lineHeight":"48px","letterSpacing":"-0.025em","fontWeight":"700"}],"headline-xl-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-[#0B3258] z-50 flex flex-col justify-between py-space-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="px-space-lg pt-space-xs pb-space-lg"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container shadow-md"><span class="material-symbols-outlined text-[22px]">waves</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-white tracking-tight leading-none">Natação Criativa</span><span class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase tracking-wider mt-1">Metodologia &amp; Gestão</span></div></div><div class="mt-space-md flex items-center"><span class="px-space-sm py-0.5 rounded-full bg-primary-container/20 text-secondary-fixed font-label-caps text-label-caps tracking-widest uppercase">PAINEL ADMIN</span></div></div><nav class="flex flex-col gap-1 px-space-md mt-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-label-lg rounded-lg shadow-sm"><a class="flex items-center gap-3 px-space-md py-space-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors font-label-lg text-label-lg" data-path="dashboard-geral" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Dashboard Geral</span></a><a class="flex items-center gap-3 px-space-md py-space-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors font-label-lg text-label-lg" data-path="gestao-de-formacoes" href="#"><span class="material-symbols-outlined text-[20px]">school</span><span>Gestão de Formações</span></a><a class="flex items-center gap-3 px-space-md py-space-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors font-label-lg text-label-lg" data-path="gestao-de-conteudos" href="#"><span class="material-symbols-outlined text-[20px]">perm_media</span><span>Gestão de Conteúdos</span></a><a class="flex items-center gap-3 px-space-md py-space-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors font-label-lg text-label-lg" data-path="comunidade-cardume" href="#"><span class="material-symbols-outlined text-[20px]">groups</span><span>Comunidade Cardume</span></a><a class="flex items-center gap-3 px-space-md py-space-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors font-label-lg text-label-lg" data-path="depoimentos-e-avaliacoes" href="#"><span class="material-symbols-outlined text-[20px]">reviews</span><span>Depoimentos &amp; Avaliações</span></a><a class="flex items-center gap-3 px-space-md py-space-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors font-label-lg text-label-lg" data-path="usuarios-e-permissoes" href="#"><span class="material-symbols-outlined text-[20px]">admin_panel_settings</span><span>Usuários &amp; Permissões</span></a><a class="flex items-center gap-3 px-space-md py-space-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors font-label-lg text-label-lg" data-path="configuracoes-do-site" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Configurações do Site</span></a></nav></div><div class="px-space-md flex flex-col gap-1 pt-space-md"><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors font-label-md text-label-md" href="#" target="_blank"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">open_in_new</span><span>Ir para o site público</span></span><span class="material-symbols-outlined text-[16px] opacity-60">arrow_forward</span></a><a class="flex items-center gap-2 px-space-md py-space-sm rounded-lg text-rose-300 hover:bg-white/10 hover:text-white transition-colors font-label-md text-label-md" data-path="logout" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span>Sair / Logout</span></a></div></aside><div class="pl-72 min-h-screen flex flex-col bg-background"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-sm font-label-md text-label-md text-on-surface-variant"><span class="hover:text-primary transition-colors cursor-pointer flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">home</span>Admin</span><span class="text-outline-variant">/</span><span class="text-on-surface font-label-lg text-label-lg">Gestão Acadêmica</span></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-2 px-space-sm py-1 rounded-full bg-surface-container font-label-caps text-label-caps text-on-surface"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span>PRODUÇÃO</span></div><button class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-tertiary"></span></button><div class="flex items-center gap-space-sm pl-2"><div class="flex flex-col text-right"><span class="font-label-lg text-label-lg text-on-surface leading-tight">Renato Cordani</span><span class="font-label-caps text-label-caps text-secondary uppercase">Coordenação Pedagógica</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 px-space-lg py-space-lg flex-1 bg-background"><div class="flex flex-col w-full">
+<!-- Top Bar: Header and Primary Actions -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md mb-space-lg">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="px-space-sm py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-caps text-label-caps uppercase">Catálogo Acadêmico</span>
+<span class="text-outline font-label-caps text-label-caps">v2.4.0</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Gestão de Formações e Cursos</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-2xl mt-0.5">Gerencie o catálogo oficial, publique novas turmas, edite valores, lotes e controle de vagas em tempo real.</p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="flex items-center gap-2 px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span>Histórico de Alterações</span>
+</button>
+<button class="flex items-center gap-2 px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span>Exportar CSV</span>
+</button>
+<button class="flex items-center gap-2 px-space-lg py-2.5 rounded-lg bg-primary-container text-on-primary-container hover:bg-primary transition-all shadow-md active:scale-95 font-label-lg text-label-lg" onclick="openDrawer('create')" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Nova Formação</span>
+</button>
+</div>
+</div>
+<!-- KPI Metricas CRUD -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md mb-space-lg">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-secondary">Total no Catálogo</span>
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">school</span>
+</div>
+</div>
+<div class="mt-space-sm">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">24</span>
+<span class="font-label-caps text-label-caps text-primary">+3 adicionadas este mês</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Formações ativas no portal</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-secondary">Inscrições Abertas</span>
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+</div>
+</div>
+<div class="mt-space-sm">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">14</span>
+<span class="px-2 py-0.5 rounded-full bg-[#89B113]/20 text-[#587309] font-label-caps text-label-caps uppercase">Matrículas Vigentes</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Capacidade de 480 novos alunos</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-secondary">Inscrições neste Mês</span>
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+</div>
+</div>
+<div class="mt-space-sm">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">186</span>
+<span class="font-label-caps text-label-caps text-tertiary">+18% vs ciclo anterior</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Professores e academias credenciados</p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-secondary">Taxa de Preenchimento</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">pie_chart</span>
+</div>
+</div>
+<div class="mt-space-sm">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">78.4%</span>
+<span class="font-label-caps text-label-caps text-secondary">Ocupação Geral</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full mt-2 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 78.4%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Filter & Action Control Bar -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm mb-space-md flex flex-col gap-space-md">
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
+<!-- Search -->
+<div class="relative flex-1 min-w-[280px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full h-11 pl-10 pr-4 rounded-lg bg-surface text-on-surface text-body-sm font-body-sm placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary shadow-inner" placeholder="Buscar por título, instrutor, tag ou código da formação..." type="text"/>
+</div>
+<!-- Filter Controls -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>Filtros:</span>
+</div>
+<select class="h-10 px-3 rounded-lg bg-surface text-on-surface font-label-md text-label-md focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer">
+<option>Status: Todos</option>
+<option>Aberto</option>
+<option>Em breve</option>
+<option>Encerrado</option>
+<option>Rascunho</option>
+</select>
+<select class="h-10 px-3 rounded-lg bg-surface text-on-surface font-label-md text-label-md focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer">
+<option>Formato: Todos</option>
+<option>Online Gravado</option>
+<option>Online Ao Vivo</option>
+<option>Presencial</option>
+<option>Híbrido</option>
+</select>
+<select class="h-10 px-3 rounded-lg bg-surface text-on-surface font-label-md text-label-md focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer">
+<option>Tipo: Todos</option>
+<option>Especialização</option>
+<option>Curso Prático</option>
+<option>Workshop</option>
+<option>Palestra</option>
+</select>
+<button class="h-10 px-3 rounded-lg bg-surface hover:bg-surface-container text-on-surface-variant font-label-md text-label-md flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+<span>Limpar</span>
+</button>
+</div>
+</div>
+<!-- Batch Selection Toolbar (Shows dynamic actions) -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-2 bg-surface-container-low px-space-md py-2 rounded-lg">
+<div class="flex items-center gap-space-sm">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary cursor-pointer" id="selectAllCheckbox" type="checkbox"/>
+<label class="font-label-md text-label-md text-on-surface select-none cursor-pointer" for="selectAllCheckbox">Selecionar todos (6 formações listadas)</label>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-outline uppercase mr-2">Ações em Massa:</span>
+<button class="px-3 py-1.5 rounded-md bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md shadow-sm transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">published_with_changes</span>
+<span>Alterar Status</span>
+</button>
+<button class="px-3 py-1.5 rounded-md bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md shadow-sm transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">pause_circle</span>
+<span>Pausar Inscrições</span>
+</button>
+<button class="px-3 py-1.5 rounded-md bg-error-container text-on-error-container hover:bg-error hover:text-on-error font-label-md text-label-md transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+<span>Excluir Selecionados</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Main Responsive Table Container -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden mb-space-lg">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider">
+<th class="py-3.5 px-space-md w-12 text-center">
+<span class="sr-only">Seleção</span>
+</th>
+<th class="py-3.5 px-space-md">Curso / Formação</th>
+<th class="py-3.5 px-space-md">Formato &amp; Local</th>
+<th class="py-3.5 px-space-md">Instrutor</th>
+<th class="py-3.5 px-space-md">Status</th>
+<th class="py-3.5 px-space-md w-44">Vagas Ocupadas</th>
+<th class="py-3.5 px-space-md">Lote &amp; Investimento</th>
+<th class="py-3.5 px-space-md">Início</th>
+<th class="py-3.5 px-space-md text-right">Ações CRUD</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1: Metodologia Lúdica -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-space-md px-space-md text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary cursor-pointer row-checkbox" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm min-w-[280px]">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high overflow-hidden shrink-0 relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A joyful child wearing yellow swimming goggles splashing in a crystal-clear blue pool, with a swim instructor smiling supportively in the water. Cinematic bright natural lighting with aquatic reflections and modern pool geometry." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHV6xdYWqr3FlMxz-9f2525k4wA_f2zHq5L-ucMkTdZvSP3mkYtsU5WtxQ9Yu7ettL06Ww9TaY6vSelIztOox8ODT-gojeShsnf1VfVin3DqyGX3GjbfDM_7CFTcQel3Bhdr0krAJ4OGy1jzJqO7ZckjHMq3BmDooJMG95JpVhHPRs_ZpTal6SfgzCAT6L9dSafkAdk7kf3n_pxF-2LmgMR0_p6-dH44YKVCakaSw"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-primary uppercase">Especialização Master</span>
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer" onclick="openDrawer('edit', 'Metodologia Lúdica e Segura da Natação Infantil')">Metodologia Lúdica e Segura da Natação Infantil</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Cód: FOR-2025-01 · 60h certificadas</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">devices</span> Online Híbrido
+                </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Gravado + 4 Encontros Síncronos</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-label-md text-label-md">RC</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Renato Cordani</span>
+<span class="font-body-sm text-body-sm text-outline">Coordenação Pedagógica</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-[#89B113] text-white font-label-caps text-label-caps tracking-wider uppercase inline-flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span> Aberto
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-caps text-label-caps text-on-surface">
+<span class="font-bold">42 de 50 vagas</span>
+<span class="text-primary font-bold">84%</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 84%"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">R$ 890,00</span>
+<span class="font-label-caps text-label-caps text-tertiary">2º Lote (Últimas 8)</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap font-body-sm text-body-sm text-on-surface">
+              14 Mar 2025
+            </td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openDrawer('edit', 'Metodologia Lúdica e Segura da Natação Infantil')" title="Editar Formação" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" onclick="duplicateCourse('FOR-2025-01')" title="Duplicar" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Ver no site público" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container transition-colors" onclick="confirmDelete('Metodologia Lúdica')" title="Excluir" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Biomecanica Crawl -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-space-md px-space-md text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary cursor-pointer row-checkbox" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm min-w-[280px]">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high overflow-hidden shrink-0 relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Undergraduate sports science swimmer performing an aggressive crawl stroke underwater, captured with high-speed shutter showcasing hydrodynamic water bubbles and fluid motion lines in a deep marine azure training pool." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLMbMBVJHlGuoBbDIXJRXST9BIikGCZ2eMOibajqRHKzHN9yjlgWd6a8g1zmhT6rvAxOUmFuuJw7ugD4Yf_RyEL8jt3VrFeXzl6aOMyf99l7p4xaEF5t1Za44iL2wTzOjmP51ec-HvIHJiBOGatSHQWRwNkH8mXuEZCLwcsJ-ZZr4AOyfTM3Nf_oB1_bAWaL0k7YGfn76N-Mi0mVr5Sr2d4J5x_owjriv-3k8DV9g"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Palestra Exclusiva</span>
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer" onclick="openDrawer('edit', 'Biomecânica e Eficiência no Nado Crawl de Alta Performance')">Biomecânica e Eficiência no Nado Crawl de Alta Performance</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Cód: PAL-2025-04 · 8h masterclass</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">hub</span> Híbrido
+                </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">São Paulo + Transmissão 4K</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-label-md text-label-md">AM</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Prof. André Martins</span>
+<span class="font-body-sm text-body-sm text-outline">Fisiologista Aquático</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-[#FAC61C] text-[#0B3258] font-label-caps text-label-caps tracking-wider uppercase inline-flex items-center gap-1 font-bold shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-[#0B3258]"></span> Em Breve
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-caps text-label-caps text-on-surface">
+<span class="font-bold">Lista de espera: 128</span>
+<span class="text-secondary font-bold">Abertura Seg</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-[#FAC61C] h-full rounded-full" style="width: 20%"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">R$ 240,00</span>
+<span class="font-label-caps text-label-caps text-secondary">Lote Promocional Cardume</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap font-body-sm text-body-sm text-on-surface">
+              02 Abr 2025
+            </td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openDrawer('edit', 'Biomecânica e Eficiência no Nado Crawl de Alta Performance')" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Seguranca Aquatica -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-space-md px-space-md text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary cursor-pointer row-checkbox" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm min-w-[280px]">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high overflow-hidden shrink-0 relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Rescue flotation equipment and life-saving ring placed beside an Olympic swimming facility with reflective clean water, representing aquatic safety protocols and certified pool supervision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ8H3UxD70SihC6_TjtuStykN7uA-SphBEFEya8mTDzX03U_hqiMjqi6UvrW55OCpSrI2C2k1HaPe-ctMyVBAB13kxNw1x9lG-qPn3efxOuaoAwg5LryknRfhtC7Ku9yDnmt-mYeELsaHBEKzFcsW3ejpN9sKrkVh9HXwyMVcESA7Ekur6cdeZJK7lDpqUlb4NfSXejcOSlK9Bn1gU3jv1lXUmXt17D0gHybjCVoQ"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-tertiary uppercase">Workshop Prático</span>
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer" onclick="openDrawer('edit', 'Fundamentos de Segurança Aquática e Prevenção de Incidentes')">Fundamentos de Segurança Aquática e Prevenção de Incidentes</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Cód: WKS-2025-02 · 12h com simulação</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary">videocam</span> Online ao Vivo
+                </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Zoom Integrado + Gravação</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary font-label-md text-label-md">MS</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Mariana Silva</span>
+<span class="font-body-sm text-body-sm text-outline">Especialista Salvamento</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-[#89B113] text-white font-label-caps text-label-caps tracking-wider uppercase inline-flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-white"></span> Gratuito / Aberto
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-caps text-label-caps text-on-surface">
+<span class="font-bold">290 de 300 vagas</span>
+<span class="text-tertiary font-bold">96%</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary-container h-full rounded-full" style="width: 96%"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-[#587309] font-bold">R$ 0,00</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Acesso Social Cardume</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap font-body-sm text-body-sm text-on-surface">
+              22 Mar 2025
+            </td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openDrawer('edit', 'Fundamentos de Segurança Aquática e Prevenção de Incidentes')" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Personal Trainer Aquático -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-space-md px-space-md text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary cursor-pointer row-checkbox" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm min-w-[280px]">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high overflow-hidden shrink-0 relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Athletic personal trainer coaching an adult swimmer on the poolside with digital tablet and stopwatch, professional sports setting with clear sunlight pouring through glass pavilion windows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLV_5-7_qRcPPQ1yr1sf-D_e9Me5Uynxyc-s0f3PwTKn5tLNafms1G8QDnKkr2qeciQwMc4tCZeW8yYnoGR8N25bNjXWqNeiDWrmW85--vE7SjJOn9s_pzxnmXoOeOacZrNPAL9METM6dYjZdTFlZn6ciICakoWR0Sm2IAcSF5NY7H-30DuJQvpqcHdJ1DxfbhNa50la_PklIANNwqGQEU8_ZeTFA1fBiS5iDhOss"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-primary uppercase">Formação Avançada</span>
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer" onclick="openDrawer('edit', 'Personal Trainer Aquático: Da Reabilitação ao Alto Rendimento')">Personal Trainer Aquático: Da Reabilitação ao Alto Rendimento</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Cód: FOR-2025-08 · 120h Pós-Graduação</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">school</span> Certificação Híbrida
+                </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Módulos EAD + Prática em Polo</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-label-md text-label-md">RC</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Renato Cordani &amp; Convidados</span>
+<span class="font-body-sm text-body-sm text-outline">Corpo Docente</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-[#89B113] text-white font-label-caps text-label-caps tracking-wider uppercase inline-flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-white"></span> Aberto
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-caps text-label-caps text-on-surface">
+<span class="font-bold">28 de 35 vagas</span>
+<span class="text-primary font-bold">80%</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 80%"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">R$ 1.650,00</span>
+<span class="font-label-caps text-label-caps text-outline">1º Lote encerra hoje</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap font-body-sm text-body-sm text-on-surface">
+              10 Abr 2025
+            </td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openDrawer('edit', 'Personal Trainer Aquático: Da Reabilitação ao Alto Rendimento')" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Correcao de Nados BH (Encerrado) -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group opacity-85">
+<td class="py-space-md px-space-md text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary cursor-pointer row-checkbox" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm min-w-[280px]">
+<div class="w-14 h-14 rounded-lg bg-surface-container overflow-hidden shrink-0 relative shadow-sm grayscale">
+<img class="w-full h-full object-cover" data-alt="High-end video analysis monitor displaying frame-by-frame swim biomechanics at pool edge with coaching staff reviewing posture lines and stroke rates." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJqK4oLaWbIevH_gSEChEqjSIEVs67I9wREMY-gGVJaJknG9zFo-NdgKb95ng-4WlqxBV_KVFtFGEEMVy4wm1CczmsXhXVtO26j2gvXfVwRd84JB2Utb8ov_RypZ2mNqkgEwJEREgL7i8Zn4RH0TC7802nBBQdW_kxUtFDCnjYvAeBEJJKkxAWJIJGI7ff0Ru33DoAIPMumibCok-4ENCSXD4k6CKTdzGAd4e4Ei8"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-outline uppercase">Imersão Prática</span>
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer" onclick="openDrawer('edit', 'Laboratório Prático de Correção de Nados e Análise de Vídeo')">Laboratório Prático de Correção de Nados e Análise de Vídeo</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Cód: LAB-2025-01 · 24h Intensivas</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span> Belo Horizonte / MG
+                </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Clube Mackenzie Aquática</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant font-label-md text-label-md">FL</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Fernando Loureiro</span>
+<span class="font-body-sm text-body-sm text-outline">Analista de Desempenho</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-label-caps text-label-caps tracking-wider uppercase inline-flex items-center gap-1">
+                Encerrado
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-caps text-label-caps text-on-surface">
+<span class="font-bold">20 de 20 vagas</span>
+<span class="text-outline font-bold">100% Lotado</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-outline h-full rounded-full" style="width: 100%"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">R$ 1.150,00</span>
+<span class="font-label-caps text-label-caps text-outline">Lote Final Concluído</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap font-body-sm text-body-sm text-outline">
+              15 Fev 2025
+            </td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openDrawer('edit', 'Laboratório Prático de Correção de Nados e Análise de Vídeo')" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Gestão de Escolas (Rascunho) -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-space-md px-space-md text-center">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary cursor-pointer row-checkbox" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm min-w-[280px]">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high overflow-hidden shrink-0 relative shadow-sm border border-dashed border-outline-variant flex items-center justify-center text-outline">
+<span class="material-symbols-outlined text-[24px]">draft</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-primary uppercase">Workshop Gestão</span>
+<span class="font-headline-sm text-headline-sm text-on-surface truncate group-hover:text-primary transition-colors cursor-pointer" onclick="openDrawer('edit', 'Gestão de Escolas de Natação: Captação e Retenção no Inverno')">Gestão de Escolas de Natação: Captação e Retenção no Inverno</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Cód: WKS-2025-05 · 16h executivo</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">business</span> Online Ao Vivo
+                </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Mentoria em Grupo Fechado</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary-fixed-dim flex items-center justify-center text-on-primary-fixed-variant font-label-md text-label-md">RC</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Renato Cordani</span>
+<span class="font-body-sm text-body-sm text-outline">Consultoria Academy</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-caps text-label-caps tracking-wider uppercase inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Rascunho
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-caps text-label-caps text-outline">
+<span>Não publicado</span>
+<span>0 de 40</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-outline-variant h-full rounded-full" style="width: 0%"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">R$ 520,00</span>
+<span class="font-label-caps text-label-caps text-outline">Definindo Lote 1</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap font-body-sm text-body-sm text-outline">
+              A definir (Mai 2025)
+            </td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="openDrawer('edit', 'Gestão de Escolas de Natação: Captação e Retenção no Inverno')" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md px-space-md py-space-sm bg-surface-container-low/70">
+<div class="flex items-center gap-space-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Exibindo 6 de 24 formações</span>
+<span class="text-outline">·</span>
+<div class="flex items-center gap-1 font-body-sm text-body-sm text-on-surface">
+<span>Itens por página:</span>
+<select class="bg-surface-container-lowest rounded-md px-2 py-1 text-on-surface font-label-md text-label-md border-0 focus:ring-1 focus:ring-primary shadow-sm cursor-pointer">
+<option>10</option>
+<option selected="">20</option>
+<option>50</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline-variant cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-sm" type="button">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface font-label-md text-label-md" type="button">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- CRUD Slide-over Drawer / Modal Component for Fast Edition -->
+<div class="fixed inset-0 bg-[#0B3258]/50 backdrop-blur-sm z-50 transition-opacity duration-300 opacity-0 pointer-events-none flex justify-end" id="drawerOverlay">
+<div class="w-full max-w-2xl bg-surface-container-lowest h-full shadow-2xl flex flex-col justify-between transform translate-x-full transition-transform duration-300 ease-out" id="drawerPanel">
+<!-- Drawer Header -->
+<div class="px-space-lg py-space-md bg-[#0B3258] text-white flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-[20px]" id="drawerIcon">edit_note</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md tracking-tight text-white leading-tight" id="drawerTitle">Editar Formação</h2>
+<span class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase" id="drawerSubtitle">Atualize os parâmetros acadêmicos e lotes comerciais</span>
+</div>
+</div>
+<button class="p-2 rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors" onclick="closeDrawer()" type="button">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+<!-- Drawer Scrollable Form Content -->
+<div class="flex-1 overflow-y-auto p-space-lg flex flex-col gap-space-lg">
+<!-- Section: Informações Básicas -->
+<div>
+<div class="flex items-center gap-2 mb-space-sm">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-caps text-label-caps uppercase text-secondary tracking-wider">Identificação do Curso</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface mb-1">Título Oficial da Formação *</label>
+<input class="w-full h-11 px-3.5 rounded-lg bg-surface text-on-surface text-body-sm font-body-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-inner" id="formTitle" type="text" value="Metodologia Lúdica e Segura da Natação Infantil"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Categoria / Tipo *</label>
+<select class="w-full h-11 px-3.5 rounded-lg bg-surface text-on-surface text-body-sm font-body-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-inner cursor-pointer" id="formCategory">
+<option selected="">Especialização Master</option>
+<option>Curso Prático</option>
+<option>Workshop Temático</option>
+<option>Palestra Exclusiva</option>
+<option>Pós-Graduação Aquática</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Carga Horária Certificada *</label>
+<input class="w-full h-11 px-3.5 rounded-lg bg-surface text-on-surface text-body-sm font-body-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-inner" id="formDuration" type="text" value="60 Horas (Certificado Válido CREF)"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Instrutor / Docente Titular *</label>
+<select class="w-full h-11 px-3.5 rounded-lg bg-surface text-on-surface text-body-sm font-body-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-inner cursor-pointer" id="formInstructor">
+<option selected="">Renato Cordani</option>
+<option>Prof. André Martins</option>
+<option>Mariana Silva</option>
+<option>Fernando Loureiro</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Status de Publicação *</label>
+<select class="w-full h-11 px-3.5 rounded-lg bg-surface text-on-surface text-body-sm font-body-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-inner cursor-pointer font-bold" id="formStatus">
+<option selected="" value="aberto">Aberto (Inscrições Disponíveis)</option>
+<option value="breve">Em Breve (Lista de Espera)</option>
+<option value="rascunho">Rascunho (Não visível no site)</option>
+<option value="encerrado">Encerrado</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Section: Modalidade & Logística -->
+<div>
+<div class="flex items-center gap-2 mb-space-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label-caps text-label-caps uppercase text-secondary tracking-wider">Formato e Plataforma</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Formato de Ensino</label>
+<select class="w-full h-11 px-3.5 rounded-lg bg-surface text-on-surface text-body-sm font-body-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-inner cursor-pointer">
+<option selected="">Online Híbrido (Gravado + Ao Vivo)</option>
+<option>100% Online Gravado</option>
+<option>Online Ao Vivo Síncrono</option>
+<option>Presencial em Polo</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Localidade ou Link Sala Virtual</label>
+<input class="w-full h-11 px-3.5 rounded-lg bg-surface text-on-surface text-body-sm font-body-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-inner" type="text" value="https://meet.natacaocriativa.com/turma-01"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Data de Início Oficial</label>
+<input class="w-full h-11 px-3.5 rounded-lg bg-surface text-on-surface text-body-sm font-body-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-inner" type="date" value="2025-03-14"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Capacidade Máxima de Vagas</label>
+<input class="w-full h-11 px-3.5 rounded-lg bg-surface text-on-surface text-body-sm font-body-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-inner" type="number" value="50"/>
+</div>
+</div>
+</div>
+<!-- Section: Lotes e Precificação -->
+<div>
+<div class="flex items-center gap-2 mb-space-sm">
+<span class="w-2 h-2 rounded-full bg-[#89B113]"></span>
+<span class="font-label-caps text-label-caps uppercase text-secondary tracking-wider">Gestão de Lotes Comerciais</span>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-md">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm items-center">
+<div>
+<label class="block font-label-caps text-label-caps text-outline uppercase mb-1">Nome do Lote</label>
+<input class="w-full h-10 px-3 rounded-md bg-surface text-on-surface text-body-sm font-body-sm" type="text" value="1º Lote Antecipado"/>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-outline uppercase mb-1">Valor Unitário</label>
+<input class="w-full h-10 px-3 rounded-md bg-surface text-on-surface text-body-sm font-body-sm" type="text" value="R$ 740,00"/>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-outline uppercase mb-1">Status Lote</label>
+<span class="inline-block px-3 py-2 rounded-md bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps uppercase">Esgotado (30/30)</span>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm items-center">
+<div>
+<label class="block font-label-caps text-label-caps text-outline uppercase mb-1">Nome do Lote</label>
+<input class="w-full h-10 px-3 rounded-md bg-surface text-on-surface text-body-sm font-body-sm font-bold" type="text" value="2º Lote Vigente"/>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-outline uppercase mb-1">Valor Unitário</label>
+<input class="w-full h-10 px-3 rounded-md bg-surface text-on-surface text-body-sm font-body-sm font-bold" type="text" value="R$ 890,00"/>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-outline uppercase mb-1">Status Lote</label>
+<span class="inline-block px-3 py-2 rounded-md bg-[#89B113]/20 text-[#587309] font-label-caps text-label-caps uppercase font-bold">Vigente (12/20)</span>
+</div>
+</div>
+<button class="w-fit flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-primary font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">add_circle</span>
+<span>Adicionar Próximo Lote</span>
+</button>
+</div>
+</div>
+<!-- Section: Thumb do Curso -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2">Imagem de Capa (Thumb 16:9)</label>
+<div class="p-space-md border border-dashed border-outline rounded-xl flex items-center gap-space-md bg-surface-container-low/40">
+<div class="w-20 h-20 rounded-lg bg-surface-container overflow-hidden shrink-0 shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Swimming training thumbnail preview image with blue gradient and modern pool layout for course catalog cover." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFWWC6RVr0YBrORNulsRjI5rbbKkg3rPljpJLemtZZfmy7UsacqUzYpEXVFtdinRaoeumPvHSb9J9Jh7-O0e1DUQ0qLXasTg_KLq5q1rR9FnUG3v9F5Ajzh6WPLqYGtAGiKdi6qoGgzPCWmGlGPDLn593ouQbiPF5RasaO9lhFv-2-K_SdCVJLsevTfkcCE5zzNmSGoZvIPIzu5SjIXBLo7WHEMsY_djr8pSL5UCE"/>
+</div>
+<div class="flex-1">
+<span class="font-label-md text-label-md text-on-surface block">cover_natacao_infantil_2025.jpg</span>
+<span class="font-body-sm text-body-sm text-outline block">1920x1080px · 420 KB</span>
+<div class="flex items-center gap-2 mt-2">
+<button class="px-2.5 py-1 rounded bg-surface hover:bg-surface-container text-primary font-label-md text-label-md" type="button">Trocar arquivo</button>
+<button class="px-2.5 py-1 rounded bg-transparent hover:bg-error-container text-error font-label-md text-label-md" type="button">Remover</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Drawer Footer Buttons -->
+<div class="px-space-lg py-space-md bg-surface-container-low border-t border-surface-container flex items-center justify-between">
+<button class="px-space-md py-2.5 rounded-lg hover:bg-surface-container text-on-surface font-label-lg text-label-lg transition-colors" onclick="closeDrawer()" type="button">
+          Cancelar
+        </button>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors" onclick="saveCourseDraft()" type="button">
+            Salvar Rascunho
+          </button>
+<button class="px-space-lg py-2.5 rounded-lg bg-primary-container text-on-primary-container hover:bg-primary transition-all shadow-md font-label-lg text-label-lg active:scale-95" onclick="saveCoursePublish()" type="button">
+            Salvar e Publicar
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Safe Deletion Confirmation Modal -->
+<div class="fixed inset-0 bg-[#0B3258]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-200" id="deleteModal">
+<div class="w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl p-space-lg flex flex-col gap-space-md">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[28px]">warning</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Confirmar exclusão de formação</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="deleteModalMsg">Tem certeza de que deseja remover esta formação do catálogo? Esta ação não pode ser desfeita e afetará inscrições arquivadas.</p>
+</div>
+<div class="flex items-center justify-end gap-2 mt-2">
+<button class="px-space-md py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md" onclick="closeDeleteModal()" type="button">
+          Cancelar
+        </button>
+<button class="px-space-md py-2 rounded-lg bg-error text-on-error hover:bg-on-error-container font-label-md text-label-md shadow-sm" onclick="executeDelete()" type="button">
+          Sim, Excluir Definitivamente
+        </button>
+</div>
+</div>
+</div>
+<!-- Toast Notification Feedback -->
+<div class="fixed bottom-6 right-6 bg-[#0B3258] text-white px-space-lg py-3 rounded-xl shadow-xl flex items-center gap-space-sm z-50 transform translate-y-20 opacity-0 transition-all duration-300" id="toastNotification">
+<span class="material-symbols-outlined text-primary-fixed" id="toastIcon">check_circle</span>
+<span class="font-label-lg text-label-lg" id="toastMessage">Operação realizada com sucesso!</span>
+</div>
+</div>
+<script>
+  // Drawer logic
+  function openDrawer(mode, titleName) {
+    const overlay = document.getElementById('drawerOverlay');
+    const panel = document.getElementById('drawerPanel');
+    const title = document.getElementById('drawerTitle');
+    const subtitle = document.getElementById('drawerSubtitle');
+    const icon = document.getElementById('drawerIcon');
+    const inputTitle = document.getElementById('formTitle');
+
+    if (mode === 'create') {
+      title.textContent = 'Nova Formação ou Curso';
+      subtitle.textContent = 'Preencha os dados curriculares, modalidade e lotes para abertura';
+      icon.textContent = 'add_circle';
+      inputTitle.value = '';
+    } else {
+      title.textContent = 'Editar Formação';
+      subtitle.textContent = 'Atualize os parâmetros acadêmicos e lotes comerciais';
+      icon.textContent = 'edit_note';
+      if (titleName) {
+        inputTitle.value = titleName;
+      }
+    }
+
+    overlay.classList.remove('pointer-events-none', 'opacity-0');
+    panel.classList.remove('translate-x-full');
+  }
+
+  function closeDrawer() {
+    const overlay = document.getElementById('drawerOverlay');
+    const panel = document.getElementById('drawerPanel');
+    panel.classList.add('translate-x-full');
+    overlay.classList.add('opacity-0');
+    setTimeout(() => {
+      overlay.classList.add('pointer-events-none');
+    }, 300);
+  }
+
+  // Toast feedback
+  function showToast(msg, icon = 'check_circle') {
+    const toast = document.getElementById('toastNotification');
+    const toastMsg = document.getElementById('toastMessage');
+    const toastIcon = document.getElementById('toastIcon');
+    toastMsg.textContent = msg;
+    toastIcon.textContent = icon;
+    toast.classList.remove('translate-y-20', 'opacity-0');
+    setTimeout(() => {
+      toast.classList.add('translate-y-20', 'opacity-0');
+    }, 3500);
+  }
+
+  function saveCourseDraft() {
+    closeDrawer();
+    showToast('Rascunho da formação salvo com sucesso!');
+  }
+
+  function saveCoursePublish() {
+    closeDrawer();
+    showToast('Formação publicada no portal da Natação Criativa!', 'verified');
+  }
+
+  function duplicateCourse(code) {
+    showToast(`Formação [${code}] duplicada com sucesso como novo rascunho.`);
+  }
+
+  // Deletion logic
+  let courseToDelete = '';
+  function confirmDelete(courseName) {
+    courseToDelete = courseName;
+    const modal = document.getElementById('deleteModal');
+    const msg = document.getElementById('deleteModalMsg');
+    msg.textContent = `Tem certeza que deseja excluir "${courseName}"? Esta ação removerá a turma do catálogo online.`;
+    modal.classList.remove('pointer-events-none', 'opacity-0');
+  }
+
+  function closeDeleteModal() {
+    const modal = document.getElementById('deleteModal');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+  }
+
+  function executeDelete() {
+    closeDeleteModal();
+    showToast(`"${courseToDelete}" foi excluído com segurança.`, 'delete_forever');
+  }
+
+  // Selection toggle
+  document.getElementById('selectAllCheckbox').addEventListener('change', function(e) {
+    const checkboxes = document.querySelectorAll('.row-checkbox');
+    checkboxes.forEach(cb => cb.checked = e.target.checked);
+  });
+</script></main></div></body></html>
