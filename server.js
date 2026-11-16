@@ -53,8 +53,22 @@ app.get('/mascote/widget.js', (req, res) => {
 app.get('/mascote/base.json', (req, res) => {
   res.sendFile(path.join(__dirname, 'mascote', 'base.json'));
 });
-app.get('/mascote/foca.svg', (req, res) => {
-  res.sendFile(path.join(__dirname, 'mascote', 'foca.svg'));
+app.get('/mascote/foca.png', (req, res) => {
+  res.sendFile(path.join(__dirname, 'mascote', 'foca.png'));
+});
+
+// Identidade visual (logo, fundo, favicon)
+app.get('/marca/logo.png', (req, res) => {
+  res.sendFile(path.join(__dirname, 'marca', 'logo.png'));
+});
+app.get('/marca/favicon.png', (req, res) => {
+  res.sendFile(path.join(__dirname, 'marca', 'favicon.png'));
+});
+app.get('/marca/fundo.jpg', (req, res) => {
+  res.sendFile(path.join(__dirname, 'marca', 'fundo.jpg'));
+});
+app.get('/marca/tema.css', (req, res) => {
+  res.sendFile(path.join(__dirname, 'marca', 'tema.css'));
 });
 
 app.get(['/mobile'], (req, res) => {

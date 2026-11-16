@@ -3,19 +3,19 @@
   if (window.__focaSuporte) return;
   window.__focaSuporte = true;
 
-  var IMG = '/mascote/foca.svg';
+  var IMG = '/mascote/foca.png';
   var SUGESTOES = ['Quais formações existem?', 'Como emito meu certificado?', 'O que tem na loja?', 'Como falo com o atendimento?'];
   var PARADAS = ' a o e as os um uma uns umas de da do das dos em no na nos nas para pra por com sem que qual quais como onde quando quem tem ter tenho voce voces eu me meu minha meus minhas seu sua seus suas se ao aos ou mais muito isso esse essa este esta ser sao foi quero queria gostaria preciso posso pode saber sobre fazer faco faz existe existem tudo algum alguma oi ola bom boa dia tarde noite favor obrigado obrigada ';
 
   var css = '' +
-    '#foca-btn{position:fixed;right:16px;bottom:16px;z-index:9998;width:68px;height:68px;border-radius:50%;border:0;padding:0;cursor:pointer;background:#fff;box-shadow:0 10px 24px -4px rgba(11,50,88,.35);transition:transform .2s}' +
-    '#foca-btn:hover{transform:scale(1.06)}#foca-btn img{width:100%;height:100%;border-radius:50%;display:block}' +
+    '#foca-btn{position:fixed;right:16px;bottom:16px;z-index:9998;width:84px;height:84px;border:0;padding:0;cursor:pointer;background:transparent;transition:transform .2s}' +
+    '#foca-btn:hover{transform:scale(1.06)}#foca-btn img{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 10px rgba(11,50,88,.35))}' +
     '#foca-btn:focus-visible,#foca-painel button:focus-visible,#foca-painel input:focus-visible{outline:3px solid #0074da;outline-offset:2px}' +
-    '#foca-balao{position:fixed;right:92px;bottom:30px;z-index:9998;background:#001c38;color:#fff;font:600 13px/1.3 Inter,system-ui,sans-serif;padding:9px 12px;border-radius:12px 12px 2px 12px;box-shadow:0 6px 16px rgba(11,50,88,.25);max-width:190px}' +
+    '#foca-balao{position:fixed;right:104px;bottom:40px;z-index:9998;background:#001c38;color:#fff;font:600 13px/1.3 Inter,system-ui,sans-serif;padding:9px 12px;border-radius:12px 12px 2px 12px;box-shadow:0 6px 16px rgba(11,50,88,.25);max-width:190px}' +
     '#foca-painel{position:fixed;right:16px;bottom:16px;z-index:9999;width:370px;max-width:calc(100vw - 24px);height:560px;max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);background:#f6fafc;border-radius:16px;box-shadow:0 20px 40px -8px rgba(11,50,88,.35);display:none;flex-direction:column;overflow:hidden;font:400 14px/1.45 Inter,system-ui,sans-serif;color:#171c1e}' +
     '#foca-painel.aberto{display:flex}' +
     '#foca-topo{background:linear-gradient(135deg,#047AE4,#7B2CBF 60%,#D41076);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px}' +
-    '#foca-topo img{width:44px;height:44px;border-radius:50%;background:#fff;flex-shrink:0}' +
+    '#foca-topo img{width:48px;height:48px;border-radius:50%;background:#fff;padding:3px;box-sizing:border-box;flex-shrink:0}' +
     '#foca-topo strong{display:block;font:700 15px/1.2 "Plus Jakarta Sans",Inter,sans-serif}#foca-topo span{font-size:12px;opacity:.9}' +
     '#foca-fechar{margin-left:auto;background:rgba(255,255,255,.18);border:0;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:20px;line-height:1}' +
     '#foca-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}' +
@@ -87,6 +87,8 @@
   painel.appendChild(el('div', { id: 'foca-nota' }, 'Respostas automáticas. Para casos específicos, fale com o atendimento.'));
 
   document.body.appendChild(btn); document.body.appendChild(balao); document.body.appendChild(painel);
+  // páginas de celular com menu fixo embaixo: sobe a foca para não cobrir o menu
+  if (document.querySelector('nav.fixed.bottom-0')) { btn.style.bottom = '84px'; balao.style.bottom = '108px'; }
 
   function rolar() { msgs.scrollTop = msgs.scrollHeight; }
   function fala(quem, txt) { var m = el('div', { class: 'foca-m ' + quem }, txt); msgs.appendChild(m); rolar(); return m; }
