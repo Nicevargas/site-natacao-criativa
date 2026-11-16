@@ -18,8 +18,8 @@ const fixas = [
     r: 'Depois de concluir a formação e as atividades, o certificado fica disponível em PDF na Área do Aluno, com seu nome, a carga horária e um código único. Você pode baixar quantas vezes precisar.' },
   { t: 'Certificados: como validar', l: '/certificados', k: 'validar validacao autenticidade codigo conferir verdadeiro verificar',
     r: 'Na página Certificados, digite o código que aparece no rodapé do certificado. Se precisar de confirmação imediata, fale com o atendimento informando o código.' },
-  { t: 'Loja: e-books, planilhas e apostilas', l: '/loja', k: 'loja comprar compra ebook ebooks livro planilha planilhas apostila apostilas material materiais kit produto',
-    r: 'A Loja tem e-books, planilhas, apostilas e kits com entrega digital por e-mail. O pedido é fechado com o atendimento, que envia o link de pagamento.' },
+  { t: 'Loja: brinquedos pedagógicos, uniformes e materiais', l: '/loja', k: 'loja comprar compra brinquedo brinquedos jogo jogos kit eva uniforme camiseta touca livro material materiais produto produtos frete entrega pagamento',
+    r: 'A Loja tem 66 produtos: brinquedos pedagógicos de EVA, uniformes (camiseta e toucas), um livro e material de natação. Para comprar, escolha o produto e fale com o atendimento, que confirma disponibilidade, frete e forma de pagamento.' },
   { t: 'Conteúdos gratuitos', l: '/conteudos', k: 'conteudo conteudos podcast spotify youtube instagram video videos artigo artigos episodio entrevista dica dicas',
     r: 'Em Conteúdos você encontra o podcast (mais de 400 entrevistas no Spotify), vídeos no YouTube, pílulas pedagógicas no Instagram, artigos, e-books e planilhas.' },
   { t: 'Soluções para cada público', l: '/solucoes', k: 'solucao solucoes publico professor profissional gestor familia aluno caminho para quem serve',
@@ -60,7 +60,7 @@ const PAGINAS = [
   ['certificados_nata_o_criativa', '/certificados', 'Certificados'],
   ['atendimento_nata_o_criativa', '/atendimento', 'Atendimento'],
 ];
-const BOTOES = /( · )?(Saiba mais|Comprar|Baixar|Ouvir|Assistir|Ler|Ver formações|Ver conteúdos|Pedir uma proposta|Falar com o atendimento)(?= · |$)/g;
+const BOTOES = /( · )?(Saiba mais|Tenho interesse|Comprar|Baixar|Ouvir|Assistir|Ler|Ver formações|Ver conteúdos|Pedir uma proposta|Falar com o atendimento)(?= · |$)/g;
 
 const doSite = [];
 for (const [pasta, link, nome] of PAGINAS) {

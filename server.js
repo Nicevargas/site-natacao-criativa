@@ -27,6 +27,8 @@ import {
   signInWithSupabasePassword,
   verifySupabaseAccessToken,
 } from './lib/supabaseAuth.js';
+import api from './api.js';
+import { supabase } from './supabaseClient.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -115,8 +117,36 @@ app.get('/mascote/widget.js', (req, res) => {
 app.get('/mascote/base.json', (req, res) => {
   res.sendFile(path.join(__dirname, 'mascote', 'base.json'));
 });
-app.get('/mascote/foca.svg', (req, res) => {
-  res.sendFile(path.join(__dirname, 'mascote', 'foca.svg'));
+app.get('/mascote/foca.png', (req, res) => {
+  res.sendFile(path.join(__dirname, 'mascote', 'foca.png'));
+});
+
+// Identidade visual (logo, fundo, favicon)
+app.get('/marca/logo.png', (req, res) => {
+  res.sendFile(path.join(__dirname, 'marca', 'logo.png'));
+});
+app.get('/marca/favicon.png', (req, res) => {
+  res.sendFile(path.join(__dirname, 'marca', 'favicon.png'));
+});
+app.get('/marca/fundo.jpg', (req, res) => {
+  res.sendFile(path.join(__dirname, 'marca', 'fundo.jpg'));
+});
+app.get('/marca/tema.css', (req, res) => {
+  res.sendFile(path.join(__dirname, 'marca', 'tema.css'));
+});
+
+// Fotos dos produtos da loja
+app.get('/loja/fotos/:arquivo', (req, res) => {
+  if (!/^[a-z0-9][a-z0-9_-]*[.]webp$/i.test(req.params.arquivo)) return res.status(404).end();
+  res.set('Cache-Control', 'public, max-age=86400');
+  res.sendFile(path.join(__dirname, 'loja-fotos', req.params.arquivo), (erro) => {
+    if (erro && !res.headersSent) res.status(404).end();
+  });
+});
+
+// Script antigo de ligação direta com o Supabase (mantido para quem ainda o carrega)
+app.get('/dados/site.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'site.js'));
 });
 
 app.get(['/mobile'], (req, res) => {
@@ -318,17 +348,40 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', app: 'Natação Criativa', timestamp: new Date().toISOString() });
 });
 
+// Cópia permanente no Supabase do que chega pelos formulários públicos.
+// O arquivo de dados do painel some quando a Vercel reinicia; o banco não.
+const PERFIS_CARDUME = { professor: 'professor', gestor: 'gestor', familia: 'familia', aluno: 'aluno' };
+function perfilCardume(valor) {
+  const limpo = String(valor || '').toLowerCase().normalize('NFD').replace(/[^a-z]/g, '');
+  return Object.keys(PERFIS_CARDUME).find((p) => limpo.startsWith(p)) || 'outro';
+}
+async function copiarParaSupabase(tabela, linha) {
+  if (!supabase) return;
+  try {
+    const { error } = await supabase.from(tabela).insert(linha);
+    if (error && error.code !== '23505') console.error('[supabase]', tabela, error.message);
+  } catch (erro) {
+    console.error('[supabase]', tabela, erro.message);
+  }
+}
+
 app.get('/api/public/site', (req, res) => {
   const db = readDb();
   res.json(getPublicSnapshot(db));
 });
 
-app.post('/api/public/cardume', (req, res) => {
+app.post('/api/public/cardume', async (req, res) => {
   const { email, profileType, sourcePage } = req.body || {};
   const cleanEmail = String(email || '').trim().toLowerCase();
   if (!cleanEmail || !cleanEmail.includes('@')) {
     return res.status(400).json({ error: 'Informe um e-mail válido.' });
   }
+
+  await copiarParaSupabase('cardume_subscribers', {
+    email: cleanEmail.slice(0, 200),
+    profile_type: perfilCardume(profileType),
+    source_page: String(sourcePage || 'site').slice(0, 80),
+  });
 
   const db = readDb();
   const existing = (db.cardumeSubscribers || []).find((s) => s.email.toLowerCase() === cleanEmail);
@@ -354,7 +407,7 @@ app.post('/api/public/cardume', (req, res) => {
   res.status(201).json({ ok: true, subscriber });
 });
 
-app.post('/api/public/inquiries', (req, res) => {
+app.post('/api/public/inquiries', async (req, res) => {
   const { name, email, profileType, subject, message, type } = req.body || {};
   if (!name || !message) {
     return res.status(400).json({ error: 'Nome e mensagem são obrigatórios.' });
@@ -374,6 +427,15 @@ app.post('/api/public/inquiries', (req, res) => {
   db.inquiries = db.inquiries || [];
   db.inquiries.unshift(inquiry);
   writeDb(db);
+
+  await copiarParaSupabase('inquiries', {
+    inquiry_type: ['aula_particular', 'sugestao_tema', 'consultoria_academia', 'suporte'].includes(inquiry.type) ? inquiry.type : 'suporte',
+    name: inquiry.name.slice(0, 120),
+    email: inquiry.email.slice(0, 200),
+    profile_type: inquiry.profileType.slice(0, 40),
+    subject: inquiry.subject.slice(0, 160),
+    message: inquiry.message.slice(0, 4000),
+  });
   res.status(201).json({ ok: true, inquiry });
 });
 
@@ -1091,6 +1153,9 @@ app.get('/api/admin/export/:resource', requireAdmin, (req, res) => {
 });
 
 // Fallback to index.html
+// Leitura direta do banco Supabase: /api/status, /api/cursos, /api/certificados/:codigo...
+app.use('/api', api);
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
