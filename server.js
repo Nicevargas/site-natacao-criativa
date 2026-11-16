@@ -46,6 +46,17 @@ for (const [rota, pasta] of Object.entries(paginasDoMenu)) {
   });
 }
 
+// Suporte com a foca mascote (rotas explícitas para a Vercel incluir os arquivos)
+app.get('/mascote/widget.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'mascote', 'widget.js'));
+});
+app.get('/mascote/base.json', (req, res) => {
+  res.sendFile(path.join(__dirname, 'mascote', 'base.json'));
+});
+app.get('/mascote/foca.svg', (req, res) => {
+  res.sendFile(path.join(__dirname, 'mascote', 'foca.svg'));
+});
+
 app.get(['/mobile'], (req, res) => {
   res.sendFile(path.join(__dirname, 'home_nata_o_criativa_mobile_otimizado', 'code.html'));
 });
