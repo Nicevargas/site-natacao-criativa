@@ -31,6 +31,21 @@ app.get(['/cursos', '/workshops', '/palestras'], (req, res) => {
   res.sendFile(path.join(__dirname, 'cursos_palestras_e_workshops_nata_o_criativa', 'code.html'));
 });
 
+// Páginas do menu lateral
+const paginasDoMenu = {
+  '/conteudos': 'conteudos_nata_o_criativa',
+  '/solucoes': 'solucoes_nata_o_criativa',
+  '/certificados': 'certificados_nata_o_criativa',
+  '/loja': 'loja_nata_o_criativa',
+  '/atendimento': 'atendimento_nata_o_criativa',
+};
+
+for (const [rota, pasta] of Object.entries(paginasDoMenu)) {
+  app.get(rota, (req, res) => {
+    res.sendFile(path.join(__dirname, pasta, 'code.html'));
+  });
+}
+
 app.get(['/mobile'], (req, res) => {
   res.sendFile(path.join(__dirname, 'home_nata_o_criativa_mobile_otimizado', 'code.html'));
 });
