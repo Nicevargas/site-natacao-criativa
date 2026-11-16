@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import api from './api.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -78,6 +79,14 @@ app.get(['/mobile'], (req, res) => {
 app.get(['/mobile/catalogo'], (req, res) => {
   res.sendFile(path.join(__dirname, 'forma_es_cat_logo_mobile', 'code.html'));
 });
+
+// Script que liga os formulários e o catálogo ao banco
+app.get('/dados/site.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'site.js'));
+});
+
+// Rotas do banco (Supabase): /api/cursos, /api/cardume, /api/contato, /api/certificados/:codigo...
+app.use('/api', api);
 
 // API health endpoint
 app.get('/api/health', (req, res) => {
