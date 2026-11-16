@@ -13,13 +13,18 @@ import {
   verifyPassword,
 } from './lib/auth.js';
 import {
+  aguardarGravacao,
   appendAuditLog,
+  armazenamentoRemotoAtivo,
   ensureDataFile,
   getPublicSnapshot,
   readDb,
   sanitizeUser,
+  sincronizarDoRemoto,
+  usarArmazenamentoRemoto,
   writeDb,
 } from './lib/store.js';
+import { criarEstadoRemoto } from './lib/remoteState.js';
 import {
   getSupabasePublicConfig,
   isSupabaseConfigured,
@@ -34,6 +39,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 ensureDataFile();
+// Com SUPABASE_SERVICE_ROLE_KEY configurada, os dados do painel ficam guardados no Supabase.
+usarArmazenamentoRemoto(criarEstadoRemoto());
 registerUsersResolver(() => readDb().users || []);
 
 const app = express();
@@ -41,6 +48,28 @@ const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
 
 app.use(express.json({ limit: '2mb' }));
+
+// Dados do painel no Supabase: antes de cada chamada /api busca a versão mais recente
+// e, antes de responder, espera a gravação terminar (na Vercel o servidor pode ser
+// congelado assim que a resposta sai).
+app.use('/api', async (req, res, next) => {
+  if (!armazenamentoRemotoAtivo()) return next();
+  const encerrar = res.end.bind(res);
+  res.end = (...args) => {
+    aguardarGravacao().then(() => encerrar(...args));
+    return res;
+  };
+  try {
+    await sincronizarDoRemoto({ forcar: req.method !== 'GET' });
+  } catch (erro) {
+    console.error('[painel]', erro?.message || erro);
+  }
+  next();
+});
+
+app.get('/api/painel/status', (req, res) => {
+  res.json({ dadosPermanentes: armazenamentoRemotoAtivo() });
+});
 
 // Protect internal backend directories and config files from static access
 app.use((req, res, next) => {
