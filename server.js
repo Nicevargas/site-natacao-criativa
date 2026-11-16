@@ -17,6 +17,7 @@ import {
   appendAuditLog,
   armazenamentoRemotoAtivo,
   ensureDataFile,
+  estadoDoRemoto,
   getPublicSnapshot,
   readDb,
   sanitizeUser,
@@ -68,7 +69,7 @@ app.use('/api', async (req, res, next) => {
 });
 
 app.get('/api/painel/status', (req, res) => {
-  res.json({ dadosPermanentes: armazenamentoRemotoAtivo() });
+  res.json(estadoDoRemoto());
 });
 
 // Protect internal backend directories and config files from static access
