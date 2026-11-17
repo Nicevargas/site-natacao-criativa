@@ -26,6 +26,7 @@ import {
   writeDb,
 } from './lib/store.js';
 import { criarEstadoRemoto } from './lib/remoteState.js';
+import { ErroDeAgenda, montarAgenda } from './lib/agenda.js';
 import {
   getSupabasePublicConfig,
   isSupabaseConfigured,
@@ -178,6 +179,9 @@ app.get('/loja/fotos/:arquivo', (req, res) => {
 // Script antigo de ligação direta com o Supabase (mantido para quem ainda o carrega)
 app.get('/dados/site.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'site.js'));
+});
+app.get('/dados/catalogo.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'catalogo.js'));
 });
 
 app.get(['/mobile'], (req, res) => {
@@ -543,14 +547,14 @@ app.post('/api/admin/courses', requireAdmin, (req, res) => {
   if (!body.title) {
     return res.status(400).json({ error: 'Título da formação é obrigatório.' });
   }
+  let agenda;
+  try {
+    agenda = montarAgenda(body, {});
+  } catch (erro) {
+    if (erro instanceof ErroDeAgenda) return res.status(400).json({ error: erro.message });
+    throw erro;
+  }
   const db = readDb();
-  const instructorName = String(body.instructor || 'Renato Cordani').trim();
-  const initials = instructorName
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
-    .join('');
 
   const course = {
     id: `crs-${crypto.randomUUID().slice(0, 8)}`,
@@ -563,9 +567,6 @@ app.post('/api/admin/courses', requireAdmin, (req, res) => {
     format: String(body.format || 'Online Híbrido').trim(),
     modalityDetails: String(body.modalityDetails || 'Plataforma Digital Natação Criativa').trim(),
     locationOrUrl: String(body.locationOrUrl || 'Online').trim(),
-    instructor: instructorName,
-    instructorInitials: body.instructorInitials || initials || 'NC',
-    instructorRole: String(body.instructorRole || 'Docente Titular').trim(),
     workload: String(body.workload || '20h certificadas').trim(),
     status: String(body.status || 'rascunho').trim(),
     isFree: Boolean(body.isFree),
@@ -575,12 +576,11 @@ app.post('/api/admin/courses', requireAdmin, (req, res) => {
     priceFormatted: String(body.priceFormatted || (body.isFree ? 'R$ 0,00' : 'R$ 297,00')).trim(),
     installmentInfo: String(body.installmentInfo || '').trim(),
     lotSummary: String(body.lotSummary || '1º Lote').trim(),
-    startDate: String(body.startDate || '').trim(),
-    startDateLabel: String(body.startDateLabel || 'A definir').trim(),
     certificateBadge: String(body.certificateBadge || 'Certificado Incluso').trim(),
     coverUrl: String(body.coverUrl || '').trim(),
     lots: Array.isArray(body.lots) ? body.lots : [],
     featured: Boolean(body.featured),
+    ...agenda,
     updatedAt: new Date().toISOString(),
   };
 
@@ -598,20 +598,19 @@ app.put('/api/admin/courses/:id', requireAdmin, (req, res) => {
 
   const prev = db.courses[idx];
   const body = req.body || {};
-  const instructorName = String(body.instructor ?? prev.instructor).trim();
-  const initials = instructorName
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
-    .join('');
+  let agenda;
+  try {
+    agenda = montarAgenda(body, prev);
+  } catch (erro) {
+    if (erro instanceof ErroDeAgenda) return res.status(400).json({ error: erro.message });
+    throw erro;
+  }
 
   const updated = {
     ...prev,
     ...body,
+    ...agenda,
     id: prev.id,
-    instructor: instructorName,
-    instructorInitials: body.instructorInitials || initials || prev.instructorInitials,
     enrolledCount: body.enrolledCount !== undefined ? Number(body.enrolledCount) : prev.enrolledCount,
     maxCapacity: body.maxCapacity !== undefined ? Number(body.maxCapacity) : prev.maxCapacity,
     updatedAt: new Date().toISOString(),

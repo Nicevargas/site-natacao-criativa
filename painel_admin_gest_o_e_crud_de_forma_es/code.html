@@ -712,10 +712,6 @@
             <input name="workload" placeholder="60h certificadas" class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-sm" type="text"/>
           </div>
           <div>
-            <label class="block text-xs font-display font-bold text-on-surface mb-1">Instrutor Titular</label>
-            <input name="instructor" class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-sm" type="text"/>
-          </div>
-          <div>
             <label class="block text-xs font-display font-bold text-on-surface mb-1">Formato</label>
             <select name="format" class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-sm">
               <option>Online Híbrido</option>
@@ -739,8 +735,9 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-display font-bold text-on-surface mb-1">Início (Exibição)</label>
-            <input name="startDateLabel" placeholder="14 Mar 2025" class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-sm" type="text"/>
+            <label class="block text-xs font-display font-bold text-on-surface mb-1">Texto da data (sem dias marcados)</label>
+            <input name="startDateLabel" placeholder="Acesso imediato" class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-sm" type="text"/>
+            <p class="text-[11px] text-outline mt-1">Usado só quando não há dias cadastrados abaixo, como em cursos gravados.</p>
           </div>
           <div>
             <label class="block text-xs font-display font-bold text-on-surface mb-1">Investimento</label>
@@ -757,6 +754,35 @@
           <div>
             <label class="block text-xs font-display font-bold text-on-surface mb-1">Vagas Ocupadas</label>
             <input name="enrolledCount" type="number" min="0" class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-sm tabular-nums"/>
+          </div>
+
+          <!-- Docentes (um ou mais) -->
+          <div class="md:col-span-2 rounded-xl border border-surface-container p-4 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <label class="block text-xs font-display font-bold text-on-surface">Docentes</label>
+                <p class="text-[11px] text-outline">O primeiro da lista aparece como docente principal.</p>
+              </div>
+              <button type="button" onclick="addInstructorRow()" class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-primary hover:bg-surface-container text-xs font-display font-bold">
+                <span class="material-symbols-outlined text-[16px]">person_add</span>Adicionar docente
+              </button>
+            </div>
+            <div id="instructorRows" class="space-y-2"></div>
+          </div>
+
+          <!-- Datas e horários (um ou mais dias) -->
+          <div class="md:col-span-2 rounded-xl border border-surface-container p-4 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <label class="block text-xs font-display font-bold text-on-surface">Datas e horários</label>
+                <p class="text-[11px] text-outline">Um dia por linha, com início e fim. O texto da data no site é montado sozinho.</p>
+              </div>
+              <button type="button" onclick="addSessionRow()" class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-primary hover:bg-surface-container text-xs font-display font-bold">
+                <span class="material-symbols-outlined text-[16px]">calendar_add_on</span>Adicionar dia
+              </button>
+            </div>
+            <div id="sessionRows" class="space-y-2"></div>
+            <p id="sessionEmpty" class="text-xs text-outline">Nenhum dia marcado.</p>
           </div>
         </div>
       </form>
@@ -1060,6 +1086,107 @@
       document.querySelectorAll('.course-cb').forEach(function (cb) { cb.checked = e.target.checked; });
     });
 
+    // ---------- Docentes e datas da formação (listas que crescem) ----------
+    var CAMPO_LINHA = 'h-10 px-3 rounded-lg bg-surface-container-low text-sm outline-none focus:ring-2 focus:ring-primary';
+
+    function botaoRemover(titulo, aoClicar) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.title = titulo;
+      b.setAttribute('aria-label', titulo);
+      b.className = 'p-2 rounded-lg text-on-surface-variant hover:bg-error-container hover:text-error flex-shrink-0';
+      b.innerHTML = '<span class="material-symbols-outlined text-[18px]">delete</span>';
+      b.addEventListener('click', aoClicar);
+      return b;
+    }
+
+    function campoLinha(tipo, valor, extra) {
+      var i = document.createElement('input');
+      i.type = tipo;
+      i.value = valor || '';
+      i.className = CAMPO_LINHA + ' ' + (extra.classe || '');
+      Object.keys(extra.atributos || {}).forEach(function (k) { i.setAttribute(k, extra.atributos[k]); });
+      return i;
+    }
+
+    function addInstructorRow(nome, funcao) {
+      var linha = document.createElement('div');
+      linha.className = 'instructor-row flex items-center gap-2';
+      linha.appendChild(campoLinha('text', nome, { classe: 'flex-1 min-w-0 instructor-name', atributos: { placeholder: 'Nome do docente', 'aria-label': 'Nome do docente', maxlength: '120' } }));
+      linha.appendChild(campoLinha('text', funcao, { classe: 'w-40 sm:w-48 instructor-role', atributos: { placeholder: 'Função (opcional)', 'aria-label': 'Função do docente', maxlength: '80' } }));
+      linha.appendChild(botaoRemover('Remover docente', function () { linha.remove(); }));
+      document.getElementById('instructorRows').appendChild(linha);
+      if (nome === undefined) linha.querySelector('.instructor-name').focus();
+    }
+
+    function atualizarAvisoDias() {
+      var vazio = !document.querySelector('#sessionRows .session-row');
+      document.getElementById('sessionEmpty').classList.toggle('hidden', !vazio);
+    }
+
+    function addSessionRow(data, inicio, fim) {
+      var lista = document.getElementById('sessionRows');
+      // novo dia: sugere o dia seguinte ao último, com o mesmo horário
+      if (data === undefined) {
+        var ultima = lista.querySelector('.session-row:last-child');
+        if (ultima) {
+          var d = ultima.querySelector('.session-date').value;
+          if (d) {
+            var prox = new Date(d + 'T12:00:00Z');
+            prox.setUTCDate(prox.getUTCDate() + 1);
+            data = prox.toISOString().slice(0, 10);
+          }
+          inicio = ultima.querySelector('.session-start').value;
+          fim = ultima.querySelector('.session-end').value;
+        }
+      }
+      var linha = document.createElement('div');
+      linha.className = 'session-row flex flex-wrap items-center gap-2';
+      linha.appendChild(campoLinha('date', data, { classe: 'flex-1 min-w-[150px] session-date', atributos: { required: 'required', 'aria-label': 'Data' } }));
+      var ini = campoLinha('time', inicio, { classe: 'w-28 session-start', atributos: { 'aria-label': 'Horário de início' } });
+      var ate = document.createElement('span');
+      ate.className = 'text-xs text-outline';
+      ate.textContent = 'até';
+      var end = campoLinha('time', fim, { classe: 'w-28 session-end', atributos: { 'aria-label': 'Horário de término' } });
+      linha.appendChild(ini);
+      linha.appendChild(ate);
+      linha.appendChild(end);
+      linha.appendChild(botaoRemover('Remover dia', function () { linha.remove(); atualizarAvisoDias(); }));
+      lista.appendChild(linha);
+      atualizarAvisoDias();
+    }
+
+    function preencherDocentesEDias(c) {
+      document.getElementById('instructorRows').innerHTML = '';
+      document.getElementById('sessionRows').innerHTML = '';
+      var docentes = (c && Array.isArray(c.instructors) && c.instructors.length)
+        ? c.instructors
+        : (c && c.instructor ? String(c.instructor).split(/\s*,\s*/).map(function (n, i) { return { name: n, role: i === 0 ? (c.instructorRole || '') : '' }; }) : []);
+      if (!docentes.length) docentes = [{ name: '', role: '' }];
+      docentes.forEach(function (d) { addInstructorRow(d.name || '', d.role || ''); });
+      var dias = (c && Array.isArray(c.sessions)) ? c.sessions : [];
+      if (!dias.length && c && /^\d{4}-\d{2}-\d{2}$/.test(c.startDate || '')) dias = [{ date: c.startDate }];
+      dias.forEach(function (d) { addSessionRow(d.date || '', d.start || '', d.end || ''); });
+      atualizarAvisoDias();
+    }
+
+    // Lê as listas e confere os horários antes de enviar
+    function coletarDocentesEDias() {
+      var instructors = [].slice.call(document.querySelectorAll('#instructorRows .instructor-row')).map(function (l) {
+        return { name: l.querySelector('.instructor-name').value.trim(), role: l.querySelector('.instructor-role').value.trim() };
+      }).filter(function (d) { return d.name; });
+      var sessions = [];
+      var linhas = [].slice.call(document.querySelectorAll('#sessionRows .session-row'));
+      for (var i = 0; i < linhas.length; i++) {
+        var l = linhas[i];
+        var dia = { date: l.querySelector('.session-date').value, start: l.querySelector('.session-start').value, end: l.querySelector('.session-end').value };
+        if (dia.end && !dia.start) throw new Error('Dia ' + (i + 1) + ': informe também o horário de início.');
+        if (dia.start && dia.end && dia.end <= dia.start) throw new Error('Dia ' + (i + 1) + ': o término precisa ser depois do início.');
+        sessions.push(dia);
+      }
+      return { instructors: instructors, sessions: sessions };
+    }
+
     function openCourseModal(mode, id) {
       var form = document.getElementById('courseForm');
       form.reset();
@@ -1070,12 +1197,15 @@
         Object.keys(c).forEach(function (k) {
           if (form.elements[k]) form.elements[k].value = c[k] ?? '';
         });
+        // com dias marcados, o texto da data é gerado pelo sistema
+        if (Array.isArray(c.sessions) && c.sessions.length) form.elements.startDateLabel.value = '';
+        preencherDocentesEDias(c);
       } else {
         document.getElementById('courseDrawerTitle').textContent = 'Nova Formação';
         form.elements.id.value = '';
         form.elements.maxCapacity.value = 50;
         form.elements.enrolledCount.value = 0;
-        form.elements.instructor.value = 'Renato Cordani';
+        preencherDocentesEDias({ instructors: [{ name: 'Renato Simon', role: 'Docente titular' }] });
       }
       document.getElementById('courseDrawerOverlay').classList.remove('pointer-events-none', 'opacity-0');
       document.getElementById('courseDrawerPanel').classList.remove('translate-x-full');
@@ -1094,6 +1224,11 @@
       if (!form.reportValidity()) return;
       var fd = new FormData(form);
       var payload = Object.fromEntries(fd.entries());
+      try {
+        var agenda = coletarDocentesEDias();
+        payload.instructors = agenda.instructors;
+        payload.sessions = agenda.sessions;
+      } catch (e) { showToast(e.message, 'error'); return; }
       if (forcedStatus === 'rascunho') payload.status = 'rascunho';
       else if (forcedStatus === 'aberto' && !payload.status) payload.status = 'aberto';
       try {
