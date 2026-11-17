@@ -31,6 +31,7 @@ import {
   isSupabaseConfigured,
   provisionSupabaseAdminUser,
   signInWithSupabasePassword,
+  syncSupabaseAdminUser,
   verifySupabaseAccessToken,
 } from './lib/supabaseAuth.js';
 import api from './api.js';
@@ -959,7 +960,7 @@ app.post('/api/admin/users', requireAdmin, async (req, res) => {
   const resolvedRole = ['admin', 'coordinator', 'editor'].includes(role) ? role : 'editor';
 
   // Provision user in Supabase Auth automatically when SUPABASE_SERVICE_ROLE_KEY is configured
-  const sbProvision = await provisionSupabaseAdminUser({
+  const sbProvision = await syncSupabaseAdminUser({
     name: String(name).trim(),
     email: cleanEmail,
     password: String(password),
@@ -993,7 +994,7 @@ app.post('/api/admin/users', requireAdmin, async (req, res) => {
   res.status(201).json({ item: sanitizeUser(user), supabaseProvisioned: Boolean(sbProvision.user) });
 });
 
-app.put('/api/admin/users/:id', requireAdmin, (req, res) => {
+app.put('/api/admin/users/:id', requireAdmin, async (req, res) => {
   if (req.adminUser.role !== 'admin') {
     return res.status(403).json({ error: 'Apenas administradores podem editar usuários.' });
   }
@@ -1012,10 +1013,28 @@ app.put('/api/admin/users/:id', requireAdmin, (req, res) => {
     passwordHash: password ? hashPassword(String(password)) : prev.passwordHash,
     updatedAt: new Date().toISOString(),
   };
+
+  // O login é feito pelo Supabase Auth: a troca de senha, nome ou papel precisa valer lá também.
+  const sbSync = await syncSupabaseAdminUser({
+    name: updated.name,
+    email: updated.email,
+    password: password ? String(password) : null,
+    role: updated.role,
+  });
+  if (sbSync.error) {
+    return res.status(400).json({ error: `Não foi possível atualizar o login no Supabase: ${sbSync.error}` });
+  }
+
   db.users[idx] = updated;
-  appendAuditLog(db, req.adminUser, 'updated', 'users', `Usuário atualizado: ${updated.name} (${updated.role}).`);
+  appendAuditLog(
+    db,
+    req.adminUser,
+    'updated',
+    'users',
+    `Usuário atualizado: ${updated.name} (${updated.role})${sbSync.passwordChanged ? ' + senha no Supabase Auth' : ''}.`
+  );
   writeDb(db);
-  res.json({ item: sanitizeUser(updated) });
+  res.json({ item: sanitizeUser(updated), supabaseSynced: Boolean(sbSync.user), loginCreated: Boolean(sbSync.created) });
 });
 
 app.delete('/api/admin/users/:id', requireAdmin, (req, res) => {
