@@ -28,7 +28,7 @@
     if (!e.podeSalvar) aviso += '<p class="p-3 rounded-lg bg-red-100 text-red-800 text-sm font-semibold">O servidor ainda não está preparado para guardar chaves.</p>';
     alvo.innerHTML = aviso +
       '<form data-grupo="asaas" class="' + CARTAO + '"><div class="flex flex-wrap items-center justify-between gap-2"><h2 class="font-display font-bold">Pagamentos (Asaas)</h2><span class="px-2.5 py-1 rounded-full text-[11px] font-bold ' + (e.ambienteAsaas === 'produção' ? 'bg-emerald-100 text-emerald-800' : e.ambienteAsaas === 'teste' ? 'bg-amber-100 text-amber-900' : 'bg-surface-container text-on-surface-variant') + '">' + (e.ambienteAsaas === 'produção' ? 'Recebendo de verdade' : e.ambienteAsaas === 'teste' ? 'Modo de teste' : 'Não conectado') + '</span></div>' +
-      (e.segredos.ASAAS_API_KEY.configurado ? '<div class="p-3 rounded-lg bg-surface-container-low text-sm"><div class="font-bold">' + esc(e.asaasConta || 'Conta conectada') + '</div><div class="text-xs text-on-surface-variant">Chave terminada em ' + esc(e.segredos.ASAAS_API_KEY.final) + ' · ' + (e.asaasAvisoOk ? 'aviso de pagamento configurado' : 'aviso de pagamento pendente: conecte de novo') + '</div></div>' : '') +
+      (e.segredos.ASAAS_API_KEY.configurado ? '<div class="p-3 rounded-lg bg-surface-container-low text-sm"><div class="font-bold">' + esc(e.asaasConta || 'Conta conectada') + '</div><div class="text-xs text-on-surface-variant">Chave terminada em ' + esc(e.segredos.ASAAS_API_KEY.final) + ' · ' + (e.asaasAvisoOk ? 'aviso de pagamento configurado' : 'aviso de pagamento pendente') + '</div>' + (e.asaasAvisoOk ? '' : '<button type="button" data-criar-aviso class="' + P.BTN_PRIM + ' mt-3">' + P.ic('notifications_active') + 'Criar aviso de pagamento</button>') + '</div>' : '') +
       '<div><label class="' + P.ROTULO + '" for="nc-int-chave">' + (e.segredos.ASAAS_API_KEY.configurado ? 'Trocar a chave da API' : 'Chave da API do Asaas') + '</label><div class="flex gap-2"><input id="nc-int-chave" name="chave" type="password" required autocomplete="new-password" spellcheck="false" placeholder="$aact_..." class="' + P.CAMPO + '"/><button type="button" data-ver="chave" aria-label="Mostrar o que foi digitado" class="px-2.5 rounded-lg bg-surface-container-low">' + P.ic('visibility') + '</button></div><p class="text-[11px] text-outline mt-1">No Asaas: Integrações > Chaves de API. Cole aqui e o site cria sozinho o aviso de pagamento.</p></div>' +
       '<div class="flex flex-wrap justify-end gap-2">' + (e.segredos.ASAAS_API_KEY.configurado ? '<button type="button" data-desconectar class="' + P.BTN_SEC + ' text-error">Desconectar</button><button type="button" data-testar="asaas" class="' + P.BTN_SEC + '">' + P.ic('sync') + 'Testar conexão</button>' : '') + '<button class="' + P.BTN_PRIM + '">' + P.ic('link') + 'Conectar Asaas</button></div><p data-res="asaas" class="text-sm font-semibold" role="status"></p></form>' +
       '<form data-grupo="email" class="' + CARTAO + '"><h2 class="font-display font-bold">E-mail dos avisos</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4">' +
@@ -77,6 +77,14 @@
     var t = ev.target.closest('button');
     if (!t) return;
     if (t.dataset.ver) { var c = document.getElementById('nc-int-' + t.dataset.ver); c.type = c.type === 'password' ? 'text' : 'password'; }
+    if (t.hasAttribute('data-criar-aviso')) {
+      t.disabled = true; resultado('asaas', true, 'Criando o aviso no Asaas...');
+      try {
+        estado = await api('/api/admin/integracoes/asaas/conectar', { method: 'POST', body: JSON.stringify({ usarSalva: true }) });
+        desenhar(); resultado('asaas', true, 'Aviso de pagamento criado no Asaas.'); showToast('Aviso de pagamento criado.');
+      } catch (e) { t.disabled = false; resultado('asaas', false, e.message); }
+      return;
+    }
     if (t.hasAttribute('data-desconectar')) {
       if (t.dataset.confirmando !== '1') { t.dataset.confirmando = '1'; t.textContent = 'Clique de novo para desconectar'; return; }
       t.disabled = true;
