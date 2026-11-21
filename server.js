@@ -30,7 +30,7 @@ import { criarEstadoRemoto } from './lib/remoteState.js';
 import { enviarSmtp, registrarLoja } from './lib/loja.js';
 import { carregarIntegracoes, registrarIntegracoes } from './lib/integracoes.js';
 import { ErroDeAgenda, montarAgenda } from './lib/agenda.js';
-import { camposCertificado, camposCurso, camposLoja, camposPessoa, comLinkDeCompra, contatoCertificado, cpfValido, dadosCertificado, registrarExtras } from './lib/extras.js';
+import { camposCertificado, camposCurso, camposLoja, camposPessoa, contatoCertificado, cpfValido, dadosCertificado, registrarExtras } from './lib/extras.js';
 import {
   getSupabasePublicConfig,
   isSupabaseConfigured,
@@ -458,7 +458,8 @@ async function copiarParaSupabase(tabela, linha) {
 
 app.get('/api/public/site', (req, res) => {
   const site = getPublicSnapshot(readDb());
-  site.storeItems = comLinkDeCompra(site.storeItems, path.join(__dirname, 'dados-antigos', 'loja.json'));
+  // A compra acontece só na loja deste site: nenhum link externo de compra sai daqui.
+  site.storeItems = site.storeItems.map(({ buyUrl, ...item }) => item);
   res.json(site);
 });
 
@@ -845,7 +846,7 @@ app.put('/api/admin/store-items/:id', requireAdmin, (req, res) => {
   db.storeItems[idx] = {
     ...db.storeItems[idx],
     ...req.body,
-    ...(req.body?.buyUrl !== undefined ? { buyUrl: camposLoja(req.body).buyUrl } : {}),
+    buyUrl: undefined,
     id: req.params.id,
   };
   appendAuditLog(db, req.adminUser, 'updated', 'store', `Material atualizado: ${db.storeItems[idx].title}.`);

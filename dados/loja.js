@@ -1,5 +1,5 @@
 // Loja: carrinho, checkout e acompanhamento do pedido.
-// Com o checkout desligado no painel, o carrinho funciona e a compra termina na loja atual.
+// Com o checkout desligado no painel, o carrinho vira um pedido de contato para a equipe.
 (function () {
   if (window.__ncLoja) return;
   window.__ncLoja = true;
@@ -79,21 +79,35 @@
       var ir = el('button', 'w-full mt-4 ' + BTN, 'Finalizar compra'); ir.type = 'button'; ir.onclick = checkout; c.appendChild(ir);
       return;
     }
-    // Pagamento online ainda desligado: cada produto termina na loja atual.
-    var av = el('div', 'mt-4 p-4 rounded-lg bg-surface-container-low');
-    av.appendChild(el('p', 'font-semibold text-on-secondary-fixed', 'Finalize pela nossa loja atual'));
-    av.appendChild(el('p', 'text-body-sm text-on-surface-variant mb-2', 'O pagamento por aqui está sendo ativado. Abra cada produto para concluir a compra.'));
-    lista.forEach(function (x) {
-      var s = produto(x.id);
-      if (!/^https?:\/\//i.test(s.buyUrl || '')) return;
-      var a = el('a', 'flex items-center justify-between gap-2 py-2 text-primary font-semibold text-body-sm border-t border-surface-container');
-      a.href = s.buyUrl; a.target = '_blank'; a.rel = 'noopener';
-      a.appendChild(el('span', 'min-w-0', 'Comprar ' + x.qtd + 'x ' + s.title));
-      a.appendChild(el('span', 'material-symbols-outlined text-[18px] flex-shrink-0', 'open_in_new'));
-      av.appendChild(a);
+    interesse(c, lista);
+  }
+
+  // Pagamento online ainda desligado: a equipe recebe o pedido e fala com o cliente.
+  function interesse(c, lista) {
+    var f = el('form', 'mt-4 p-4 rounded-lg bg-surface-container-low grid grid-cols-1 sm:grid-cols-2 gap-3');
+    f.appendChild(el('p', 'sm:col-span-2 font-semibold text-on-secondary-fixed', 'Pagamento online em ativação'));
+    f.appendChild(el('p', 'sm:col-span-2 text-body-sm text-on-surface-variant -mt-2', 'Deixe seu contato e nossa equipe fala com você para concluir a compra.'));
+    var nome = campo(f, 'nome', 'Nome completo', 'text', 'name', 'sm:col-span-2'), email = campo(f, 'email', 'E-mail', 'email', 'email'), tel = campo(f, 'telefone', 'WhatsApp com DDD', 'tel', 'tel');
+    [nome, email, tel].forEach(function (i) { i.required = true; i.classList.remove('bg-surface-container-low'); i.classList.add('bg-white'); });
+    var ac = el('label', 'sm:col-span-2 flex items-start gap-2 text-body-sm text-on-surface-variant');
+    var cb = el('input', 'mt-1'); cb.type = 'checkbox'; cb.required = true; ac.appendChild(cb);
+    var tx = el('span'); tx.appendChild(document.createTextNode('Aceito o contato da Natação Criativa e a '));
+    var pl = el('a', 'underline text-primary', 'Política de Privacidade'); pl.href = '/privacidade'; pl.target = '_blank'; tx.appendChild(pl); ac.appendChild(tx); f.appendChild(ac);
+    var msg = el('p', 'sm:col-span-2 text-body-sm text-error'); msg.setAttribute('role', 'alert'); f.appendChild(msg);
+    var env = el('button', 'sm:col-span-2 ' + BTN, 'Quero comprar'); env.type = 'submit'; f.appendChild(env);
+    f.addEventListener('submit', function (e) {
+      e.preventDefault(); env.disabled = true; msg.textContent = '';
+      var linhas = lista.map(function (x) { var s = produto(x.id); return x.qtd + 'x ' + s.title + ' (' + reais(centavos(s.price)) + ')'; });
+      fetch('/api/public/inquiries', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'suporte', name: nome.value, email: email.value, profileType: 'Cliente da loja', subject: 'Pedido de compra na loja', message: 'WhatsApp: ' + tel.value.trim() + '\n\n' + linhas.join('\n') + '\n\nSubtotal: ' + reais(subtotal()) }),
+      }).then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error); }); }).then(function () {
+        salvar([]);
+        f.textContent = '';
+        f.appendChild(el('p', 'sm:col-span-2 font-semibold text-on-secondary-fixed', 'Recebemos seu pedido! Nossa equipe vai falar com você para concluir a compra.'));
+      }).catch(function (err) { msg.textContent = err.message || 'Não foi possível enviar. Tente de novo.'; env.disabled = false; });
     });
-    var at = el('a', 'block mt-2 text-body-sm text-primary underline', 'Precisa de ajuda? Fale com o atendimento'); at.href = '/atendimento'; av.appendChild(at);
-    c.appendChild(av);
+    c.appendChild(f);
   }
 
   // ---------- checkout ----------

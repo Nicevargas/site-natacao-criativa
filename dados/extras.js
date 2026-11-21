@@ -87,11 +87,9 @@
     p.appendChild(el('span', 'text-label-caps font-label-caps text-on-surface-variant uppercase block', 'Valor'));
     p.appendChild(el('span', 'text-on-secondary-fixed font-headline-sm text-headline-sm', s.price));
     pe.appendChild(p);
-    var compra = linkSeguro(s.buyUrl);
-    var b = el('a', 'px-5 py-2.5 bg-primary hover:bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg inline-flex items-center gap-1.5 shadow-sm', compra ? 'Comprar' : 'Tenho interesse');
-    b.href = compra || '/atendimento';
+    var b = el('a', 'px-5 py-2.5 bg-primary hover:bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg inline-flex items-center gap-1.5 shadow-sm', 'Comprar');
+    b.href = '/atendimento';
     b.setAttribute('data-comprar', '');
-    if (compra) { b.target = '_blank'; b.rel = 'noopener'; }
     pe.appendChild(b);
     corpo.appendChild(pe); a.appendChild(corpo);
     return a;

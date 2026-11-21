@@ -180,7 +180,7 @@
       sel.innerHTML = ops.map(function (o) { return '<option ' + (o === atual ? 'selected' : '') + '>' + esc(o) + '</option>'; }).join('');
       form.elements.summary.required = false;
       if (!id) { form.elements.delivery.value = 'Disponibilidade e frete pelo atendimento'; form.elements.price.value = ''; }
-      add(field('size', 'Tamanho (ex: P, M, G ou 17×17 cm)', s.size || '') + campoFoto('imageUrl', 'Foto do produto', s.imageUrl, 'loja') + field('videoUrl', 'Link do vídeo (YouTube, Instagram...)', s.videoUrl || '', false, 'url') + field('buyUrl', 'Link de compra (vazio = usa a página na loja antiga, se houver)', s.buyUrl || '', false, 'url'));
+      add(field('size', 'Tamanho (ex: P, M, G ou 17×17 cm)', s.size || '') + campoFoto('imageUrl', 'Foto do produto', s.imageUrl, 'loja') + field('videoUrl', 'Link do vídeo (YouTube, Instagram...)', s.videoUrl || '', false, 'url'));
     } else if (tipo === 'certificate') {
       var c = porId(state.certificates, id) || {};
       add(field('recipientEmail', 'E-mail do aluno (para ele emitir no site)', c.recipientEmail || '', false, 'email') + field('cpf', c.cpfFinal ? 'CPF (termina em ' + c.cpfFinal + '; preencha só para trocar)' : 'CPF do aluno', '') + field('teachers', 'Professor(es)', c.teachers || '') + '<div><label class="' + ROTULO + '">Parceiros que apoiaram</label><input type="hidden" name="partnerIds" value="' + esc((c.partnerIds || []).join(',')) + '"/><div class="flex flex-wrap gap-3 text-sm">' +
