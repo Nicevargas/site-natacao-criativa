@@ -27,6 +27,7 @@ import {
   writeDb,
 } from './lib/store.js';
 import { criarEstadoRemoto } from './lib/remoteState.js';
+import { registrarLoja } from './lib/loja.js';
 import { ErroDeAgenda, montarAgenda } from './lib/agenda.js';
 import { camposCertificado, camposCurso, camposLoja, camposPessoa, comLinkDeCompra, contatoCertificado, cpfValido, dadosCertificado, registrarExtras } from './lib/extras.js';
 import {
@@ -60,8 +61,11 @@ app.use(express.json({ limit: '2mb' }));
 app.use('/api', async (req, res, next) => {
   // a atividade do site vai direto para a tabela: não precisa carregar os dados do painel
   if (!armazenamentoRemotoAtivo() || req.path === '/public/atividade' || req.path === '/public/ultimos') return next();
+  // Pedidos e estoque ficam em tabelas próprias: não entram na fila do arquivo do painel.
   const alteraDados = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)
-    && !['/auth/logout', '/public/certificates/verify', '/public/certificates/buscar'].includes(req.path);
+    && !['/auth/logout', '/public/certificates/verify', '/public/certificates/buscar', '/public/loja/checkout', '/webhooks/asaas'].includes(req.path)
+    && !req.path.startsWith('/admin/loja/pedidos')
+    && !req.path.startsWith('/admin/loja/estoque');
   let liberar = async () => {};
   try {
     if (alteraDados) liberar = await prepararAlteracao();
@@ -204,6 +208,12 @@ app.get('/dados/filtros.js', (req, res) => {
 });
 app.get('/dados/extras.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'extras.js'));
+});
+app.get('/dados/loja.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'loja.js'));
+});
+app.get('/dados/painel-loja.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'painel-loja.js'));
 });
 app.get('/dados/solucoes.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'solucoes.js'));
@@ -1258,6 +1268,8 @@ registrarExtras(app, {
   arquivoCursos: path.join(__dirname, 'dados-antigos', 'cursos-ativeplay.json'),
   arquivoProfessores: path.join(__dirname, 'dados-antigos', 'professores-cursos.json'),
 });
+
+registrarLoja(app, { requireAdmin, readDb, writeDb, appendAuditLog });
 
 // Leitura direta do banco Supabase: /api/status, /api/cursos, /api/certificados/:codigo...
 app.use('/api', api);

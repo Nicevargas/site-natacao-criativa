@@ -63,6 +63,7 @@
   function cartaoLoja(s) {
     var a = el('article', 'flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_2px_10px_rgba(11,50,88,0.05)] hover:shadow-[0_12px_28px_-6px_rgba(11,50,88,0.12)] transition-all duration-300 group');
     a.dataset.cat = chave(s.category);
+    a.dataset.id = s.id;
     var capa = el('div', 'relative h-56 w-full overflow-hidden bg-white');
     if (s.imageUrl) {
       var img = el('img', 'w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500');
@@ -89,6 +90,7 @@
     var compra = linkSeguro(s.buyUrl);
     var b = el('a', 'px-5 py-2.5 bg-primary hover:bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg inline-flex items-center gap-1.5 shadow-sm', compra ? 'Comprar' : 'Tenho interesse');
     b.href = compra || '/atendimento';
+    b.setAttribute('data-comprar', '');
     if (compra) { b.target = '_blank'; b.rel = 'noopener'; }
     pe.appendChild(b);
     corpo.appendChild(pe); a.appendChild(corpo);
@@ -120,6 +122,9 @@
       });
     });
     aplicar();
+    window.__ncItensLoja = itens;
+    document.dispatchEvent(new CustomEvent('nc:loja', { detail: itens }));
+    var sc = document.createElement('script'); sc.src = '/dados/loja.js'; document.body.appendChild(sc);
   }
 
   // ---------- Cardume: telefone e nascimento ----------

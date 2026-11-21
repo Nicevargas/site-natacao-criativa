@@ -368,6 +368,7 @@
       navigateTo(id);
       document.getElementById('breadcrumbCurrent').textContent = rotulo;
       if (id === 'atividade') carregarAtividade();
+      if (window.ncAoAbrirSecao) window.ncAoAbrirSecao(id);
     });
     base.insertAdjacentElement('afterend', b);
     var s = document.createElement('section');
@@ -423,6 +424,8 @@
   criarSecao('leads', 'Leads', 'person_search', cab('Leads', 'Quem deixou os dados antes de ir para o pagamento.', '<a href="/api/admin/export/leads" class="' + BTN_SEC + '">' + ic('file_download') + 'Exportar CSV</a>') + '<div class="' + caixa + '"><table class="w-full text-left text-sm"><thead><tr class="bg-surface-container-low text-[11px] font-display font-extrabold uppercase text-on-surface-variant"><th class="py-3 px-4">Nome</th><th class="py-3 px-4">Contato</th><th class="py-3 px-4">Formação</th><th class="py-3 px-4">Data</th></tr></thead><tbody id="ncLeads"></tbody></table></div>', 'comunidade');
   criarSecao('parceiros', 'Parceiros', 'handshake', cab('Parceiros', 'Logos no cabeçalho, no rodapé e nos eventos apoiados.', '<button type="button" onclick="ncParceiro()" class="' + BTN_PRIM + '">' + ic('add') + 'Novo Parceiro</button>') + '<div id="ncParceiros" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>', 'conteudos');
   document.getElementById('ncAtualizarAtiv').onclick = carregarAtividade;
+  window.ncPainel = { criarSecao: criarSecao, cab: cab, abrirJanela: abrirJanela, ic: ic, caixa: caixa, CAMPO: CAMPO, ROTULO: ROTULO, BTN_PRIM: BTN_PRIM, BTN_SEC: BTN_SEC };
+  var scLoja = document.createElement('script'); scLoja.src = '/dados/painel-loja.js'; document.body.appendChild(scLoja);
 
   var addLoja = document.querySelector('#subtab-conteudos-store > .flex');
   if (addLoja) {
