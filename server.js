@@ -30,7 +30,7 @@ import { criarEstadoRemoto } from './lib/remoteState.js';
 import { enviarSmtp, registrarLoja } from './lib/loja.js';
 import { carregarIntegracoes, registrarIntegracoes } from './lib/integracoes.js';
 import { ErroDeAgenda, montarAgenda } from './lib/agenda.js';
-import { camposCertificado, camposCurso, camposLoja, camposPessoa, contatoCertificado, cpfValido, dadosCertificado, registrarExtras } from './lib/extras.js';
+import { camposCertificado, camposCurso, camposLoja, camposPessoa, comFotosExtras, contatoCertificado, cpfValido, dadosCertificado, registrarExtras } from './lib/extras.js';
 import {
   getSupabasePublicConfig,
   isSupabaseConfigured,
@@ -459,7 +459,7 @@ async function copiarParaSupabase(tabela, linha) {
 app.get('/api/public/site', (req, res) => {
   const site = getPublicSnapshot(readDb());
   // A compra acontece só na loja deste site: nenhum link externo de compra sai daqui.
-  site.storeItems = site.storeItems.map(({ buyUrl, ...item }) => item);
+  site.storeItems = comFotosExtras(site.storeItems.map(({ buyUrl, ...item }) => item), path.join(__dirname, 'dados-antigos', 'loja-fotos-extras.json'));
   res.json(site);
 });
 
