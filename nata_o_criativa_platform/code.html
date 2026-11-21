@@ -251,7 +251,7 @@
 </div>
 </section>
 <!-- 4. OFERTAS E EVENTOS ATUAIS -->
-<section class="w-full mb-space-xl">
+<section id="ncSecOfertas" style="display:none" class="w-full mb-space-xl">
 <div class="flex items-center justify-between mb-space-lg">
 <div>
 <span class="font-label-caps text-label-caps text-primary uppercase tracking-wider font-bold">Agenda &amp; Formações</span>
@@ -262,98 +262,7 @@
         <span class="material-symbols-outlined text-[18px]">chevron_right</span>
 </a>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
-<!-- Card 1: CURSO Aberto -->
-<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
-<div>
-<div class="flex items-center justify-between mb-space-md">
-<span class="font-label-caps text-label-caps text-outline uppercase font-bold">CURSO</span>
-<span class="bg-[#89B113] text-on-primary font-label-caps text-label-caps px-3 py-1 rounded-full uppercase tracking-wider font-extrabold">
-              ABERTO
-            </span>
-</div>
-<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mb-space-xs">
-            Metodologia Lúdica da Natação Infantil
-          </h3>
-<p class="font-body-sm text-body-sm text-secondary mb-space-md">
-            Abordagem pedagógica integrada para retenção e desenvolvimento motor sem traumas na água.
-          </p>
-<div class="space-y-1.5 py-space-sm bg-surface-container-low px-3.5 rounded-xl mb-space-lg">
-<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
-<span class="material-symbols-outlined text-[18px] text-primary">schedule</span>
-<span>Carga horária: 40 horas</span>
-</div>
-<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
-<span class="material-symbols-outlined text-[18px] text-primary">laptop_chromebook</span>
-<span>Modalidade: 100% Online gravado</span>
-</div>
-</div>
-</div>
-<a class="w-full py-3 bg-primary hover:bg-primary-container text-on-primary rounded-lg text-center font-label-lg text-label-lg font-bold transition-colors shadow-sm" href="#">
-          Garantir vaga
-        </a>
-</div>
-<!-- Card 2: PALESTRA Em Breve -->
-<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
-<div>
-<div class="flex items-center justify-between mb-space-md">
-<span class="font-label-caps text-label-caps text-outline uppercase font-bold">PALESTRA</span>
-<span class="bg-[#FAC61C] text-on-secondary-fixed font-label-caps text-label-caps px-3 py-1 rounded-full uppercase tracking-wider font-extrabold">
-              EM BREVE
-            </span>
-</div>
-<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mb-space-xs">
-            Biomecânica e Eficiência no Nado Crawl
-          </h3>
-<p class="font-body-sm text-body-sm text-secondary mb-space-md">
-            Análise cinemática de pegada, rolamento corporal e redução de arrasto para nadadores e treinadores.
-          </p>
-<div class="space-y-1.5 py-space-sm bg-surface-container-low px-3.5 rounded-xl mb-space-lg">
-<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
-<span class="material-symbols-outlined text-[18px] text-primary">event</span>
-<span>Data agendada: Próxima terça-feira</span>
-</div>
-<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
-<span class="material-symbols-outlined text-[18px] text-primary">live_tv</span>
-<span>Transmissão síncrona exclusiva</span>
-</div>
-</div>
-</div>
-<a class="w-full py-3 bg-secondary-fixed hover:bg-secondary-container text-on-secondary-fixed font-label-lg text-label-lg font-bold rounded-lg text-center transition-colors" href="#">
-          Entrar na lista de espera
-        </a>
-</div>
-<!-- Card 3: WORKSHOP Gravação -->
-<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
-<div>
-<div class="flex items-center justify-between mb-space-md">
-<span class="font-label-caps text-label-caps text-outline uppercase font-bold">WORKSHOP</span>
-<span class="bg-outline text-on-primary font-label-caps text-label-caps px-3 py-1 rounded-full uppercase tracking-wider font-extrabold">
-              GRAVAÇÃO
-            </span>
-</div>
-<h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mb-space-xs">
-            Segurança Aquática e Primeiros Socorros
-          </h3>
-<p class="font-body-sm text-body-sm text-secondary mb-space-md">
-            Protocolos de prevenção a afogamentos, resgate rápido e condutas de suporte básico para instrutores.
-          </p>
-<div class="space-y-1.5 py-space-sm bg-surface-container-low px-3.5 rounded-xl mb-space-lg">
-<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
-<span class="material-symbols-outlined text-[18px] text-primary">play_circle</span>
-<span>Acesso imediato vitalício</span>
-</div>
-<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
-<span class="material-symbols-outlined text-[18px] text-primary">attachment</span>
-<span>Planilhas e apostilas inclusas</span>
-</div>
-</div>
-</div>
-<a class="w-full py-3 bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-lg text-label-lg font-bold rounded-lg text-center transition-colors" href="#">
-          Acessar gravação
-        </a>
-</div>
-</div>
+<div id="ncOfertas" class="grid grid-cols-1 md:grid-cols-3 gap-space-lg"></div>
 </section>
 <!-- 5. CONTEÚDO RECENTE -->
 <section class="w-full mb-space-xl">
@@ -582,72 +491,14 @@
 </div>
 </section>
 <!-- 8. DEPOIMENTOS -->
-<section class="w-full mb-space-xl">
+<section id="ncSecDepoimentos" style="display:none" class="w-full mb-space-xl">
 <div class="text-center max-w-2xl mx-auto mb-space-lg">
 <span class="font-label-caps text-label-caps text-primary uppercase tracking-wider font-extrabold">Depoimentos &amp; Experiências</span>
 <h2 class="font-headline-lg text-headline-lg text-on-secondary-fixed font-extrabold mt-1">
         O que diz quem vive a natação além da piscina
       </h2>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
-<!-- Depoimento 1 -->
-<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between">
-<div>
-<div class="text-primary text-4xl font-serif mb-space-xs leading-none">“</div>
-<p class="font-body-md text-body-md text-on-surface-variant mb-space-md italic">
-            A formação de Personal Trainer Aquático mudou totalmente a minha abordagem na borda da piscina. Consegui estruturar planos de aula mais claros, precificar meu trabalho com dignidade e dobrar minha carteira de alunos particulares.
-          </p>
-</div>
-<div>
-<div class="pt-space-sm border-t-0 bg-surface-container-low p-3 rounded-xl mb-2">
-<div class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold">Camila Vasconcelos</div>
-<div class="font-body-sm text-body-sm text-secondary">Professora e Personal Aquática · São Paulo/SP</div>
-</div>
-<div class="inline-flex items-center gap-1.5 text-[#587309] font-label-caps text-label-caps uppercase font-bold">
-<span class="material-symbols-outlined text-[16px] text-[#89B113]">check_circle</span>
-            Depoimento verificado e autorizado
-          </div>
-</div>
-</div>
-<!-- Depoimento 2 -->
-<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between">
-<div>
-<div class="text-primary text-4xl font-serif mb-space-xs leading-none">“</div>
-<p class="font-body-md text-body-md text-on-surface-variant mb-space-md italic">
-            Como gestor de academia de natação, as capacitações da Natação Criativa elevaram o padrão de atendimento de toda a minha equipe. O método lúdico reduziu drasticamente o cancelamento de matrículas infantis no inverno.
-          </p>
-</div>
-<div>
-<div class="pt-space-sm border-t-0 bg-surface-container-low p-3 rounded-xl mb-2">
-<div class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold">Rodrigo Alcantara</div>
-<div class="font-body-sm text-body-sm text-secondary">Coordenador Pedagógico · Curitiba/PR</div>
-</div>
-<div class="inline-flex items-center gap-1.5 text-[#587309] font-label-caps text-label-caps uppercase font-bold">
-<span class="material-symbols-outlined text-[16px] text-[#89B113]">check_circle</span>
-            Depoimento verificado e autorizado
-          </div>
-</div>
-</div>
-<!-- Depoimento 3 -->
-<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between">
-<div>
-<div class="text-primary text-4xl font-serif mb-space-xs leading-none">“</div>
-<p class="font-body-md text-body-md text-on-surface-variant mb-space-md italic">
-            Meu filho de 5 anos tinha pavor de colocar a cabeça na água. A visão de respeito e adaptação gradual apresentada pelos cursos me deu segurança como mãe para escolher a escola certa e acompanhar a evolução dele com tranquilidade.
-          </p>
-</div>
-<div>
-<div class="pt-space-sm border-t-0 bg-surface-container-low p-3 rounded-xl mb-2">
-<div class="font-headline-sm text-headline-sm text-on-secondary-fixed font-bold">Mariana Silveira</div>
-<div class="font-body-sm text-body-sm text-secondary">Mãe do Theo (5 anos) · Belo Horizonte/MG</div>
-</div>
-<div class="inline-flex items-center gap-1.5 text-[#587309] font-label-caps text-label-caps uppercase font-bold">
-<span class="material-symbols-outlined text-[16px] text-[#89B113]">check_circle</span>
-            Depoimento verificado e autorizado
-          </div>
-</div>
-</div>
-</div>
+<div id="ncDepoimentos" class="grid grid-cols-1 md:grid-cols-3 gap-space-lg"></div>
 </section>
 <!-- 9. CARDUME CRIATIVO -->
 <section class="w-full relative rounded-2xl overflow-hidden shadow-xl p-space-lg lg:p-space-xl text-on-primary mb-space-xl">

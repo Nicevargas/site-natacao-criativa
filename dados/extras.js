@@ -278,6 +278,81 @@
     if (r) fila.push({ type: 'clique', path: location.pathname, label: r });
   }, true);
 
+  // ---------- ofertas e depoimentos reais na home ----------
+  function escolherOfertas(cursos) {
+    var d = new Date();
+    var hoje = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    var abertos = (cursos || []).filter(function (c) { return c && c.title && c.status !== 'rascunho' && c.status !== 'encerrado'; });
+    var proximos = abertos.filter(function (c) { return (c.endDate || c.startDate || '') >= hoje && c.startDate; })
+      .sort(function (a, b) { return String(a.startDate).localeCompare(String(b.startDate)); });
+    var escolhidos = proximos.concat(abertos.filter(function (c) { return c.featured; }));
+    ['NATAÇÃO TREINAMENTO', 'NATAÇÃO INFANTIL', 'NATAÇÃO BEBÊ', 'GESTÃO', 'PERSONAL TRAINER'].forEach(function (tema) {
+      var c = abertos.find(function (x) { return x.category === tema && !x.isFree && x.coverUrl; });
+      if (c) escolhidos.push(c);
+    });
+    escolhidos = escolhidos.concat(abertos);
+    var vistos = {}, temas = {}, saida = [];
+    escolhidos.forEach(function (c) {
+      if (saida.length >= 3 || vistos[c.id] || temas[c.category]) return;
+      vistos[c.id] = temas[c.category] = true;
+      saida.push(c);
+    });
+    return saida;
+  }
+  function cartaoOferta(c) {
+    var a = el('article', 'bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col');
+    var capa = el('div', 'relative h-44 bg-gradient-to-br from-[#047AE4] to-[#001c38]');
+    if (c.coverUrl) { var i = el('img', 'w-full h-full object-cover'); i.src = c.coverUrl; i.alt = ''; i.loading = 'lazy'; capa.appendChild(i); }
+    var r = c.status === 'em_breve' ? ['EM BREVE', 'bg-[#FAC61C] text-on-secondary-fixed'] : c.isFree ? ['GRATUITO', 'bg-[#89B113] text-on-primary'] : ['ABERTO', 'bg-[#89B113] text-on-primary'];
+    capa.appendChild(el('span', 'absolute top-3 right-3 font-label-caps text-label-caps px-3 py-1 rounded-full uppercase tracking-wider font-extrabold shadow-sm ' + r[1], r[0]));
+    a.appendChild(capa);
+    var corpo = el('div', 'p-space-lg flex-1 flex flex-col justify-between');
+    var cima = el('div');
+    cima.appendChild(el('span', 'font-label-caps text-label-caps text-outline uppercase font-bold block mb-1', c.category || 'Formação'));
+    cima.appendChild(el('h3', 'font-headline-sm text-headline-sm text-on-secondary-fixed font-bold mb-space-xs', c.title));
+    if (c.description) cima.appendChild(el('p', 'font-body-sm text-body-sm text-secondary mb-space-md line-clamp-3', c.description));
+    var info = el('div', 'space-y-1.5 py-space-sm bg-surface-container-low px-3.5 rounded-xl mb-space-lg');
+    [['event', c.startDateLabel], ['schedule', c.workload], ['payments', c.isFree ? 'Gratuito' : (/^\d/.test(String(c.priceFormatted || '')) ? 'R$ ' + c.priceFormatted : c.priceFormatted)]].forEach(function (m) {
+      if (!m[1]) return;
+      var l = el('div', 'flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm');
+      l.appendChild(el('span', 'material-symbols-outlined text-[18px] text-primary', m[0]));
+      l.appendChild(el('span', '', m[1]));
+      info.appendChild(l);
+    });
+    cima.appendChild(info);
+    corpo.appendChild(cima);
+    var b = el('a', 'w-full py-3 bg-primary hover:bg-primary-container text-on-primary rounded-lg text-center font-label-lg text-label-lg font-bold transition-colors shadow-sm', 'Ver detalhes');
+    b.href = '/formacoes?curso=' + encodeURIComponent(c.id);
+    corpo.appendChild(b);
+    a.appendChild(corpo);
+    return a;
+  }
+  function ofertas(cursos) {
+    var grade = document.getElementById('ncOfertas'), secao = document.getElementById('ncSecOfertas');
+    if (!grade || !secao) return;
+    var lista = escolherOfertas(cursos);
+    if (!lista.length) return;
+    lista.forEach(function (c) { grade.appendChild(cartaoOferta(c)); });
+    secao.style.display = '';
+  }
+  function depoimentos(lista) {
+    var grade = document.getElementById('ncDepoimentos'), secao = document.getElementById('ncSecDepoimentos');
+    if (!grade || !secao || !(lista || []).length) return; // sem depoimento real, a seção não aparece
+    lista.slice(0, 6).forEach(function (t) {
+      var c = el('div', 'bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between');
+      var cima = el('div');
+      cima.appendChild(el('div', 'text-primary text-4xl font-serif mb-space-xs leading-none', '“'));
+      cima.appendChild(el('p', 'font-body-md text-body-md text-on-surface-variant mb-space-md italic', t.quote));
+      c.appendChild(cima);
+      var pe = el('div', 'bg-surface-container-low p-3 rounded-xl');
+      pe.appendChild(el('div', 'font-headline-sm text-headline-sm text-on-secondary-fixed font-bold', t.authorName));
+      if (t.authorRoleLocation) pe.appendChild(el('div', 'font-body-sm text-body-sm text-secondary', t.authorRoleLocation));
+      c.appendChild(pe);
+      grade.appendChild(c);
+    });
+    secao.style.display = '';
+  }
+
   // ---------- início ----------
   camposCardume();
   lancamentos();
@@ -285,5 +360,7 @@
     parceiros(d.partners);
     if (location.pathname === '/') destaques(d.highlights);
     loja(d.storeItems);
+    ofertas(d.courses);
+    depoimentos(d.testimonials);
   }).catch(function () {});
 })();
