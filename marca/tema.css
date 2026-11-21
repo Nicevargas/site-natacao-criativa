@@ -2,6 +2,12 @@
 html, body { background-color: #ffffff !important; }
 main.bg-surface { background-color: #ffffff !important; }
 
+/* Números da trajetória: tamanho que cabe na coluna em qualquer tela */
+.nc-numero { font-size: clamp(1.5rem, 2.6vw, 3rem) !important; line-height: 1.1 !important; white-space: nowrap; letter-spacing: -0.02em; }
+
+/* O balão da foca não pode cobrir o botão de aceitar o aviso de privacidade */
+body:has(#nc-lgpd-banner) #foca-balao { display: none !important; }
+
 /* Manchas azuis decorativas do topo das páginas */
 .blur-3xl.pointer-events-none.bg-primary-fixed\/30,
 .blur-3xl.pointer-events-none.bg-secondary-fixed\/40 { display: none !important; }

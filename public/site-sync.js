@@ -251,7 +251,8 @@
         'CERTIFICADOS': settings.certificatesIssued,
         'ALUNOS': settings.studentsImpacted,
         'E-BOOKS': settings.ebooksPublished,
-        'CURSOS': settings.coursesAvailable,
+        // conta os cursos publicados de verdade, sem depender de número digitado
+        'CURSOS': Array.isArray(data.courses) && data.courses.length ? data.courses.length : settings.coursesAvailable,
       };
       document.querySelectorAll('section span').forEach(function (el) {
         if ((el.textContent || '').trim() === '[n]' && el.parentElement) {
@@ -260,6 +261,7 @@
             if (labelText.indexOf(key) !== -1 && metricsMap[key] !== undefined) {
               var num = Number(metricsMap[key]);
               el.textContent = num >= 1000 ? '+' + num.toLocaleString('pt-BR') : String(num);
+              el.classList.add('nc-numero');
             }
           });
         }
