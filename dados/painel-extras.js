@@ -180,10 +180,10 @@
       sel.innerHTML = ops.map(function (o) { return '<option ' + (o === atual ? 'selected' : '') + '>' + esc(o) + '</option>'; }).join('');
       form.elements.summary.required = false;
       if (!id) { form.elements.delivery.value = 'Disponibilidade e frete pelo atendimento'; form.elements.price.value = ''; }
-      add(field('size', 'Tamanho (ex: P, M, G ou 17×17 cm)', s.size || '') + campoFoto('imageUrl', 'Foto do produto', s.imageUrl, 'loja') + field('videoUrl', 'Link do vídeo (YouTube, Instagram...)', s.videoUrl || '', false, 'url'));
+      add(field('size', 'Tamanho (ex: P, M, G ou 17×17 cm)', s.size || '') + campoFoto('imageUrl', 'Foto do produto', s.imageUrl, 'loja') + field('videoUrl', 'Link do vídeo (YouTube, Instagram...)', s.videoUrl || '', false, 'url') + field('buyUrl', 'Link de compra (vazio = usa a página na loja antiga, se houver)', s.buyUrl || '', false, 'url'));
     } else if (tipo === 'certificate') {
       var c = porId(state.certificates, id) || {};
-      add(field('teachers', 'Professor(es)', c.teachers || '') + '<div><label class="' + ROTULO + '">Parceiros que apoiaram</label><input type="hidden" name="partnerIds" value="' + esc((c.partnerIds || []).join(',')) + '"/><div class="flex flex-wrap gap-3 text-sm">' +
+      add(field('recipientEmail', 'E-mail do aluno (para ele emitir no site)', c.recipientEmail || '', false, 'email') + field('cpf', c.cpfFinal ? 'CPF (termina em ' + c.cpfFinal + '; preencha só para trocar)' : 'CPF do aluno', '') + field('teachers', 'Professor(es)', c.teachers || '') + '<div><label class="' + ROTULO + '">Parceiros que apoiaram</label><input type="hidden" name="partnerIds" value="' + esc((c.partnerIds || []).join(',')) + '"/><div class="flex flex-wrap gap-3 text-sm">' +
         ((state.partners || []).map(function (p) { return '<label class="inline-flex items-center gap-1.5"><input type="checkbox" data-parceiro value="' + esc(p.id) + '" ' + ((c.partnerIds || []).indexOf(p.id) > -1 ? 'checked' : '') + '/>' + esc(p.name) + '</label>'; }).join('') || '<span class="text-xs text-outline">Nenhum parceiro cadastrado.</span>') + '</div></div>');
       form.querySelectorAll('[data-parceiro]').forEach(function (cb) {
         cb.name = '__p';
@@ -260,13 +260,16 @@
       document.head.appendChild(s);
     });
   }
-  function nomesDaPlanilha(linhas) {
+  function alunosDaPlanilha(linhas) {
     if (!linhas.length) return [];
     var cab = linhas[0].map(function (c) { return String(c || '').toLowerCase().trim(); });
     var col = cab.findIndex(function (c) { return /nome|aluno|participante/.test(c); });
+    var colEmail = cab.findIndex(function (c) { return /e-?mail/.test(c); });
+    var colCpf = cab.findIndex(function (c) { return /cpf/.test(c); });
     var inicio = col > -1 ? 1 : 0;
     if (col < 0) col = 0;
-    return linhas.slice(inicio).map(function (l) { return String(l[col] == null ? '' : l[col]).trim(); }).filter(Boolean);
+    var valor = function (l, i) { return i < 0 || l[i] == null ? '' : String(l[i]).trim(); };
+    return linhas.slice(inicio).map(function (l) { return { name: valor(l, col), email: valor(l, colEmail), cpf: valor(l, colCpf) }; }).filter(function (a) { return a.name; });
   }
   window.ncImportarAlunos = function () {
     var opcoes = (state.courses || []).map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.title) + '</option>'; }).join('');
@@ -274,7 +277,7 @@
       '<div><label class="' + ROTULO + '">Formação</label><select name="curso" class="' + CAMPO + '">' + opcoes + '</select></div>' +
       '<div class="grid grid-cols-1 md:grid-cols-2 gap-3">' + field('workloadHours', 'Carga horária (h)', '', false, 'number') + field('issuedAt', 'Data de emissão', new Date().toISOString().slice(0, 10), true, 'date') + '</div>' +
       field('teachers', 'Professor(es)', '') +
-      '<div><label class="' + ROTULO + '">Planilha (.xlsx, .xls ou .csv)</label><input name="arquivo" type="file" required accept=".xlsx,.xls,.csv" class="text-sm"/><p class="text-[11px] text-outline mt-1">Usa a coluna "Nome". Se não houver, usa a primeira coluna.</p></div>' +
+      '<div><label class="' + ROTULO + '">Planilha (.xlsx, .xls ou .csv)</label><input name="arquivo" type="file" required accept=".xlsx,.xls,.csv" class="text-sm"/><p class="text-[11px] text-outline mt-1">Usa as colunas "Nome", "E-mail" e "CPF". Com e-mail ou CPF, o próprio aluno emite o certificado no site.</p></div>' +
       '<p id="ncPrevia" class="text-sm font-semibold text-primary"></p><div class="flex justify-end"><button class="' + BTN_PRIM + '" disabled>Gerar certificados</button></div></form>');
     var f = o.querySelector('form'), nomes = [], botao = f.querySelector('button.bg-primary');
     function preencherCurso() {
@@ -289,8 +292,9 @@
       try {
         await carregarXlsx();
         var livro = XLSX.read(await f.arquivo.files[0].arrayBuffer(), { type: 'array' });
-        nomes = nomesDaPlanilha(XLSX.utils.sheet_to_json(livro.Sheets[livro.SheetNames[0]], { header: 1, blankrows: false }));
-        prev.textContent = nomes.length + ' nomes encontrados. Primeiros: ' + nomes.slice(0, 3).join(', ');
+        nomes = alunosDaPlanilha(XLSX.utils.sheet_to_json(livro.Sheets[livro.SheetNames[0]], { header: 1, blankrows: false, raw: false }));
+        var comContato = nomes.filter(function (a) { return a.email || a.cpf; }).length;
+        prev.textContent = nomes.length + ' nomes encontrados, ' + comContato + ' com e-mail ou CPF. Primeiros: ' + nomes.slice(0, 3).map(function (a) { return a.name; }).join(', ');
         botao.disabled = !nomes.length;
       } catch (e) { prev.textContent = e.message || 'Não foi possível ler a planilha.'; }
     };
@@ -299,9 +303,42 @@
       var c = porId(state.courses, f.curso.value) || {};
       botao.disabled = true;
       try {
-        var r = await api('/api/admin/certificates/importar', { method: 'POST', body: JSON.stringify({ courseTitle: c.title, workloadHours: f.workloadHours.value, issuedAt: f.issuedAt.value, teachers: f.teachers.value, partnerIds: c.partnerIds || [], names: nomes }) });
-        fecharJanela(); showToast(r.criados + ' certificados criados' + (r.repetidos ? ' (' + r.repetidos + ' já existiam)' : '') + '.'); await loadOverview();
+        var r = await api('/api/admin/certificates/importar', { method: 'POST', body: JSON.stringify({ courseTitle: c.title, workloadHours: f.workloadHours.value, issuedAt: f.issuedAt.value, teachers: f.teachers.value, partnerIds: c.partnerIds || [], alunos: nomes }) });
+        fecharJanela(); showToast(r.criados + ' certificados criados' + (r.repetidos ? ' (' + r.repetidos + ' já existiam)' : '') + (r.cpfInvalidos ? '. ' + r.cpfInvalidos + ' CPF(s) inválido(s) ignorado(s)' : '') + '.'); await loadOverview();
       } catch (err) { botao.disabled = false; showToast(err.message, 'error'); }
+    };
+  };
+
+  // ---------- modelo padrão do certificado ----------
+  window.ncModeloCertificado = function () {
+    var m = (state.settings && state.settings.certificateModel) || {};
+    var o = abrirJanela('Modelo padrão do certificado', '<form class="space-y-4"><p class="text-sm text-on-surface-variant">Vale para todos os certificados. O nome do aluno, o professor e os parceiros mudam sozinhos conforme a formação. Uma formação com arte própria usa a arte dela.</p>' +
+      campoFoto('imageUrl', 'Arte de fundo (opcional)', m.imageUrl, 'modelos', 'Horizontal, com espaço no centro para o nome. Com arte, o título e a frase de abertura ficam por conta dela.') +
+      field('titulo', 'Título', m.titulo || 'CERTIFICADO') + field('abertura', 'Frase antes do nome', m.abertura || 'Certificamos que') + field('texto', 'Frase depois do nome', m.texto || 'concluiu a formação') +
+      '<div class="flex justify-between gap-2"><a href="/certificados?previa=1" target="_blank" rel="noopener" class="' + BTN_SEC + '">' + ic('visibility') + 'Ver prévia</a><button class="' + BTN_PRIM + '">Salvar</button></div></form>');
+    o.querySelector('form').onsubmit = async function (e) {
+      e.preventDefault();
+      var f = e.target;
+      try {
+        await api('/api/admin/certificate-model', { method: 'PUT', body: JSON.stringify({ imageUrl: f.imageUrl.value, titulo: f.titulo.value, abertura: f.abertura.value, texto: f.texto.value }) });
+        fecharJanela(); showToast('Modelo do certificado salvo.'); await loadOverview();
+      } catch (err) { showToast(err.message, 'error'); }
+    };
+  };
+
+  // ---------- links dos caminhos ----------
+  window.ncLinksSite = function () {
+    var s = state.settings || {};
+    var o = abrirJanela('Links de Famílias e Alunos', '<form class="space-y-4">' +
+      field('aquagendaUrl', 'Link do seu AquAgenda (botão de Famílias)', s.aquagendaUrl || '', false, 'url') +
+      field('treinosUrl', 'Link dos treinos (botão de Alunos)', s.treinosUrl || 'https://play.google.com/store/apps/details?id=com.natacaocriativa.treinos', false, 'url') +
+      '<div class="flex justify-end"><button class="' + BTN_PRIM + '">Salvar</button></div></form>');
+    o.querySelector('form').onsubmit = async function (e) {
+      e.preventDefault();
+      try {
+        await api('/api/admin/site-links', { method: 'PUT', body: JSON.stringify({ aquagendaUrl: e.target.aquagendaUrl.value, treinosUrl: e.target.treinosUrl.value }) });
+        fecharJanela(); showToast('Links salvos.'); await loadOverview();
+      } catch (err) { showToast(err.message, 'error'); }
     };
   };
 
@@ -393,7 +430,9 @@
     addLoja.insertAdjacentHTML('afterbegin', '<button type="button" id="ncImportarLoja" onclick="ncImportarLoja()" class="' + BTN_SEC + '">' + ic('inventory_2') + 'Importar 66 produtos da loja antiga</button>');
   }
   var emitir = document.querySelector('#subtab-depoimentos-certificates button[onclick*="certificate"]');
-  if (emitir) emitir.insertAdjacentHTML('beforebegin', '<button type="button" onclick="ncImportarAlunos()" class="' + BTN_SEC + '">' + ic('upload_file') + 'Importar alunos do Excel</button>');
+  if (emitir) emitir.insertAdjacentHTML('beforebegin', '<button type="button" onclick="ncModeloCertificado()" class="' + BTN_SEC + '">' + ic('edit_document') + 'Modelo padrão</button><button type="button" onclick="ncImportarAlunos()" class="' + BTN_SEC + '">' + ic('upload_file') + 'Importar alunos do Excel</button>');
+  var formConfig = document.getElementById('settingsForm');
+  if (formConfig) formConfig.insertAdjacentHTML('beforebegin', '<div class="mb-4 flex flex-wrap items-center justify-between gap-3 bg-surface-container-lowest rounded-xl border border-outline-variant/40 p-4"><div><div class="font-display font-bold text-sm">Links de Famílias e Alunos</div><div class="text-xs text-outline">Para onde vão os botões da página inicial e de Soluções.</div></div><button type="button" onclick="ncLinksSite()" class="' + BTN_SEC + '">' + ic('link') + 'Editar links</button></div>');
   if (emitir) emitir.parentElement.classList.add('items-center');
 
   var novaFormacao = document.querySelector('#sec-formacoes button[onclick*="openCourseModal"]');

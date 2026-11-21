@@ -103,11 +103,15 @@
       i.onload = function () { ok(i); }; i.onerror = no; i.src = src;
     });
   }
-  function blocoBanner(c) {
+  function blocoBanner(c, apoio) {
     var d = el('details', 'mt-5 p-4 rounded-xl bg-surface-container-low');
     d.appendChild(el('summary', 'cursor-pointer font-semibold text-primary', 'Criar meu banner do evento'));
     var f = el('div', 'mt-3 space-y-3');
     var nome = campo('nomeBanner', 'Seu nome no banner', 'text', false, 'name');
+    var campoNome = nome.querySelector('input');
+    campoNome.classList.remove('bg-surface-container-low');
+    campoNome.classList.add('bg-white', 'border', 'border-outline-variant');
+    campoNome.placeholder = 'Digite seu nome';
     f.appendChild(nome);
     var lf = el('label', 'block text-body-sm');
     lf.appendChild(el('span', 'block mb-1 font-semibold', 'Sua foto (opcional)'));
@@ -124,8 +128,9 @@
       var deArquivo = function (inp) { return inp.files[0] ? carregar(URL.createObjectURL(inp.files[0])) : Promise.resolve(null); };
       var modelo = arte.files[0] ? deArquivo(arte) : (c.bannerTemplateUrl ? carregar(c.bannerTemplateUrl, /^https?:/i.test(c.bannerTemplateUrl)) : Promise.resolve(null));
       aviso.textContent = '';
-      Promise.all([modelo, deArquivo(foto)]).then(function (r) {
-        var cv = document.createElement('canvas'), fundo = r[0], pessoa = r[1];
+      var logosApoio = Promise.all((apoio || []).slice(0, 5).map(function (p) { return carregar(p.logoUrl, /^https?:/i.test(p.logoUrl)).catch(function () { return null; }); }));
+      Promise.all([modelo, deArquivo(foto), logosApoio]).then(function (r) {
+        var cv = document.createElement('canvas'), fundo = r[0], pessoa = r[1], logos = r[2].filter(Boolean);
         cv.width = 1080;
         cv.height = fundo ? Math.round(1080 * fundo.height / fundo.width) : 1350;
         var x = cv.getContext('2d');
@@ -153,6 +158,14 @@
         x.font = '600 34px "Plus Jakarta Sans",Arial,sans-serif';
         x.fillText('Eu vou!', 540, cv.height * 0.77);
         if (!fundo) { x.font = '700 38px "Plus Jakarta Sans",Arial,sans-serif'; x.fillText(String(c.title).slice(0, 48), 540, cv.height * 0.14); }
+        if (logos.length) {
+          var faixa = 130, topoFaixa = cv.height - faixa;
+          x.shadowBlur = 0; x.fillStyle = '#fff'; x.fillRect(0, topoFaixa, cv.width, faixa);
+          x.fillStyle = '#0B3258'; x.font = '700 22px "Plus Jakarta Sans",Arial,sans-serif'; x.fillText('Apoio', 540, topoFaixa + 28);
+          var alt = 74, larguras = logos.map(function (l) { return Math.min(180, l.width * (alt / l.height)); });
+          var soma = larguras.reduce(function (t, w) { return t + w; }, 0) + 28 * (logos.length - 1), px = (cv.width - soma) / 2;
+          logos.forEach(function (l, i) { x.drawImage(l, px, topoFaixa + 42, larguras[i], alt); px += larguras[i] + 28; });
+        }
         var a = document.createElement('a');
         a.download = 'banner-natacao-criativa.png'; a.href = cv.toDataURL('image/png');
         document.body.appendChild(a); a.click(); a.remove();
@@ -227,7 +240,7 @@
       apoio.forEach(function (p) { var i = el('img', 'h-12 max-w-[120px] object-contain'); i.src = p.logoUrl; i.alt = p.name; la.appendChild(i); });
       m.appendChild(la);
     }
-    m.appendChild(blocoBanner(c));
+    m.appendChild(blocoBanner(c, apoio));
     if (c.status !== 'encerrado') m.appendChild(blocoLead(c));
     caixa.appendChild(m);
     fundo.appendChild(caixa);

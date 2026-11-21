@@ -28,7 +28,7 @@ import {
 } from './lib/store.js';
 import { criarEstadoRemoto } from './lib/remoteState.js';
 import { ErroDeAgenda, montarAgenda } from './lib/agenda.js';
-import { camposCertificado, camposCurso, camposLoja, camposPessoa, registrarExtras } from './lib/extras.js';
+import { camposCertificado, camposCurso, camposLoja, camposPessoa, comLinkDeCompra, contatoCertificado, cpfValido, dadosCertificado, registrarExtras } from './lib/extras.js';
 import {
   getSupabasePublicConfig,
   isSupabaseConfigured,
@@ -61,7 +61,7 @@ app.use('/api', async (req, res, next) => {
   // a atividade do site vai direto para a tabela: não precisa carregar os dados do painel
   if (!armazenamentoRemotoAtivo() || req.path === '/public/atividade' || req.path === '/public/ultimos') return next();
   const alteraDados = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)
-    && !['/auth/logout', '/public/certificates/verify'].includes(req.path);
+    && !['/auth/logout', '/public/certificates/verify', '/public/certificates/buscar'].includes(req.path);
   let liberar = async () => {};
   try {
     if (alteraDados) liberar = await prepararAlteracao();
@@ -204,6 +204,9 @@ app.get('/dados/filtros.js', (req, res) => {
 });
 app.get('/dados/extras.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'extras.js'));
+});
+app.get('/dados/solucoes.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'solucoes.js'));
 });
 app.get('/dados/painel-extras.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'painel-extras.js'));
@@ -431,8 +434,9 @@ async function copiarParaSupabase(tabela, linha) {
 }
 
 app.get('/api/public/site', (req, res) => {
-  const db = readDb();
-  res.json(getPublicSnapshot(db));
+  const site = getPublicSnapshot(readDb());
+  site.storeItems = comLinkDeCompra(site.storeItems, path.join(__dirname, 'dados-antigos', 'loja.json'));
+  res.json(site);
 });
 
 app.post('/api/public/cardume', async (req, res) => {
@@ -520,21 +524,7 @@ app.post('/api/public/certificates/verify', (req, res) => {
   if (!cert) {
     return res.status(404).json({ valid: false, error: 'Certificado não encontrado para este código.' });
   }
-  res.json({
-    valid: cert.isValid,
-    certificate: {
-      validationCode: cert.validationCode,
-      recipientName: cert.recipientName,
-      courseTitle: cert.courseTitle,
-      workloadHours: cert.workloadHours,
-      chancelaInfo: cert.chancelaInfo,
-      issuedAt: cert.issuedAt,
-      isValid: cert.isValid,
-      teachers: cert.teachers || '',
-      templateUrl: (db.courses || []).find((c) => c.title === cert.courseTitle)?.certificateTemplateUrl || '',
-      partnerLogos: (db.partners || []).filter((p) => (cert.partnerIds || []).includes(p.id) && p.logoUrl).map((p) => p.logoUrl),
-    },
-  });
+  res.json({ valid: cert.isValid, certificate: dadosCertificado(db, cert) });
 });
 
 // ============================================================================
@@ -829,7 +819,12 @@ app.put('/api/admin/store-items/:id', requireAdmin, (req, res) => {
   const db = readDb();
   const idx = (db.storeItems || []).findIndex((s) => s.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: 'Material não encontrado.' });
-  db.storeItems[idx] = { ...db.storeItems[idx], ...req.body, id: req.params.id };
+  db.storeItems[idx] = {
+    ...db.storeItems[idx],
+    ...req.body,
+    ...(req.body?.buyUrl !== undefined ? { buyUrl: camposLoja(req.body).buyUrl } : {}),
+    id: req.params.id,
+  };
   appendAuditLog(db, req.adminUser, 'updated', 'store', `Material atualizado: ${db.storeItems[idx].title}.`);
   writeDb(db);
   res.json({ item: db.storeItems[idx] });
@@ -904,6 +899,7 @@ app.post('/api/admin/certificates', requireAdmin, (req, res) => {
     issuedAt: String(b.issuedAt || new Date().toISOString().slice(0, 10)),
     isValid: b.isValid !== false,
     ...camposCertificado(b),
+    ...contatoCertificado(b),
   };
   db.certificates = db.certificates || [];
   db.certificates.unshift(item);
@@ -916,7 +912,9 @@ app.put('/api/admin/certificates/:id', requireAdmin, (req, res) => {
   const db = readDb();
   const idx = (db.certificates || []).findIndex((c) => c.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: 'Certificado não encontrado.' });
-  db.certificates[idx] = { ...db.certificates[idx], ...req.body, id: req.params.id };
+  if (req.body?.cpf && !cpfValido(req.body.cpf)) return res.status(400).json({ error: 'CPF inválido.' });
+  const { cpf, cpfHash, cpfFinal, ...dadosCert } = req.body || {};
+  db.certificates[idx] = { ...db.certificates[idx], ...dadosCert, ...contatoCertificado(req.body, db.certificates[idx]), id: req.params.id };
   appendAuditLog(db, req.adminUser, 'updated', 'certificates', `Certificado atualizado: ${db.certificates[idx].validationCode}.`);
   writeDb(db);
   res.json({ item: db.certificates[idx] });

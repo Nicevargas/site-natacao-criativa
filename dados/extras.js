@@ -86,8 +86,11 @@
     p.appendChild(el('span', 'text-label-caps font-label-caps text-on-surface-variant uppercase block', 'Valor'));
     p.appendChild(el('span', 'text-on-secondary-fixed font-headline-sm text-headline-sm', s.price));
     pe.appendChild(p);
-    var b = el('a', 'px-5 py-2.5 bg-primary hover:bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg inline-flex items-center gap-1.5 shadow-sm', 'Tenho interesse');
-    b.href = '/atendimento'; pe.appendChild(b);
+    var compra = linkSeguro(s.buyUrl);
+    var b = el('a', 'px-5 py-2.5 bg-primary hover:bg-primary-container text-on-primary rounded-lg font-label-lg text-label-lg inline-flex items-center gap-1.5 shadow-sm', compra ? 'Comprar' : 'Tenho interesse');
+    b.href = compra || '/atendimento';
+    if (compra) { b.target = '_blank'; b.rel = 'noopener'; }
+    pe.appendChild(b);
     corpo.appendChild(pe); a.appendChild(corpo);
     return a;
   }
@@ -162,6 +165,37 @@
     var quando = [].find.call(c.card.querySelectorAll('div'), function (d) { return /^\s*schedule/.test(d.textContent) && d.children.length === 1; });
     if (quando && item.publishedAt) quando.lastChild.textContent = ' ' + tempoAtras(item.publishedAt);
   }
+  function secaoMidia(rotulo, titulo, itens, link, textoLink) {
+    var s = el('section', 'w-full mb-space-xl');
+    var topo = el('div', 'flex flex-wrap items-end justify-between gap-3 mb-space-lg'), t = el('div');
+    t.appendChild(el('span', 'font-label-caps text-label-caps text-primary uppercase font-bold tracking-wider', rotulo));
+    t.appendChild(el('h2', 'font-headline-lg text-headline-md md:text-headline-lg text-on-secondary-fixed font-bold mt-1', titulo));
+    topo.appendChild(t);
+    var mais = el('a', 'text-primary font-label-lg text-label-lg font-bold', textoLink + ' →'); mais.href = link; mais.target = '_blank'; mais.rel = 'noopener';
+    topo.appendChild(mais); s.appendChild(topo);
+    var g = el('div', 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-md');
+    itens.forEach(function (x) {
+      if (!linkSeguro(x.url)) return;
+      var a = el('a', 'group flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow');
+      a.href = x.url; a.target = '_blank'; a.rel = 'noopener';
+      var capa = el('div', 'aspect-video bg-surface-container-low overflow-hidden');
+      if (x.image) { var i = el('img', 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'); i.src = x.image; i.alt = ''; i.loading = 'lazy'; capa.appendChild(i); }
+      a.appendChild(capa);
+      var c = el('div', 'p-space-md');
+      c.appendChild(el('h3', 'font-body-md text-body-md text-on-secondary-fixed font-bold line-clamp-3', x.title));
+      if (x.publishedAt) c.appendChild(el('p', 'font-body-sm text-body-sm text-secondary mt-1', tempoAtras(x.publishedAt)));
+      a.appendChild(c); g.appendChild(a);
+    });
+    s.appendChild(g);
+    return s;
+  }
+  function midiasDaHome(base, d) {
+    if (!base) return;
+    var sec = base.closest('section');
+    if (!sec) return;
+    if ((d.instagramPosts || []).length) sec.insertAdjacentElement('afterend', secaoMidia('No Instagram', 'Últimas publicações', d.instagramPosts, 'https://instagram.com/natacaocriativa', 'Seguir no Instagram'));
+    if ((d.entrevistas || []).length) sec.insertAdjacentElement('afterend', secaoMidia('Podcast', 'Últimas entrevistas', d.entrevistas, 'https://www.youtube.com/channel/UCcPX8E650U9AT8B-8h6WouQ', 'Ver o canal'));
+  }
   function lancamentos() {
     var yt = cartaoDe('Assistir no YouTube'), sp = cartaoDe('Ouvir no Spotify'), ig = cartaoDe('Ver no Instagram');
     if (!yt && !sp && !ig) return;
@@ -169,6 +203,7 @@
     fetch('/api/public/ultimos').then(function (r) { return r.json(); }).then(function (d) {
       aplicarCartao(yt, d.youtube);
       aplicarCartao(ig, d.instagram);
+      midiasDaHome((yt || ig || sp).card, d);
       if (sp && d.spotify) {
         sp.botao.href = d.spotify.url; sp.botao.target = '_blank'; sp.botao.rel = 'noopener';
         var topo = sp.card.querySelector('.relative');
@@ -201,7 +236,7 @@
   }
   async function gerarCertificado(c) {
     var cv = document.createElement('canvas'); cv.width = 1754; cv.height = 1240;
-    var x = cv.getContext('2d'), F = '"Plus Jakarta Sans",Inter,Arial,sans-serif', temModelo = false;
+    var x = cv.getContext('2d'), F = '"Plus Jakarta Sans",Inter,Arial,sans-serif', temModelo = false, m = c.modelo || {};
     x.fillStyle = '#fff'; x.fillRect(0, 0, cv.width, cv.height);
     if (c.templateUrl) {
       try { x.drawImage(await carregarImg(c.templateUrl), 0, 0, cv.width, cv.height); temModelo = true; } catch (e) {}
@@ -210,13 +245,13 @@
     if (!temModelo) {
       x.strokeStyle = '#047AE4'; x.lineWidth = 10; x.strokeRect(40, 40, cv.width - 80, cv.height - 80);
       try { var lg = await carregarImg('/marca/logo.png'); x.drawImage(lg, cv.width / 2 - 170, 90, 340, 132); } catch (e) {}
-      x.font = '800 60px ' + F; x.fillText('CERTIFICADO', cv.width / 2, 320);
-      x.font = '400 32px ' + F; x.fillText('Certificamos que', cv.width / 2, 450);
+      x.font = '800 60px ' + F; x.fillText(m.titulo || 'CERTIFICADO', cv.width / 2, 320);
+      x.font = '400 32px ' + F; x.fillText(m.abertura || 'Certificamos que', cv.width / 2, 450);
     }
     ajustarFonte(x, c.recipientName, '800', 72, cv.width - 300, F);
     x.fillText(c.recipientName, cv.width / 2, 560);
     x.font = '400 32px ' + F;
-    x.fillText('concluiu a formação', cv.width / 2, 640);
+    x.fillText(m.texto || 'concluiu a formação', cv.width / 2, 640);
     ajustarFonte(x, c.courseTitle, '700', 42, cv.width - 300, F);
     x.fillText(c.courseTitle, cv.width / 2, 710);
     x.font = '400 28px ' + F;
@@ -243,6 +278,89 @@
     };
     caixa.appendChild(b);
   };
+
+  // ---------- página de certificados ----------
+  function mostrarCertificado(alvo, c) {
+    var b = el('div', 'mt-3 p-3.5 rounded-lg bg-surface-container-lowest');
+    b.appendChild(el('div', 'font-semibold', c.courseTitle));
+    b.appendChild(el('div', 'text-on-surface-variant', c.recipientName + ' · ' + c.workloadHours + 'h · ' + String(c.issuedAt).split('-').reverse().join('/') + ' · ' + c.validationCode));
+    if (c.isValid === false) b.appendChild(el('div', 'text-error font-semibold mt-1', 'Certificado revogado'));
+    else window.ncBotaoCertificado(b, c);
+    alvo.appendChild(b);
+  }
+  function enviarCert(form, url, corpo, alvo, depois) {
+    var botao = form.querySelector('button');
+    botao.disabled = true; alvo.style.display = ''; alvo.textContent = 'Procurando...';
+    fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (r) { alvo.textContent = ''; depois(r); })
+      .catch(function () { alvo.textContent = 'Não foi possível consultar agora. Tente de novo.'; })
+      .finally(function () { botao.disabled = false; });
+  }
+  function paginaCertificados(settings) {
+    if (location.pathname !== '/certificados') return;
+    var emitir = document.getElementById('form-emitir'), validar = document.getElementById('form-validar');
+    var saida = document.getElementById('resultado-emitir'), res = document.getElementById('resultado');
+    if (emitir) emitir.addEventListener('submit', function (e) {
+      e.preventDefault();
+      enviarCert(emitir, '/api/public/certificates/buscar', { busca: document.getElementById('busca-cert').value }, saida, function (r) {
+        if (!r.ok) { saida.textContent = r.j.error || 'Não foi possível consultar.'; return; }
+        if (!r.j.certificados.length) {
+          saida.appendChild(document.createTextNode('Não encontramos certificado com esse dado. Confira o que digitou ou '));
+          var a = el('a', 'text-primary font-semibold underline', 'fale com o atendimento'); a.href = '/atendimento'; saida.appendChild(a);
+          saida.appendChild(document.createTextNode('.'));
+          return;
+        }
+        saida.appendChild(el('div', 'font-semibold', r.j.certificados.length === 1 ? 'Encontramos 1 certificado:' : 'Encontramos ' + r.j.certificados.length + ' certificados:'));
+        r.j.certificados.forEach(function (c) { mostrarCertificado(saida, c); });
+      });
+    });
+    if (validar) validar.addEventListener('submit', function (e) {
+      e.preventDefault();
+      enviarCert(validar, '/api/public/certificates/verify', { code: document.getElementById('codigo').value }, res, function (r) {
+        if (!r.j.certificate) { res.textContent = r.j.error || 'Certificado não encontrado para este código.'; return; }
+        res.appendChild(el('div', 'font-semibold', r.j.valid ? 'Certificado válido' : 'Certificado revogado'));
+        mostrarCertificado(res, r.j.certificate);
+      });
+    });
+    if (new URLSearchParams(location.search).get('previa') === '1' && saida) {
+      var mod = (settings && settings.certificateModel) || {};
+      saida.style.display = '';
+      saida.appendChild(el('div', 'font-semibold', 'Prévia do modelo padrão'));
+      mostrarCertificado(saida, { recipientName: 'Nome do Aluno', courseTitle: 'Nome da Formação', workloadHours: 20, issuedAt: new Date().toISOString().slice(0, 10), validationCode: 'NC-0000-000000', teachers: 'Nome do Professor', templateUrl: mod.imageUrl || '', modelo: mod, partnerLogos: [] });
+    }
+  }
+
+  // ---------- caminhos: Profissionais, Gestores, Famílias e Alunos ----------
+  var TREINOS_PADRAO = 'https://play.google.com/store/apps/details?id=com.natacaocriativa.treinos';
+  function caminhos(settings) {
+    var s = settings || {};
+    var agenda = linkSeguro(s.aquagendaUrl), treinos = linkSeguro(s.treinosUrl) || TREINOS_PADRAO;
+    var destinos = {
+      'Profissionais': { href: '/formacoes', texto: 'Quero me atualizar' },
+      'Gestores': { href: '/solucoes#diagnostico', texto: 'Fazer o diagnóstico grátis' },
+      'Famílias': { href: agenda || '/atendimento', texto: agenda ? 'Agendar uma aula' : 'Falar sobre aulas', fora: !!agenda },
+      'Alunos': { href: treinos, texto: 'Ver os treinos', fora: true },
+    };
+    function aplicar(a, d, trocaTexto) {
+      a.href = d.href;
+      if (d.fora) { a.target = '_blank'; a.rel = 'noopener'; } else { a.removeAttribute('target'); a.removeAttribute('rel'); }
+      if (trocaTexto) trocaTexto(d.texto);
+    }
+    if (location.pathname === '/' || location.pathname === '/mobile') {
+      [].forEach.call(document.querySelectorAll('main a'), function (a) {
+        var h = a.querySelector('h3'), d = h && destinos[h.textContent.trim()];
+        if (!d || a.textContent.indexOf('Acessar caminho') === -1) return;
+        aplicar(a, d, function (t) { var ult = a.lastElementChild; if (ult) ult.textContent = t + ' →'; });
+      });
+    }
+    if (location.pathname === '/solucoes') {
+      [['ncCaminhoFamilias', destinos['Famílias']], ['ncCaminhoAlunos', destinos['Alunos']]].forEach(function (p) {
+        var a = document.getElementById(p[0]);
+        if (a) aplicar(a, p[1], function (t) { a.firstElementChild.textContent = t; });
+      });
+    }
+  }
 
   // ---------- atividade (somente depois do aceite do aviso) ----------
   function consentiu() {
@@ -358,6 +476,8 @@
   lancamentos();
   fetch('/api/public/site').then(function (r) { return r.json(); }).then(function (d) {
     parceiros(d.partners);
+    caminhos(d.settings);
+    paginaCertificados(d.settings);
     if (location.pathname === '/') destaques(d.highlights);
     loja(d.storeItems);
     ofertas(d.courses);
