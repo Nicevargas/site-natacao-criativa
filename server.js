@@ -27,6 +27,7 @@ import {
 } from './lib/store.js';
 import { criarEstadoRemoto } from './lib/remoteState.js';
 import { ErroDeAgenda, montarAgenda } from './lib/agenda.js';
+import { camposCertificado, camposCurso, camposLoja, camposPessoa, registrarExtras } from './lib/extras.js';
 import {
   getSupabasePublicConfig,
   isSupabaseConfigured,
@@ -56,7 +57,8 @@ app.use(express.json({ limit: '2mb' }));
 // e, antes de responder, espera a gravação terminar (na Vercel o servidor pode ser
 // congelado assim que a resposta sai).
 app.use('/api', async (req, res, next) => {
-  if (!armazenamentoRemotoAtivo()) return next();
+  // a atividade do site vai direto para a tabela: não precisa carregar os dados do painel
+  if (!armazenamentoRemotoAtivo() || req.path === '/public/atividade' || req.path === '/public/ultimos') return next();
   const encerrar = res.end.bind(res);
   res.end = (...args) => {
     aguardarGravacao().then(() => encerrar(...args));
@@ -182,6 +184,15 @@ app.get('/dados/site.js', (req, res) => {
 });
 app.get('/dados/catalogo.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'catalogo.js'));
+});
+app.get('/dados/detalhes.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'detalhes.js'));
+});
+app.get('/dados/extras.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'extras.js'));
+});
+app.get('/dados/painel-extras.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'painel-extras.js'));
 });
 
 app.get(['/mobile'], (req, res) => {
@@ -393,7 +404,12 @@ function perfilCardume(valor) {
 async function copiarParaSupabase(tabela, linha) {
   if (!supabase) return;
   try {
-    const { error } = await supabase.from(tabela).insert(linha);
+    let { error } = await supabase.from(tabela).insert(linha);
+    if (error && (error.code === 'PGRST204' || error.code === '42703')) {
+      // banco ainda sem as colunas novas: grava o que dá
+      const { phone, birth_date, ...resto } = linha;
+      ({ error } = await supabase.from(tabela).insert(resto));
+    }
     if (error && error.code !== '23505') console.error('[supabase]', tabela, error.message);
   } catch (erro) {
     console.error('[supabase]', tabela, erro.message);
@@ -407,6 +423,7 @@ app.get('/api/public/site', (req, res) => {
 
 app.post('/api/public/cardume', async (req, res) => {
   const { email, profileType, sourcePage } = req.body || {};
+  const contato = camposPessoa(req.body);
   const cleanEmail = String(email || '').trim().toLowerCase();
   if (!cleanEmail || !cleanEmail.includes('@')) {
     return res.status(400).json({ error: 'Informe um e-mail válido.' });
@@ -416,6 +433,8 @@ app.post('/api/public/cardume', async (req, res) => {
     email: cleanEmail.slice(0, 200),
     profile_type: perfilCardume(profileType),
     source_page: String(sourcePage || 'site').slice(0, 80),
+    phone: contato.phone || null,
+    birth_date: contato.birthDate || null,
   });
 
   const db = readDb();
@@ -423,6 +442,8 @@ app.post('/api/public/cardume', async (req, res) => {
   if (existing) {
     existing.status = 'ativo';
     if (profileType) existing.profileType = profileType;
+    if (contato.phone) existing.phone = contato.phone;
+    if (contato.birthDate) existing.birthDate = contato.birthDate;
     writeDb(db);
     return res.json({ ok: true, subscriber: existing, alreadySubscribed: true });
   }
@@ -431,6 +452,7 @@ app.post('/api/public/cardume', async (req, res) => {
     id: `sub-${crypto.randomUUID().slice(0, 8)}`,
     email: cleanEmail,
     profileType: profileType || 'professor',
+    ...contato,
     sourcePage: sourcePage || 'site',
     status: 'ativo',
     subscribedAt: new Date().toISOString(),
@@ -494,6 +516,9 @@ app.post('/api/public/certificates/verify', (req, res) => {
       chancelaInfo: cert.chancelaInfo,
       issuedAt: cert.issuedAt,
       isValid: cert.isValid,
+      teachers: cert.teachers || '',
+      templateUrl: (db.courses || []).find((c) => c.title === cert.courseTitle)?.certificateTemplateUrl || '',
+      partnerLogos: (db.partners || []).filter((p) => (cert.partnerIds || []).includes(p.id) && p.logoUrl).map((p) => p.logoUrl),
     },
   });
 });
@@ -525,6 +550,8 @@ app.get('/api/admin/overview', requireAdmin, (req, res) => {
     highlights: db.highlights || [],
     contents: db.contents || [],
     storeItems: db.storeItems || [],
+    partners: db.partners || [],
+    leads: db.leads || [],
     testimonials: db.testimonials || [],
     certificates: db.certificates || [],
     cardumeSubscribers: db.cardumeSubscribers || [],
@@ -581,6 +608,7 @@ app.post('/api/admin/courses', requireAdmin, (req, res) => {
     lots: Array.isArray(body.lots) ? body.lots : [],
     featured: Boolean(body.featured),
     ...agenda,
+    ...camposCurso(body, {}),
     updatedAt: new Date().toISOString(),
   };
 
@@ -610,6 +638,7 @@ app.put('/api/admin/courses/:id', requireAdmin, (req, res) => {
     ...prev,
     ...body,
     ...agenda,
+    ...camposCurso(body, prev),
     id: prev.id,
     enrolledCount: body.enrolledCount !== undefined ? Number(body.enrolledCount) : prev.enrolledCount,
     maxCapacity: body.maxCapacity !== undefined ? Number(body.maxCapacity) : prev.maxCapacity,
@@ -689,6 +718,7 @@ app.post('/api/admin/highlights', requireAdmin, (req, res) => {
     ctaUrl: String(b.ctaUrl || '/formacoes').trim(),
     trustBadge: String(b.trustBadge || 'Plataforma Natação Criativa').trim(),
     imageCaption: String(b.imageCaption || '').trim(),
+    imageUrl: String(b.imageUrl || '').trim(),
     sortOrder: Number(b.sortOrder || (db.highlights?.length || 0) + 1),
     active: b.active !== false,
   };
@@ -771,6 +801,7 @@ app.post('/api/admin/store-items', requireAdmin, (req, res) => {
     badge: String(b.badge || 'Digital').trim(),
     price: String(b.price || 'R$ 47').trim(),
     delivery: String(b.delivery || 'Entrega imediata por e-mail').trim(),
+    ...camposLoja(b),
     active: b.active !== false,
   };
   db.storeItems = db.storeItems || [];
@@ -858,6 +889,7 @@ app.post('/api/admin/certificates', requireAdmin, (req, res) => {
     chancelaInfo: String(b.chancelaInfo || 'Conformidade CREF / Natação Criativa').trim(),
     issuedAt: String(b.issuedAt || new Date().toISOString().slice(0, 10)),
     isValid: b.isValid !== false,
+    ...camposCertificado(b),
   };
   db.certificates = db.certificates || [];
   db.certificates.unshift(item);
@@ -896,6 +928,7 @@ app.post('/api/admin/cardume', requireAdmin, (req, res) => {
     id: `sub-${crypto.randomUUID().slice(0, 8)}`,
     email: cleanEmail,
     profileType: String(req.body?.profileType || 'professor'),
+    ...camposPessoa(req.body),
     sourcePage: 'admin',
     status: 'ativo',
     subscribedAt: new Date().toISOString(),
@@ -1180,8 +1213,11 @@ app.get('/api/admin/export/:resource', requireAdmin, (req, res) => {
       c.startDateLabel,
     ]);
   } else if (resource === 'cardume') {
-    headers = ['Email', 'Perfil', 'Origem', 'Status', 'Data'];
-    rows = (db.cardumeSubscribers || []).map((s) => [s.email, s.profileType, s.sourcePage, s.status, s.subscribedAt]);
+    headers = ['Email', 'Telefone', 'Nascimento', 'Perfil', 'Origem', 'Status', 'Data'];
+    rows = (db.cardumeSubscribers || []).map((s) => [s.email, s.phone, s.birthDate, s.profileType, s.sourcePage, s.status, s.subscribedAt]);
+  } else if (resource === 'leads') {
+    headers = ['Nome', 'Email', 'Telefone', 'Nascimento', 'Formacao', 'Data'];
+    rows = (db.leads || []).map((l) => [l.name, l.email, l.phone, l.birthDate, l.courseTitle, l.createdAt]);
   } else if (resource === 'inquiries') {
     headers = ['Nome', 'Email', 'Perfil', 'Assunto', 'Status', 'Mensagem', 'Data'];
     rows = (db.inquiries || []).map((i) => [i.name, i.email, i.profileType, i.subject, i.status, i.message, i.createdAt]);
@@ -1201,6 +1237,14 @@ app.get('/api/admin/export/:resource', requireAdmin, (req, res) => {
 });
 
 // Fallback to index.html
+registrarExtras(app, {
+  requireAdmin,
+  readDb,
+  writeDb,
+  appendAuditLog,
+  arquivoLojaAntiga: path.join(__dirname, 'dados-antigos', 'loja.json'),
+});
+
 // Leitura direta do banco Supabase: /api/status, /api/cursos, /api/certificados/:codigo...
 app.use('/api', api);
 

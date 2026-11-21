@@ -36,6 +36,7 @@
     if (t.indexOf('pós') > -1 || t.indexOf('pos') > -1) return 'workspace_premium';
     return 'school';
   }
+  var parceirosDoSite = [];
   var ehLink = function (v) { return /^https?:\/\//i.test(String(v || '')); };
 
   function cartao(c) {
@@ -113,8 +114,9 @@
       if (obs && !encerrado) preco.appendChild(el('span', 'text-label-caps font-label-caps text-on-surface-variant block', obs));
     }
     pe.appendChild(preco);
-    var botao = el('a', (encerrado ? 'px-4 py-2.5 bg-surface-container-high hover:bg-surface-variant text-on-secondary-fixed' : 'px-5 py-2.5 bg-primary hover:bg-primary-container text-on-primary') + ' rounded-lg font-label-lg text-label-lg transition-all flex items-center gap-1.5 shadow-sm flex-shrink-0');
-    botao.href = '/atendimento';
+    var botao = el('button', (encerrado ? 'px-4 py-2.5 bg-surface-container-high hover:bg-surface-variant text-on-secondary-fixed' : 'px-5 py-2.5 bg-primary hover:bg-primary-container text-on-primary') + ' rounded-lg font-label-lg text-label-lg transition-all flex items-center gap-1.5 shadow-sm flex-shrink-0');
+    botao.type = 'button';
+    botao.addEventListener('click', function () { window.ncAbrirDetalhes(c, parceirosDoSite); });
     botao.appendChild(el('span', '', 'Saiba mais'));
     botao.appendChild(icone('arrow_forward', 'text-[16px]'));
     pe.appendChild(botao);
@@ -126,6 +128,7 @@
   fetch('/api/public/site')
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (dados) {
+      parceirosDoSite = (dados && dados.partners) || [];
       var cursos = (dados && dados.courses || []).filter(function (c) { return c && c.title && c.status !== 'rascunho'; });
       if (!cursos.length) return; // sem dados: ficam os cartões fixos
       var ordem = { aberto: 0, em_breve: 1, gravacao: 2, encerrado: 3 };

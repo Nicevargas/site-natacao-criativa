@@ -62,6 +62,8 @@
             body: JSON.stringify({
               email: email,
               profileType: profileType,
+              phone: (form.querySelector('[name="phone"]') || {}).value || '',
+              birthDate: (form.querySelector('[name="birthDate"]') || {}).value || '',
               sourcePage: window.location.pathname || '/',
             }),
           });
@@ -81,7 +83,10 @@
               : 'Inscrição confirmada no Cardume Criativo!'
             : data.error || 'Não foi possível concluir a inscrição.';
           form.insertAdjacentElement('afterend', msgBox);
-          if (res.ok) form.reset();
+          if (res.ok) {
+            if (window.ncLembrarEmail) window.ncLembrarEmail(email);
+            form.reset();
+          }
         } catch {
           // ignore offline error
         } finally {
@@ -125,7 +130,9 @@
             '</div>' +
             '<div><strong>Titular:</strong> ' + escapeHtml(c.recipientName) + '</div>' +
             '<div><strong>Formação:</strong> ' + escapeHtml(c.courseTitle) + ' (' + escapeHtml(c.workloadHours) + 'h)</div>' +
+            (c.teachers ? '<div><strong>Professor(es):</strong> ' + escapeHtml(c.teachers) + '</div>' : '') +
             '<div><strong>Emissão:</strong> ' + escapeHtml(c.issuedAt) + ' · ' + escapeHtml(c.chancelaInfo) + '</div>';
+          if (window.ncBotaoCertificado) window.ncBotaoCertificado(resultEl, c);
         } else {
           resultEl.className = 'mt-4 rounded-xl bg-amber-50 border border-amber-200 p-4 text-amber-950 font-body-sm text-body-sm';
           resultEl.innerHTML =

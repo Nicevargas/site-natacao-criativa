@@ -700,7 +700,9 @@
             <select name="category" class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-sm">
               <option>Especialização Master</option>
               <option>Pós-Graduação</option>
+              <option>Curso Teórico</option>
               <option>Curso Prático</option>
+              <option>Curso Teórico/Prático</option>
               <option>Workshop Prático</option>
               <option>Workshop Temático</option>
               <option>Palestra Exclusiva</option>
@@ -1228,6 +1230,7 @@
         var agenda = coletarDocentesEDias();
         payload.instructors = agenda.instructors;
         payload.sessions = agenda.sessions;
+        if (window.ncExtrasCurso) Object.assign(payload, window.ncExtrasCurso());
       } catch (e) { showToast(e.message, 'error'); return; }
       if (forcedStatus === 'rascunho') payload.status = 'rascunho';
       else if (forcedStatus === 'aberto' && !payload.status) payload.status = 'aberto';
@@ -1698,5 +1701,5 @@
       }
     })();
   </script>
-</body>
+<script src="/dados/painel-extras.js" defer></script></body>
 </html>
