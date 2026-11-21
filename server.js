@@ -14,6 +14,7 @@ import {
 } from './lib/auth.js';
 import {
   aguardarGravacao,
+  prepararAlteracao,
   appendAuditLog,
   armazenamentoRemotoAtivo,
   ensureDataFile,
@@ -59,16 +60,26 @@ app.use(express.json({ limit: '2mb' }));
 app.use('/api', async (req, res, next) => {
   // a atividade do site vai direto para a tabela: não precisa carregar os dados do painel
   if (!armazenamentoRemotoAtivo() || req.path === '/public/atividade' || req.path === '/public/ultimos') return next();
-  const encerrar = res.end.bind(res);
-  res.end = (...args) => {
-    aguardarGravacao().then(() => encerrar(...args));
-    return res;
-  };
+  const alteraDados = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)
+    && !['/auth/logout', '/public/certificates/verify'].includes(req.path);
+  let liberar = async () => {};
   try {
-    await sincronizarDoRemoto({ forcar: req.method !== 'GET' });
+    if (alteraDados) liberar = await prepararAlteracao();
+    else await sincronizarDoRemoto();
   } catch (erro) {
     console.error('[painel]', erro?.message || erro);
+    if (alteraDados) {
+      return res.status(503).json({ error: 'Não foi possível salvar agora porque outra alteração está em andamento. Tente de novo em alguns segundos.' });
+    }
   }
+  const encerrar = res.end.bind(res);
+  res.end = (...args) => {
+    aguardarGravacao()
+      .then(() => liberar())
+      .catch((erro) => console.error('[painel]', erro?.message || erro))
+      .finally(() => encerrar(...args));
+    return res;
+  };
   next();
 });
 
