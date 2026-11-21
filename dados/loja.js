@@ -1,4 +1,5 @@
-// Loja: carrinho, checkout e acompanhamento do pedido. Só entra em ação com o checkout ligado no painel.
+// Loja: carrinho, checkout e acompanhamento do pedido.
+// Com o checkout desligado no painel, o carrinho funciona e a compra termina na loja atual.
 (function () {
   if (window.__ncLoja) return;
   window.__ncLoja = true;
@@ -74,7 +75,25 @@
     });
     var tot = el('div', 'flex justify-between mt-4 font-headline-sm text-headline-sm text-on-secondary-fixed');
     tot.appendChild(el('span', '', 'Subtotal')); tot.appendChild(el('span', '', reais(subtotal()))); c.appendChild(tot);
-    var ir = el('button', 'w-full mt-4 ' + BTN, 'Finalizar compra'); ir.type = 'button'; ir.onclick = checkout; c.appendChild(ir);
+    if (cfg) {
+      var ir = el('button', 'w-full mt-4 ' + BTN, 'Finalizar compra'); ir.type = 'button'; ir.onclick = checkout; c.appendChild(ir);
+      return;
+    }
+    // Pagamento online ainda desligado: cada produto termina na loja atual.
+    var av = el('div', 'mt-4 p-4 rounded-lg bg-surface-container-low');
+    av.appendChild(el('p', 'font-semibold text-on-secondary-fixed', 'Finalize pela nossa loja atual'));
+    av.appendChild(el('p', 'text-body-sm text-on-surface-variant mb-2', 'O pagamento por aqui está sendo ativado. Abra cada produto para concluir a compra.'));
+    lista.forEach(function (x) {
+      var s = produto(x.id);
+      if (!/^https?:\/\//i.test(s.buyUrl || '')) return;
+      var a = el('a', 'flex items-center justify-between gap-2 py-2 text-primary font-semibold text-body-sm border-t border-surface-container');
+      a.href = s.buyUrl; a.target = '_blank'; a.rel = 'noopener';
+      a.appendChild(el('span', 'min-w-0', 'Comprar ' + x.qtd + 'x ' + s.title));
+      a.appendChild(el('span', 'material-symbols-outlined text-[18px] flex-shrink-0', 'open_in_new'));
+      av.appendChild(a);
+    });
+    var at = el('a', 'block mt-2 text-body-sm text-primary underline', 'Precisa de ajuda? Fale com o atendimento'); at.href = '/atendimento'; av.appendChild(at);
+    c.appendChild(av);
   }
 
   // ---------- checkout ----------
@@ -212,7 +231,7 @@
     [].forEach.call(document.querySelectorAll('main article[data-id]'), function (a) {
       var id = a.dataset.id, s = produto(id), b = a.querySelector('[data-comprar]');
       if (!s || !b || !centavos(s.price)) return;
-      var novo = el('button', b.className, limite(id) > 0 ? 'Adicionar' : 'Esgotado');
+      var novo = el('button', b.className, limite(id) > 0 ? 'Comprar' : 'Esgotado');
       novo.type = 'button'; novo.disabled = limite(id) <= 0;
       if (novo.disabled) novo.classList.add('opacity-50');
       novo.onclick = function () { adicionar(id); };
@@ -232,9 +251,10 @@
     itens = lista || [];
     fetch('/api/public/loja/config', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
       var token = new URLSearchParams(location.search).get('pedido');
-      if (j.ativa) { cfg = j; ligarBotoes(); }
+      cfg = j.ativa ? j : null;
+      ligarBotoes();
       if (token) acompanhar(token);
-    }).catch(function () {});
+    }).catch(function () { cfg = null; ligarBotoes(); });
   }
   if (window.__ncItensLoja) iniciar(window.__ncItensLoja);
   else document.addEventListener('nc:loja', function (e) { iniciar(e.detail); }, { once: true });
