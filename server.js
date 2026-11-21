@@ -27,7 +27,8 @@ import {
   writeDb,
 } from './lib/store.js';
 import { criarEstadoRemoto } from './lib/remoteState.js';
-import { registrarLoja } from './lib/loja.js';
+import { enviarSmtp, registrarLoja } from './lib/loja.js';
+import { carregarIntegracoes, registrarIntegracoes } from './lib/integracoes.js';
 import { ErroDeAgenda, montarAgenda } from './lib/agenda.js';
 import { camposCertificado, camposCurso, camposLoja, camposPessoa, comLinkDeCompra, contatoCertificado, cpfValido, dadosCertificado, registrarExtras } from './lib/extras.js';
 import {
@@ -65,7 +66,8 @@ app.use('/api', async (req, res, next) => {
   const alteraDados = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)
     && !['/auth/logout', '/public/certificates/verify', '/public/certificates/buscar', '/public/loja/checkout', '/webhooks/asaas'].includes(req.path)
     && !req.path.startsWith('/admin/loja/pedidos')
-    && !req.path.startsWith('/admin/loja/estoque');
+    && !req.path.startsWith('/admin/loja/estoque')
+    && !req.path.startsWith('/admin/integracoes/testar');
   let liberar = async () => {};
   try {
     if (alteraDados) liberar = await prepararAlteracao();
@@ -84,6 +86,14 @@ app.use('/api', async (req, res, next) => {
       .finally(() => encerrar(...args));
     return res;
   };
+  next();
+});
+
+// Chaves do Asaas e do e-mail salvas no painel
+app.use('/api', async (req, res, next) => {
+  if (/^\/(public\/loja|public\/ultimos|webhooks\/asaas|admin\/loja|admin\/integracoes)/.test(req.path)) {
+    await carregarIntegracoes().catch((erro) => console.error('[integracoes]', erro?.message));
+  }
   next();
 });
 
@@ -211,6 +221,9 @@ app.get('/dados/extras.js', (req, res) => {
 });
 app.get('/dados/loja.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'loja.js'));
+});
+app.get('/dados/painel-integracoes.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'painel-integracoes.js'));
 });
 app.get('/dados/painel-loja.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'painel-loja.js'));
@@ -1270,6 +1283,7 @@ registrarExtras(app, {
 });
 
 registrarLoja(app, { requireAdmin, readDb, writeDb, appendAuditLog });
+registrarIntegracoes(app, { requireAdmin, readDb, writeDb, appendAuditLog, enviarEmail: enviarSmtp });
 
 // Leitura direta do banco Supabase: /api/status, /api/cursos, /api/certificados/:codigo...
 app.use('/api', api);

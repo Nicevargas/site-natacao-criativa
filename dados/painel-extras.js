@@ -425,7 +425,9 @@
   criarSecao('parceiros', 'Parceiros', 'handshake', cab('Parceiros', 'Logos no cabeçalho, no rodapé e nos eventos apoiados.', '<button type="button" onclick="ncParceiro()" class="' + BTN_PRIM + '">' + ic('add') + 'Novo Parceiro</button>') + '<div id="ncParceiros" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>', 'conteudos');
   document.getElementById('ncAtualizarAtiv').onclick = carregarAtividade;
   window.ncPainel = { criarSecao: criarSecao, cab: cab, abrirJanela: abrirJanela, ic: ic, caixa: caixa, CAMPO: CAMPO, ROTULO: ROTULO, BTN_PRIM: BTN_PRIM, BTN_SEC: BTN_SEC };
-  var scLoja = document.createElement('script'); scLoja.src = '/dados/painel-loja.js'; document.body.appendChild(scLoja);
+  ['/dados/painel-loja.js', '/dados/painel-integracoes.js'].forEach(function (src) {
+    var sc = document.createElement('script'); sc.src = src; sc.async = false; document.body.appendChild(sc);
+  });
 
   var addLoja = document.querySelector('#subtab-conteudos-store > .flex');
   if (addLoja) {
