@@ -136,19 +136,17 @@
         return (ordem[a.status] ?? 9) - (ordem[b.status] ?? 9) || String(a.startDate || '9999').localeCompare(String(b.startDate || '9999'));
       });
       var frag = document.createDocumentFragment();
-      cursos.forEach(function (c) { frag.appendChild(cartao(c)); });
+      var itens = cursos.map(function (c) {
+        var card = cartao(c);
+        frag.appendChild(card);
+        return { curso: c, el: card };
+      });
       grade.textContent = '';
       grade.appendChild(frag);
-      var campo = document.getElementById('search-input');
-      var contador = [].find.call(document.querySelectorAll('main strong'), function (s) { return /formaç(ões|ão) encontrada/.test(s.textContent); });
-      if (campo) campo.addEventListener('input', function () {
-        var q = campo.value.trim().toLowerCase(), n = 0;
-        [].forEach.call(grade.children, function (a) { var ok = !q || a.textContent.toLowerCase().indexOf(q) > -1; a.style.display = ok ? '' : 'none'; if (ok) n++; });
-        if (contador) contador.textContent = n + (n === 1 ? ' formação encontrada' : ' formações encontradas');
-      });
       document.querySelectorAll('main strong').forEach(function (s) {
         if (/formaç(ões|ão) encontrada/.test(s.textContent)) s.textContent = cursos.length + (cursos.length === 1 ? ' formação encontrada' : ' formações encontradas');
       });
+      if (window.ncLigarFiltros) window.ncLigarFiltros(itens, grade);
     })
     .catch(function () {});
 })();

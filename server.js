@@ -188,6 +188,9 @@ app.get('/dados/catalogo.js', (req, res) => {
 app.get('/dados/detalhes.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'detalhes.js'));
 });
+app.get('/dados/filtros.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'filtros.js'));
+});
 app.get('/dados/extras.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'extras.js'));
 });
