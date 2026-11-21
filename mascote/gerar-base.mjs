@@ -19,7 +19,7 @@ const fixas = [
   { t: 'Certificados: como validar', l: '/certificados', k: 'validar validacao autenticidade codigo conferir verdadeiro verificar',
     r: 'Na página Certificados, digite o código que aparece no rodapé do certificado. Se precisar de confirmação imediata, fale com o atendimento informando o código.' },
   { t: 'Loja: brinquedos pedagógicos, uniformes e materiais', l: '/loja', k: 'loja comprar compra brinquedo brinquedos jogo jogos kit eva uniforme camiseta touca livro material materiais produto produtos frete entrega pagamento',
-    r: 'A Loja tem 66 produtos: brinquedos pedagógicos de EVA, uniformes (camiseta e toucas), um livro e material de natação. Para comprar, escolha o produto e fale com o atendimento, que confirma disponibilidade, frete e forma de pagamento.' },
+    r: 'A Loja tem brinquedos pedagógicos de EVA, uniformes, livro e material de natação, com produtos a pronta entrega e sob encomenda. Para comprar, escolha o produto e fale com o atendimento, que confirma prazo, frete e forma de pagamento.' },
   { t: 'Conteúdos gratuitos', l: '/conteudos', k: 'conteudo conteudos podcast spotify youtube instagram video videos artigo artigos episodio entrevista dica dicas',
     r: 'Em Conteúdos você encontra o podcast (mais de 400 entrevistas no Spotify), vídeos no YouTube, pílulas pedagógicas no Instagram, artigos, e-books e planilhas.' },
   { t: 'Soluções para cada público', l: '/solucoes', k: 'solucao solucoes publico professor profissional gestor familia aluno caminho para quem serve',
@@ -53,9 +53,7 @@ const texto = (html) => html
   .replace(/^\s*·\s*|\s*·\s*$/g, '').trim();
 
 const PAGINAS = [
-  ['forma_es_cat_logo_de_cursos_palestras_e_workshops', '/formacoes', 'Formações'],
   ['conteudos_nata_o_criativa', '/conteudos', 'Conteúdos'],
-  ['loja_nata_o_criativa', '/loja', 'Loja'],
   ['solucoes_nata_o_criativa', '/solucoes', 'Soluções'],
   ['certificados_nata_o_criativa', '/certificados', 'Certificados'],
   ['atendimento_nata_o_criativa', '/atendimento', 'Atendimento'],

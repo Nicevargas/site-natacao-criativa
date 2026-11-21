@@ -143,6 +143,11 @@
     }
     var verTodos = [].find.call(document.querySelectorAll('main button'), function (b) { return /Ver todos os cursos/.test(b.textContent); });
     if (verTodos) verTodos.addEventListener('click', function () { limparTudo(); barra.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    var url = new URLSearchParams(location.search);
+    [['tema', 'categoria'], ['valor', 'valor']].forEach(function (par) {
+      var f = ativos.find(function (x) { return x.id === par[1]; });
+      if (f && f.opcoes.indexOf(url.get(par[0])) > -1) escolha[f.id] = url.get(par[0]);
+    });
     aplicar();
   };
 })();

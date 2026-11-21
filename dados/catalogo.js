@@ -147,6 +147,9 @@
         if (/formaç(ões|ão) encontrada/.test(s.textContent)) s.textContent = cursos.length + (cursos.length === 1 ? ' formação encontrada' : ' formações encontradas');
       });
       if (window.ncLigarFiltros) window.ncLigarFiltros(itens, grade);
+      var pedido = new URLSearchParams(location.search).get('curso');
+      var direto = pedido && cursos.find(function (c) { return c.id === pedido; });
+      if (direto) window.ncAbrirDetalhes(direto, parceirosDoSite);
     })
     .catch(function () {});
 })();

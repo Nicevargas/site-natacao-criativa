@@ -5,7 +5,7 @@
 
   var IMG = '/mascote/foca.png';
   var SUGESTOES = ['Quais formações existem?', 'Como emito meu certificado?', 'O que tem na loja?', 'Como falo com o atendimento?'];
-  var PARADAS = ' a o e as os um uma uns umas de da do das dos em no na nos nas para pra por com sem que qual quais como onde quando quem tem ter tenho voce voces eu me meu minha meus minhas seu sua seus suas se ao aos ou mais muito isso esse essa este esta ser sao foi quero queria gostaria preciso posso pode saber sobre fazer faco faz existe existem tudo algum alguma oi ola bom boa dia tarde noite favor obrigado obrigada ';
+  var PARADAS = ' a o e as os um uma uns umas de da do das dos em no na nos nas para pra por com sem que qual quais como onde quando quem tem ter tenho voce voces eu me meu minha meus minhas seu sua seus suas se ao aos ou mais muito isso esse essa este esta ser sao foi quero queria gostaria preciso posso pode saber sobre fazer faco faz existe existem tudo algum alguma oi ola bom boa dia tarde noite favor obrigado obrigada algo alguem coisa coisas aqui ai la vcs vc tenha tinha ter tambem sobre ensinar aprender quero ver ha ';
 
   var css = '' +
     '#foca-btn{position:fixed;right:16px;bottom:16px;z-index:9998;width:84px;height:84px;border:0;padding:0;cursor:pointer;background:transparent;transition:transform .2s}' +
@@ -39,28 +39,105 @@
     return e;
   }
   function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim(); }
-  function raiz(w) { return w.replace(/(oes|aes|ais|es|s)$/, '').slice(0, 5); }
+  var SINONIMOS = { bebes: 'bebe', emito: 'emitir', emite: 'emitir', emissao: 'emitir', valido: 'validar', valida: 'validar', autista: 'autismo', autistas: 'autismo', hidroginastica: 'hidro', hiroginastica: 'hidro', hidrotreinamento: 'hidro', gravida: 'gestante', gravidas: 'gestante', gestacao: 'gestante', criancas: 'crianca', infantis: 'infantil' };
+  var PALAVRAS_DE_PRECO = { quant: 1, custa: 1, custam: 1, custo: 1, valor: 1, preco: 1, quanto: 1 };
+  function raiz(w) { w = SINONIMOS[w] || w; return w.replace(/(oes|aes|ais|es|s)$/, '').slice(0, 6); }
   function termos(s) {
     var out = [];
-    norm(s).split(' ').forEach(function (w) { if (w.length > 2 && PARADAS.indexOf(' ' + w + ' ') < 0) out.push(raiz(w)); });
+    norm(s).split(' ').forEach(function (w) { if ((w.length > 2 || /^\d+$/.test(w)) && PARADAS.indexOf(' ' + w + ' ') < 0) out.push(raiz(w)); });
     return out;
   }
   function conjunto(s) { var o = {}; termos(s).forEach(function (t) { o[t] = 1; }); return o; }
 
+  // Cursos e produtos vêm do painel: o que for publicado lá a foca já sabe responder.
+  var frequencia = {};
+  function resumir(t, max) {
+    t = String(t || '').replace(/\s+/g, ' ').trim();
+    if (t.length <= max) return t;
+    return t.slice(0, max).replace(/\s+\S*$/, '').replace(/[ ,.;:]+$/, '') + '…';
+  }
+  function valorDe(c) {
+    if (c.isFree) return 'Gratuito';
+    var p = String(c.priceFormatted || '').trim();
+    return /^\d/.test(p) ? 'R$ ' + p : p;
+  }
+  function entradasAoVivo(d) {
+    if (!d) return [];
+    var cursos = (d.courses || []).filter(function (c) { return c && c.title && c.status !== 'rascunho'; });
+    var saida = [], porTema = {};
+    cursos.forEach(function (c) {
+      var tema = c.category || 'Outros';
+      porTema[tema] = porTema[tema] || { total: 0, gratis: 0 };
+      porTema[tema].total++;
+      if (c.isFree) porTema[tema].gratis++;
+    });
+    var gratis = cursos.filter(function (c) { return c.isFree; }).length;
+    if (cursos.length) saida.push({ t: 'Formações disponíveis', l: '/formacoes', p: 'Formações', k: 'quais formacoes cursos existem disponiveis catalogo lista todos', r: 'Hoje temos ' + cursos.length + ' formações no catálogo, sendo ' + gratis + ' gratuitas. Dá para filtrar por tema, formato, valor e data.' });
+    if (gratis) saida.push({ t: 'Cursos gratuitos', l: '/formacoes?valor=Gratuito', p: 'Formações', k: 'gratuito gratuitos gratis free sem custo de graca', r: 'Temos ' + gratis + ' formações gratuitas. Abra a lista para ver todas.' });
+    Object.keys(porTema).sort().forEach(function (tema) {
+      var n = porTema[tema];
+      saida.push({ t: 'Cursos: ' + tema, l: '/formacoes?tema=' + encodeURIComponent(tema), p: 'Formações', k: tema, r: 'Temos ' + n.total + (n.total === 1 ? ' formação' : ' formações') + ' em ' + tema + (n.gratis ? ', sendo ' + n.gratis + (n.gratis === 1 ? ' gratuita' : ' gratuitas') : '') + '.' });
+    });
+    cursos.forEach(function (c) {
+      var docs = Array.isArray(c.instructors) ? c.instructors.map(function (x) { return x.name; }).join(', ') : (c.instructor || '');
+      var dados = ['Valor: ' + valorDe(c), c.startDateLabel, c.format, c.modalityDetails, c.workload, docs ? 'Docente: ' + docs : ''].filter(Boolean).join(' · ');
+      saida.push({
+        t: c.title,
+        l: '/formacoes?curso=' + encodeURIComponent(c.id),
+        p: 'Formações',
+        k: [c.category, c.isFree ? 'gratuito gratis' : '', docs].join(' '),
+        r: resumir(c.description, 210) + '\n' + dados,
+        x: [c.description, c.syllabus].join(' ')
+      });
+    });
+    (d.storeItems || []).filter(function (s) { return s.sourceId || s.imageUrl; }).forEach(function (s) {
+      var dados = ['Valor: ' + s.price, s.size ? 'Tamanho: ' + s.size : '', s.badge].filter(Boolean).join(' · ');
+      saida.push({ t: s.title, l: '/loja', p: 'Loja', k: [s.category, s.badge].join(' '), r: (s.summary ? resumir(s.summary, 180) + '\n' : '') + dados });
+    });
+    return saida;
+  }
+
   var base = null, carregando = null;
   function carregar() {
-    if (!carregando) carregando = fetch('/mascote/base.json').then(function (r) { return r.json(); }).then(function (lista) {
-      base = lista.map(function (e) { return { e: e, k: conjunto(e.k), t: conjunto(e.t), r: conjunto(e.r) }; });
+    if (!carregando) carregando = Promise.all([
+      fetch('/mascote/base.json').then(function (r) { return r.json(); }),
+      fetch('/api/public/site').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+    ]).then(function (res) {
+      var lista = res[0].concat(entradasAoVivo(res[1]));
+      base = lista.map(function (e) { return { e: e, k: conjunto(e.k), t: conjunto(e.t), r: conjunto(e.r + ' ' + (e.x || '')) }; });
+      frequencia = {};
+      base.forEach(function (b) {
+        var vistos = {};
+        [b.k, b.t, b.r].forEach(function (c) { Object.keys(c).forEach(function (t) { vistos[t] = 1; }); });
+        Object.keys(vistos).forEach(function (t) { frequencia[t] = (frequencia[t] || 0) + 1; });
+      });
     });
     return carregando;
   }
   function buscar(pergunta) {
     var q = termos(pergunta), achados = [];
     if (!q.length) return [];
+    // em "quanto custa o X", quem decide a resposta é o X
+    var semPreco = q.filter(function (t) { return !PALAVRAS_DE_PRECO[t]; });
+    if (semPreco.length) q = semPreco;
+    // palavras raras valem mais que palavras que aparecem em tudo
+    var peso = {}, totalPeso = 0;
+    q.forEach(function (t) {
+      if (peso[t]) return;
+      peso[t] = Math.log((base.length + 1) / ((frequencia[t] || 0) + 0.5));
+      totalPeso += peso[t];
+    });
     base.forEach(function (b, i) {
-      var p = 0;
-      q.forEach(function (t) { p += (b.k[t] ? 4 : 0) + (b.t[t] ? 3 : 0) + (b.r[t] ? 1 : 0); });
-      if (p >= 3) achados.push({ p: p, i: i, e: b.e });
+      var p = 0, coberto = 0, forte = false;
+      Object.keys(peso).forEach(function (t) {
+        var pontos = b.k[t] ? 4 : b.t[t] ? 3 : b.r[t] ? 1 : 0;
+        if (!pontos) return;
+        p += pontos * peso[t];
+        coberto += peso[t];
+        if (pontos >= 3) forte = true;
+      });
+      // precisa acertar o nome/tema e a maior parte do que foi perguntado
+      if (forte && coberto / totalPeso >= 0.55) achados.push({ p: p, i: i, e: b.e });
     });
     achados.sort(function (a, b) { return b.p - a.p || a.i - b.i; });
     return achados;
@@ -119,7 +196,7 @@
       return;
     }
     mostrar(achados[0].e);
-    var outros = achados.slice(1, 4).filter(function (a) { return a.p >= achados[0].p * 0.6 && a.e.t !== achados[0].e.t; }).slice(0, 2);
+    var outros = achados.slice(1, 8).filter(function (a) { return a.p >= achados[0].p * 0.5 && a.e.t !== achados[0].e.t; }).slice(0, 3);
     if (outros.length) {
       fala('bot', 'Veja também:');
       chips(outros.map(function (a) { return { rotulo: a.e.t, e: a.e }; }), function (item) { fala('eu', item.rotulo); mostrar(item.e); });
