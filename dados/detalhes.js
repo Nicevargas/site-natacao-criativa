@@ -198,10 +198,11 @@
     }
     var docs = Array.isArray(c.instructors) ? c.instructors : [];
     if (docs.length) {
-      m.appendChild(titulo(docs.length > 1 ? 'Professores' : 'Professor'));
+      var soConvidados = docs.every(function (d) { return /convidad/i.test(d.role || ''); });
+      m.appendChild(titulo(soConvidados ? (docs.length > 1 ? 'Convidados(as)' : 'Convidado(a)') : (docs.length > 1 ? 'Professores' : 'Professor')));
       docs.forEach(function (d) {
         var b = el('div', 'mb-3');
-        b.appendChild(el('div', 'font-semibold text-on-secondary-fixed', d.name + (d.role ? ' · ' + d.role : '')));
+        b.appendChild(el('div', 'font-semibold text-on-secondary-fixed', d.name + (d.role && !soConvidados ? ' · ' + d.role : '')));
         if (d.bio) b.appendChild(el('p', 'text-body-sm text-on-surface-variant whitespace-pre-line', d.bio));
         m.appendChild(b);
       });

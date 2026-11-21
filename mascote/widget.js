@@ -80,7 +80,7 @@
     });
     cursos.forEach(function (c) {
       var docs = Array.isArray(c.instructors) ? c.instructors.map(function (x) { return x.name; }).join(', ') : (c.instructor || '');
-      var dados = ['Valor: ' + valorDe(c), c.startDateLabel, c.format, c.modalityDetails, c.workload, docs ? 'Docente: ' + docs : ''].filter(Boolean).join(' · ');
+      var dados = ['Valor: ' + valorDe(c), c.startDateLabel, c.format, c.modalityDetails, c.workload, docs ? ((Array.isArray(c.instructors) && c.instructors.length && c.instructors.every(function (x) { return /convidad/i.test(x.role || ''); })) ? 'Convidado(a): ' : 'Docente: ') + docs : ''].filter(Boolean).join(' · ');
       saida.push({
         t: c.title,
         l: '/formacoes?curso=' + encodeURIComponent(c.id),

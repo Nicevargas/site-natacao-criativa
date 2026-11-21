@@ -24,7 +24,7 @@
     { id: 'valor', rotulo: 'Valor', todos: 'Gratuito ou pago', icone: 'payments', valores: function (c) { return [c.isFree ? 'Gratuito' : 'Pago']; } },
     { id: 'quando', rotulo: 'Data', todos: 'Qualquer data', icone: 'calendar_month', valores: function (c) { return [quando(c)]; } },
     { id: 'nivel', rotulo: 'Nível', todos: 'Todos os níveis', icone: 'signal_cellular_alt', valores: function (c) { return c.level ? [NIVEIS[c.level] || c.level] : []; } },
-    { id: 'professor', rotulo: 'Professor', todos: 'Todos os professores', icone: 'badge', valores: docentes },
+    { id: 'professor', rotulo: 'Professor', todos: 'Professores e convidados', icone: 'badge', valores: docentes },
   ];
 
   window.ncLigarFiltros = function (itens, grade) {

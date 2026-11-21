@@ -94,7 +94,9 @@
     var docentes = Array.isArray(c.instructors) && c.instructors.length
       ? c.instructors.map(function (d) { return d.name; })
       : (c.instructor ? String(c.instructor).split(/\s*,\s*/) : []);
-    if (docentes.length) metas.appendChild(linha(docentes.length > 1 ? 'groups' : 'person', (docentes.length > 1 ? 'Docentes: ' : 'Docente: ') + docentes.join(', '), cor));
+    if (docentes.length) metas.appendChild(linha(docentes.length > 1 ? 'groups' : 'person', (Array.isArray(c.instructors) && c.instructors.length && c.instructors.every(function (d) { return /convidad/i.test(d.role || ''); })
+      ? (docentes.length > 1 ? 'Convidados(as): ' : 'Convidado(a): ')
+      : (docentes.length > 1 ? 'Docentes: ' : 'Docente: ')) + docentes.join(', '), cor));
 
     var onde = [c.format, ehLink(c.locationOrUrl) ? '' : c.locationOrUrl].filter(Boolean).join(' · ');
     if (onde) metas.appendChild(linha('location_on', onde, cor));
