@@ -463,6 +463,10 @@ app.get('/api/public/site', (req, res) => {
   const site = getPublicSnapshot(readDb());
   // A compra acontece só na loja deste site: nenhum link externo de compra sai daqui.
   site.storeItems = comFotosExtras(site.storeItems.map(({ buyUrl, ...item }) => item), path.join(__dirname, 'dados-antigos', 'loja-fotos-extras.json'));
+  if (site.settings) {
+    const { lojaEstoqueMinimo, ...configPublica } = site.settings;
+    site.settings = configPublica;
+  }
   res.json(site);
 });
 

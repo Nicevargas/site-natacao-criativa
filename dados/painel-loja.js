@@ -13,6 +13,7 @@
   P.criarSecao('pedidos', 'Pedidos da Loja', 'shopping_bag', P.cab('Pedidos da Loja', 'Vendas, pagamentos, entregas, frete e estoque.', '<div class="flex flex-wrap gap-2"><button type="button" id="ncLojaSim" class="' + P.BTN_SEC + '">' + P.ic('science') + '<span>Simular loja</span></button><a id="ncLojaCsv" href="/api/admin/loja/pedidos.csv" class="' + P.BTN_SEC + '">' + P.ic('file_download') + 'Exportar CSV</a><button type="button" id="ncLojaAtualizar" class="' + P.BTN_SEC + '">' + P.ic('refresh') + 'Atualizar</button></div>') +
     '<div id="ncLojaSimAviso" class="hidden p-4 rounded-xl bg-[#FAC61C]/30 border border-[#FAC61C] flex flex-wrap items-center justify-between gap-3"><div><div class="font-display font-bold text-sm">Modo simulação ligado</div><div class="text-xs text-on-surface-variant">Pedidos de exemplo, só neste navegador. Nada é cobrado, enviado ou gravado no banco. Frete e Estoque abaixo continuam reais.</div></div><a href="/loja" target="_blank" rel="noopener" class="' + P.BTN_PRIM + '">' + P.ic('shopping_cart') + 'Testar uma compra</a></div>' +
     '<div id="ncLojaResumo" class="grid grid-cols-2 lg:grid-cols-4 gap-3"></div>' +
+    '<div id="ncLojaEstoqueAviso" class="hidden p-3 rounded-xl bg-amber-100 text-amber-900 flex flex-wrap items-center justify-between gap-2 text-sm font-semibold"><span></span><button type="button" id="ncVerBaixo" class="underline">Ver produtos</button></div>' +
     '<div class="flex flex-wrap gap-1.5" id="ncLojaAbas"><button type="button" data-aba="pedidos" class="' + P.BTN_SEC + '">Pedidos</button><button type="button" data-aba="config" class="' + P.BTN_SEC + '">Frete e checkout</button><button type="button" data-aba="estoque" class="' + P.BTN_SEC + '">Estoque</button></div>' +
     '<div data-painel="pedidos" class="space-y-3"><div class="flex flex-wrap gap-2"><select id="ncLojaFiltro" aria-label="Filtrar por situação" class="h-10 px-3 rounded-lg bg-surface-container-low text-sm"></select><input id="ncLojaBusca" aria-label="Buscar" placeholder="Buscar por número, nome ou e-mail" class="flex-1 min-w-[200px] h-10 px-3 rounded-lg bg-surface-container-low text-sm outline-none"/></div><div class="' + P.caixa + '"><table class="w-full text-left text-sm"><thead><tr class="bg-surface-container-low text-[11px] font-display font-extrabold uppercase text-on-surface-variant"><th class="py-3 px-4">Pedido</th><th class="py-3 px-4">Cliente</th><th class="py-3 px-4">Total</th><th class="py-3 px-4">Situação</th><th class="py-3 px-4"></th></tr></thead><tbody id="ncLojaLista"></tbody></table></div></div>' +
     '<div data-painel="config" class="hidden" id="ncLojaConfig"></div><div data-painel="estoque" class="hidden" id="ncLojaEstoque"></div>', 'conteudos');
@@ -21,6 +22,7 @@
     document.querySelectorAll('#sec-pedidos [data-painel]').forEach(function (d) { d.classList.toggle('hidden', d.dataset.painel !== n); });
     document.querySelectorAll('#ncLojaAbas [data-aba]').forEach(function (b) { b.classList.toggle('ring-2', b.dataset.aba === n); b.classList.toggle('ring-primary', b.dataset.aba === n); });
   }
+  document.getElementById('ncVerBaixo').onclick = function () { soBaixo = true; telaEstoque(); aba('estoque'); };
   document.getElementById('ncLojaAbas').addEventListener('click', function (e) { var b = e.target.closest('[data-aba]'); if (b) aba(b.dataset.aba); });
   aba('pedidos');
 
@@ -124,15 +126,54 @@
       try { await api('/api/admin/loja/config', { method: 'PUT', body: JSON.stringify({ ativo: !c.ativo }) }); showToast(c.ativo ? 'Checkout desligado.' : 'Checkout ligado.'); await carregarConfig(); } catch (err) { showToast(err.message, 'error'); }
     };
   }
+  var soBaixo = false;
+  function situacaoEstoque(id) {
+    var q = config.estoque[id], m = (config.minimos || {})[id];
+    if (q === undefined) return { t: 'Sem controle', c: 'bg-surface-container text-on-surface-variant', baixo: false };
+    if (q === 0) return { t: 'Esgotado', c: 'bg-red-100 text-red-800', baixo: true };
+    if (m !== undefined && q <= m) return { t: 'Estoque baixo', c: 'bg-amber-100 text-amber-900', baixo: true };
+    return { t: 'Normal', c: 'bg-emerald-100 text-emerald-800', baixo: false };
+  }
+  function avisoEstoque() {
+    var baixos = (state.storeItems || []).filter(function (s) { return s.active && situacaoEstoque(s.id).baixo; });
+    var a = document.getElementById('ncLojaEstoqueAviso');
+    a.classList.toggle('hidden', !baixos.length);
+    a.querySelector('span').textContent = baixos.length === 1 ? '1 produto com estoque baixo ou esgotado' : baixos.length + ' produtos com estoque baixo ou esgotados';
+  }
   function telaEstoque() {
-    var itens = (state.storeItems || []).filter(function (s) { return s.active; });
-    document.getElementById('ncLojaEstoque').innerHTML = '<p class="text-sm text-on-surface-variant mb-3">Preencha só os produtos com quantidade limitada. Vazio = sem limite (sob encomenda). O estoque baixa quando o pedido é feito e volta se ele vencer ou for cancelado.</p><div class="' + P.caixa + '"><table class="w-full text-left text-sm"><thead><tr class="bg-surface-container-low text-[11px] font-display font-extrabold uppercase text-on-surface-variant"><th class="py-3 px-4">Produto</th><th class="py-3 px-4">Situação</th><th class="py-3 px-4 w-32">Estoque</th></tr></thead><tbody>' +
-      itens.map(function (s) { var q = config.estoque[s.id]; return '<tr class="border-t border-surface-container"><td class="py-2 px-4 font-semibold">' + esc(s.title) + '</td><td class="py-2 px-4 text-xs">' + esc(s.badge || '') + '</td><td class="py-2 px-4"><input data-estoque="' + esc(s.id) + '" aria-label="Estoque de ' + esc(s.title) + '" type="number" min="0" value="' + esc(q === undefined ? '' : q) + '" class="w-24 h-9 px-2 rounded-lg bg-surface-container-low text-sm"/></td></tr>'; }).join('') + '</tbody></table></div>';
+    var itens = (state.storeItems || []).filter(function (s) { return s.active && (!soBaixo || situacaoEstoque(s.id).baixo); });
+    var numero = function (attr, id, valor, rotulo, s) { return '<input ' + attr + '="' + esc(id) + '" aria-label="' + rotulo + ' de ' + esc(s.title) + '" type="number" min="0" step="1" value="' + esc(valor === undefined ? '' : valor) + '" class="w-20 h-9 px-2 rounded-lg bg-surface-container-low text-sm"/>'; };
+    document.getElementById('ncLojaEstoque').innerHTML = '<div class="flex flex-wrap items-center justify-between gap-3 mb-3"><p class="text-sm text-on-surface-variant max-w-2xl"><b>Peças</b> é a quantidade disponível. <b>Mínimo</b> é o ponto em que o painel e o e-mail avisam. Vazio em Peças = sem limite (sob encomenda).</p><div class="flex flex-wrap items-center gap-3"><label class="inline-flex items-center gap-2 text-sm font-semibold"><input type="checkbox" id="ncSoBaixo" ' + (soBaixo ? 'checked' : '') + '/> Só estoque baixo</label><button type="button" id="ncSalvarEstoque" class="' + P.BTN_PRIM + '">' + P.ic('save') + 'Salvar estoque</button></div></div><p id="ncEstoqueMsg" class="text-sm font-semibold mb-2" role="status"></p><div class="' + P.caixa + '"><table class="w-full text-left text-sm"><thead><tr class="bg-surface-container-low text-[11px] font-display font-extrabold uppercase text-on-surface-variant"><th class="py-3 px-4">Produto</th><th class="py-3 px-4">Tipo</th><th class="py-3 px-4">Peças</th><th class="py-3 px-4">Mínimo</th><th class="py-3 px-4">Situação</th></tr></thead><tbody>' +
+      (itens.map(function (s) { var st = situacaoEstoque(s.id); return '<tr class="border-t border-surface-container"><td class="py-2 px-4 font-semibold">' + esc(s.title) + '</td><td class="py-2 px-4 text-xs">' + esc(s.badge || '') + '</td><td class="py-2 px-4">' + numero('data-estoque', s.id, config.estoque[s.id], 'Peças', s) + '</td><td class="py-2 px-4">' + numero('data-minimo', s.id, (config.minimos || {})[s.id], 'Mínimo', s) + '</td><td class="py-2 px-4"><span class="inline-block px-2 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap ' + st.c + '">' + esc(st.t) + '</span></td></tr>'; }).join('') || '<tr><td colspan="5" class="py-6 px-4 text-sm text-outline">Nenhum produto com estoque baixo.</td></tr>') + '</tbody></table></div>';
+    avisoEstoque();
+    document.getElementById('ncSoBaixo').onchange = function (e) { soBaixo = e.target.checked; telaEstoque(); };
+    document.getElementById('ncSalvarEstoque').onclick = salvarEstoque;
+  }
+  async function salvarEstoque() {
+    var botao = document.getElementById('ncSalvarEstoque'), msg = document.getElementById('ncEstoqueMsg');
+    var pecas = [], minimos = {}, erro = '';
     document.querySelectorAll('[data-estoque]').forEach(function (i) {
-      i.onchange = async function () {
-        try { await api('/api/admin/loja/estoque/' + i.dataset.estoque, { method: 'PUT', body: JSON.stringify({ quantidade: i.value }) }); if (i.value === '') delete config.estoque[i.dataset.estoque]; else config.estoque[i.dataset.estoque] = Number(i.value); showToast('Estoque salvo.'); } catch (e) { showToast(e.message, 'error'); }
-      };
+      var id = i.dataset.estoque, v = i.value.trim(), atual = config.estoque[id];
+      if (v !== '' && !/^\d+$/.test(v)) erro = 'Use só números inteiros.';
+      if (v !== (atual === undefined ? '' : String(atual))) pecas.push({ id: id, v: v });
+      var c = document.querySelector('[data-minimo="' + CSS.escape(id) + '"]'), mv = c.value.trim(), ma = (config.minimos || {})[id];
+      if (mv !== '' && !/^\d+$/.test(mv)) erro = 'Use só números inteiros.';
+      if (mv !== '' && v === '') erro = 'Preencha as peças de todo produto que tiver mínimo.';
+      if (mv !== (ma === undefined ? '' : String(ma))) minimos[id] = mv === '' ? null : Number(mv);
     });
+    if (erro) { msg.textContent = erro; msg.className = 'text-sm font-semibold mb-2 text-error'; return; }
+    if (!pecas.length && !Object.keys(minimos).length) { msg.textContent = 'Nada para salvar.'; msg.className = 'text-sm font-semibold mb-2 text-outline'; return; }
+    botao.disabled = true; msg.textContent = 'Salvando...'; msg.className = 'text-sm font-semibold mb-2 text-outline';
+    try {
+      for (var k = 0; k < pecas.length; k++) await api('/api/admin/loja/estoque/' + encodeURIComponent(pecas[k].id), { method: 'PUT', body: JSON.stringify({ quantidade: pecas[k].v }) });
+      if (Object.keys(minimos).length) await api('/api/admin/loja/minimos', { method: 'PUT', body: JSON.stringify({ minimos: minimos }) });
+      await carregarConfig();
+      showToast('Estoque salvo.');
+    } catch (e) {
+      try { await carregarConfig(); } catch (e2) {}
+      var m2 = document.getElementById('ncEstoqueMsg');
+      if (m2) { m2.textContent = e.message + ' Confira os valores e salve de novo.'; m2.className = 'text-sm font-semibold mb-2 text-error'; }
+    }
   }
   async function carregarConfig() {
     config = await api('/api/admin/loja/config');
