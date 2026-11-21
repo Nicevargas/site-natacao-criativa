@@ -1,12 +1,7 @@
-/* Identidade visual: fundo com os respingos coloridos da marca.
-   O véu claro por cima mantém os textos legíveis; para deixar o fundo
-   mais forte ou mais fraco, mude o número de --veu (0 = imagem pura, 1 = some). */
-:root{--veu:.72}
-body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(rgba(246,250,252,var(--veu)),rgba(246,250,252,var(--veu))),url(/marca/fundo.jpg) left center/cover no-repeat}
-@media (min-width:1024px){
-  :root{--veu:.5}
-  body::before{background-position:center}
-  body:has(#sidebar)::before{left:5rem}
-}
-main.bg-surface{background-color:transparent!important}
+/* Fundo do site: branco, sem imagem. */
+html, body { background-color: #ffffff !important; }
+main.bg-surface { background-color: #ffffff !important; }
+
+/* Manchas azuis decorativas do topo das páginas */
+.blur-3xl.pointer-events-none.bg-primary-fixed\/30,
+.blur-3xl.pointer-events-none.bg-secondary-fixed\/40 { display: none !important; }
