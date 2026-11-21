@@ -10,7 +10,8 @@
   var selo = function (o) { return '<span class="inline-block px-2 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap ' + (COR[o.status] || '') + '">' + esc(o.statusNome) + '</span>'; };
   var ACAO = { em_separacao: 'Marcar em separação', enviado: 'Marcar como enviado', entregue: 'Marcar como entregue', pago: 'Voltar para pago', cancelado: 'Cancelar pedido' };
 
-  P.criarSecao('pedidos', 'Pedidos da Loja', 'shopping_bag', P.cab('Pedidos da Loja', 'Vendas, pagamentos, entregas, frete e estoque.', '<div class="flex flex-wrap gap-2"><a href="/api/admin/loja/pedidos.csv" class="' + P.BTN_SEC + '">' + P.ic('file_download') + 'Exportar CSV</a><button type="button" id="ncLojaAtualizar" class="' + P.BTN_SEC + '">' + P.ic('refresh') + 'Atualizar</button></div>') +
+  P.criarSecao('pedidos', 'Pedidos da Loja', 'shopping_bag', P.cab('Pedidos da Loja', 'Vendas, pagamentos, entregas, frete e estoque.', '<div class="flex flex-wrap gap-2"><button type="button" id="ncLojaSim" class="' + P.BTN_SEC + '">' + P.ic('science') + '<span>Simular loja</span></button><a id="ncLojaCsv" href="/api/admin/loja/pedidos.csv" class="' + P.BTN_SEC + '">' + P.ic('file_download') + 'Exportar CSV</a><button type="button" id="ncLojaAtualizar" class="' + P.BTN_SEC + '">' + P.ic('refresh') + 'Atualizar</button></div>') +
+    '<div id="ncLojaSimAviso" class="hidden p-4 rounded-xl bg-[#FAC61C]/30 border border-[#FAC61C] flex flex-wrap items-center justify-between gap-3"><div><div class="font-display font-bold text-sm">Modo simulação ligado</div><div class="text-xs text-on-surface-variant">Pedidos de exemplo, só neste navegador. Nada é cobrado, enviado ou gravado no banco. Frete e Estoque abaixo continuam reais.</div></div><a href="/loja" target="_blank" rel="noopener" class="' + P.BTN_PRIM + '">' + P.ic('shopping_cart') + 'Testar uma compra</a></div>' +
     '<div id="ncLojaResumo" class="grid grid-cols-2 lg:grid-cols-4 gap-3"></div>' +
     '<div class="flex flex-wrap gap-1.5" id="ncLojaAbas"><button type="button" data-aba="pedidos" class="' + P.BTN_SEC + '">Pedidos</button><button type="button" data-aba="config" class="' + P.BTN_SEC + '">Frete e checkout</button><button type="button" data-aba="estoque" class="' + P.BTN_SEC + '">Estoque</button></div>' +
     '<div data-painel="pedidos" class="space-y-3"><div class="flex flex-wrap gap-2"><select id="ncLojaFiltro" aria-label="Filtrar por situação" class="h-10 px-3 rounded-lg bg-surface-container-low text-sm"></select><input id="ncLojaBusca" aria-label="Buscar" placeholder="Buscar por número, nome ou e-mail" class="flex-1 min-w-[200px] h-10 px-3 rounded-lg bg-surface-container-low text-sm outline-none"/></div><div class="' + P.caixa + '"><table class="w-full text-left text-sm"><thead><tr class="bg-surface-container-low text-[11px] font-display font-extrabold uppercase text-on-surface-variant"><th class="py-3 px-4">Pedido</th><th class="py-3 px-4">Cliente</th><th class="py-3 px-4">Total</th><th class="py-3 px-4">Situação</th><th class="py-3 px-4"></th></tr></thead><tbody id="ncLojaLista"></tbody></table></div></div>' +
@@ -34,7 +35,7 @@
     var q = document.getElementById('ncLojaBusca').value.trim().toLowerCase();
     var v = pedidos.filter(function (o) { return (!filtro || o.status === filtro) && (!q || (o.number + ' ' + o.customer_name + ' ' + o.customer_email).toLowerCase().indexOf(q) > -1); });
     document.getElementById('ncLojaLista').innerHTML = v.map(function (o) {
-      return '<tr class="border-t border-surface-container"><td class="py-3 px-4"><div class="font-display font-bold">nº ' + esc(o.number) + '</div><div class="text-xs text-outline">' + esc(data(o.created_at)) + '</div></td><td class="py-3 px-4"><div class="font-semibold">' + esc(o.customer_name) + '</div><div class="text-xs text-outline">' + esc(o.customer_email) + '</div></td><td class="py-3 px-4 font-bold whitespace-nowrap">' + reais(o.total_cents) + '</td><td class="py-3 px-4">' + selo(o) + (o.email_error ? '<div class="text-[11px] text-error mt-1">E-mail não enviado</div>' : '') + '</td><td class="py-3 px-4 text-right"><button type="button" data-abrir="' + esc(o.id) + '" class="px-2.5 py-1 rounded bg-surface-container-low hover:bg-surface-container text-xs font-bold text-primary">Abrir</button></td></tr>';
+      return '<tr class="border-t border-surface-container"><td class="py-3 px-4"><div class="font-display font-bold">nº ' + esc(o.number) + (o.simulado ? ' <span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAC61C] text-on-secondary-fixed">SIMULADO</span>' : '') + '</div><div class="text-xs text-outline">' + esc(data(o.created_at)) + '</div></td><td class="py-3 px-4"><div class="font-semibold">' + esc(o.customer_name) + '</div><div class="text-xs text-outline">' + esc(o.customer_email) + '</div></td><td class="py-3 px-4 font-bold whitespace-nowrap">' + reais(o.total_cents) + '</td><td class="py-3 px-4">' + selo(o) + (o.email_error ? '<div class="text-[11px] text-error mt-1">E-mail não enviado</div>' : '') + '</td><td class="py-3 px-4 text-right"><button type="button" data-abrir="' + esc(o.id) + '" class="px-2.5 py-1 rounded bg-surface-container-low hover:bg-surface-container text-xs font-bold text-primary">Abrir</button></td></tr>';
     }).join('') || '<tr><td colspan="5" class="py-6 px-4 text-sm text-outline">Nenhum pedido.</td></tr>';
   }
   document.getElementById('ncLojaLista').addEventListener('click', function (e) { var b = e.target.closest('[data-abrir]'); if (b) abrir(b.dataset.abrir); });
@@ -57,6 +58,14 @@
       '<p class="text-[11px] text-outline">Reembolso é feito no Asaas e atualiza o pedido sozinho.</p>';
     var j = P.abrirJanela('Pedido nº ' + o.number, html);
     async function mandar(url, opcoes, ok) {
+      if (o.simulado) {
+        if (/consultar$/.test(url)) { showToast('Simulação: nenhuma consulta ao Asaas foi feita.'); return; }
+        if (/reenviar$/.test(url)) { showToast('Simulação: nenhum e-mail foi enviado.'); return; }
+        var rs = window.ncSim.atualizar(o.id, JSON.parse(opcoes.body));
+        if (rs.error) { showToast(rs.error, 'error'); return; }
+        trocar(rs.pedido); showToast(ok + ' (simulação)'); abrir(o.id);
+        return;
+      }
       try {
         var r = await api(url, opcoes);
         trocar(r.pedido); showToast(ok + (r.situacaoAsaas ? ' Situação: ' + r.situacaoAsaas : '')); abrir(o.id);
@@ -129,15 +138,36 @@
     config = await api('/api/admin/loja/config');
     telaConfig(); telaEstoque();
   }
+  function preencherFiltro() {
+    var sel = document.getElementById('ncLojaFiltro');
+    sel.innerHTML = '<option value="">Todas as situações</option>' + Object.keys(nomes).map(function (k) { return '<option value="' + esc(k) + '" ' + (k === filtro ? 'selected' : '') + '>' + esc(nomes[k]) + '</option>'; }).join('');
+  }
+  function telaSimulacao() {
+    var ligado = Boolean(window.ncSim && window.ncSim.ativo());
+    document.getElementById('ncLojaSimAviso').classList.toggle('hidden', !ligado);
+    document.getElementById('ncLojaCsv').classList.toggle('hidden', ligado);
+    document.querySelector('#ncLojaSim span:last-child').textContent = ligado ? 'Sair da simulação' : 'Simular loja';
+    return ligado;
+  }
+  document.getElementById('ncLojaSim').onclick = function () {
+    if (!window.ncSim) return;
+    if (window.ncSim.ativo()) { window.ncSim.desligar(); showToast('Simulação encerrada e pedidos de exemplo removidos.'); }
+    else { window.ncSim.ligar(state.storeItems || []); showToast('Simulação ligada.'); }
+    filtro = ''; aba('pedidos'); carregar();
+  };
   async function carregar() {
+    if (telaSimulacao()) {
+      pedidos = window.ncSim.pedidos(); nomes = window.ncSim.NOMES;
+      preencherFiltro(); resumo(); lista();
+      try { await carregarConfig(); } catch (e) { /* a simulação não depende do servidor */ }
+      return;
+    }
     try { await carregarConfig(); } catch (e) { showToast(e.message, 'error'); return; }
     if (!config.pronto.banco) { aba('config'); pedidos = []; resumo(); lista(); return; }
     try {
       var r = await api('/api/admin/loja/pedidos');
       pedidos = r.pedidos; nomes = r.nomes;
-      var sel = document.getElementById('ncLojaFiltro');
-      sel.innerHTML = '<option value="">Todas as situações</option>' + Object.keys(nomes).map(function (k) { return '<option value="' + esc(k) + '" ' + (k === filtro ? 'selected' : '') + '>' + esc(nomes[k]) + '</option>'; }).join('');
-      resumo(); lista();
+      preencherFiltro(); resumo(); lista();
     } catch (e) { showToast(e.message, 'error'); }
   }
   document.getElementById('ncLojaAtualizar').onclick = carregar;

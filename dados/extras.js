@@ -170,7 +170,9 @@
     aplicar();
     window.__ncItensLoja = itens;
     document.dispatchEvent(new CustomEvent('nc:loja', { detail: itens }));
-    var sc = document.createElement('script'); sc.src = '/dados/loja.js'; document.body.appendChild(sc);
+    ['/dados/loja-simulacao.js', '/dados/loja.js'].forEach(function (src) {
+      var sc = document.createElement('script'); sc.src = src; sc.async = false; document.body.appendChild(sc);
+    });
   }
 
   // ---------- Cardume: telefone e nascimento ----------

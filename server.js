@@ -222,6 +222,9 @@ app.get('/dados/extras.js', (req, res) => {
 app.get('/dados/loja.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'loja.js'));
 });
+app.get('/dados/loja-simulacao.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dados', 'loja-simulacao.js'));
+});
 app.get('/dados/painel-integracoes.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'dados', 'painel-integracoes.js'));
 });

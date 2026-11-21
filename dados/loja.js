@@ -3,7 +3,7 @@
 (function () {
   if (window.__ncLoja) return;
   window.__ncLoja = true;
-  var CHAVE = 'nc_carrinho', cfg = null, itens = [], modal = null;
+  var CHAVE = 'nc_carrinho', cfg = null, itens = [], modal = null, simulando = false;
   function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
   var ler = function () { try { var c = JSON.parse(localStorage.getItem(CHAVE) || '[]'); return Array.isArray(c) ? c : []; } catch (e) { return []; } };
   var memoria = null;
@@ -178,10 +178,28 @@
       linha(envio ? 'Frete' : 'Retirada', v === null ? 'Selecione o estado' : v === 0 ? 'Grátis' : reais(v));
       linha('Total', reais(subtotal() + (v || 0)), true);
     }
+    if (simulando) {
+      // Dados de exemplo: na simulação ninguém precisa digitar dados reais.
+      var ex = { nome: 'Cliente de Teste', email: 'teste@example.com', telefone: '11900000000', documento: '00000000000', cep: '01001000', rua: 'Rua de Exemplo', numero: '100', bairro: 'Centro', cidade: 'São Paulo' };
+      Object.keys(ex).forEach(function (k) { f.elements[k].value = ex[k]; });
+      uf.value = 'SP'; cb.checked = true; env.textContent = 'Continuar para o pagamento simulado';
+      f.lastElementChild.textContent = 'Simulação: nenhuma cobrança será feita.';
+    }
     atualizar();
     f.addEventListener('submit', function (e) {
       e.preventDefault(); env.disabled = true; msg.textContent = ''; env.textContent = 'Gerando pagamento...';
       var v = f.elements;
+      if (simulando) {
+        var envio = escolha() === 'envio';
+        var novo = window.ncSim.criar({
+          nome: v.nome.value.trim(), email: v.email.value.trim(), telefone: v.telefone.value.trim(), metodo: escolha(), frete: frete() || 0, subtotal: subtotal(),
+          endereco: envio ? { cep: v.cep.value, rua: v.rua.value, numero: v.numero.value, complemento: v.complemento.value, bairro: v.bairro.value, cidade: v.cidade.value, uf: uf.value } : {},
+          itens: validos().map(function (x) { var s = produto(x.id); return { id: x.id, titulo: s.title, tamanho: s.size || '', precoCents: centavos(s.price), qtd: x.qtd, situacao: s.badge || '' }; }),
+        });
+        salvar([]);
+        pedidoSimulado(novo.id);
+        return;
+      }
       fetch('/api/public/loja/checkout', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -202,6 +220,38 @@
       }).catch(function (err) { msg.textContent = err.message || 'Não foi possível concluir. Tente de novo.'; env.disabled = false; env.textContent = 'Ir para o pagamento'; });
     });
     c.appendChild(f);
+  }
+
+  // ---------- pedido simulado ----------
+  function pedidoSimulado(id) {
+    var c = abrirModal('Pedido simulado'), p = window.ncSim.pedido(id);
+    if (!p) { c.textContent = 'Pedido não encontrado.'; return; }
+    c.appendChild(el('div', 'text-label-caps font-label-caps uppercase text-primary', 'Pedido nº ' + p.number + ' · simulação'));
+    c.appendChild(el('div', 'font-headline-sm text-headline-sm text-on-secondary-fixed mt-1 mb-3', p.statusNome));
+    p.items.forEach(function (i) { var d = el('div', 'flex justify-between gap-3 py-1.5 text-body-sm'); d.appendChild(el('span', '', i.qtd + 'x ' + i.titulo)); d.appendChild(el('span', 'whitespace-nowrap', reais(i.precoCents * i.qtd))); c.appendChild(d); });
+    var fr = el('div', 'flex justify-between py-1.5 text-body-sm'); fr.appendChild(el('span', '', p.delivery_method === 'retirada' ? 'Retirada' : 'Frete')); fr.appendChild(el('span', '', reais(p.shipping_cents))); c.appendChild(fr);
+    var t = el('div', 'flex justify-between py-2 border-t border-surface-container font-bold'); t.appendChild(el('span', '', 'Total')); t.appendChild(el('span', '', reais(p.total_cents))); c.appendChild(t);
+    if (p.status === 'aguardando_pagamento') {
+      c.appendChild(el('p', 'mt-3 text-body-sm text-on-surface-variant', 'Escolha como simular o pagamento. Nenhum valor é cobrado.'));
+      var g = el('div', 'grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2');
+      [['PIX', 'Pix'], ['CREDIT_CARD', 'Cartão'], ['BOLETO', 'Boleto']].forEach(function (m) {
+        var b = el('button', BTN, 'Aprovar ' + m[1]); b.type = 'button';
+        b.onclick = function () { window.ncSim.pagar(id, m[0]); pedidoSimulado(id); };
+        g.appendChild(b);
+      });
+      c.appendChild(g);
+    } else {
+      c.appendChild(el('p', 'mt-3 font-semibold text-on-secondary-fixed', 'Pagamento simulado aprovado. Na loja real, a equipe e o cliente receberiam o e-mail agora.'));
+      var a = el('a', 'block w-full mt-3 ' + BTN, 'Ver no painel'); a.href = '/admin'; c.appendChild(a);
+    }
+  }
+  function faixaSimulacao() {
+    if (document.getElementById('ncFaixaSim')) return;
+    var f = el('div', 'fixed top-2 left-1/2 -translate-x-1/2 z-[9997] max-w-[calc(100vw-16px)] px-3 py-2 rounded-full bg-[#FAC61C] text-on-secondary-fixed shadow-lg flex items-center gap-3 text-body-sm font-semibold whitespace-nowrap');
+    f.id = 'ncFaixaSim';
+    f.appendChild(el('span', '', 'Simulação: sem cobrança'));
+    var a = el('a', 'underline', 'Ver pedidos'); a.href = '/admin'; f.appendChild(a);
+    document.body.appendChild(f);
   }
 
   // ---------- pedido ----------
@@ -266,9 +316,14 @@
     fetch('/api/public/loja/config', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
       var token = new URLSearchParams(location.search).get('pedido');
       cfg = j.ativa ? j : null;
+      if (window.ncSim && window.ncSim.ativo()) { simulando = true; cfg = window.ncSim.config(); faixaSimulacao(); }
       ligarBotoes();
-      if (token) acompanhar(token);
-    }).catch(function () { cfg = null; ligarBotoes(); });
+      if (token && !simulando) acompanhar(token);
+    }).catch(function () {
+      cfg = null;
+      if (window.ncSim && window.ncSim.ativo()) { simulando = true; cfg = window.ncSim.config(); faixaSimulacao(); }
+      ligarBotoes();
+    });
   }
   if (window.__ncItensLoja) iniciar(window.__ncItensLoja);
   else document.addEventListener('nc:loja', function (e) { iniciar(e.detail); }, { once: true });
