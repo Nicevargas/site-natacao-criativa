@@ -111,9 +111,13 @@
   var abrirCursoOriginal = window.openCourseModal;
   window.openCourseModal = function (modo, id) {
     montarBlocoCurso();
-    abrirCursoOriginal(modo, id);
     var c = (modo === 'edit' && porId(state.courses, id)) || {};
     var form = document.getElementById('courseForm');
+    // categorias vindas da plataforma entram na lista para não se perderem ao salvar
+    if (c.category && ![].some.call(form.elements.category.options, function (o) { return o.value === c.category; })) {
+      form.elements.category.add(new Option(c.category, c.category));
+    }
+    abrirCursoOriginal(modo, id);
     ['syllabus', 'paymentUrl', 'pixKey', 'pixName'].forEach(function (k) { form.elements[k].value = c[k] || ''; });
     ['coverUrl', 'bannerTemplateUrl', 'certificateTemplateUrl'].forEach(function (k) { marcarFoto(form.elements[k].closest('.nc-foto'), c[k] || ''); });
     document.getElementById('ncGaleria').innerHTML = '';
@@ -208,6 +212,8 @@
     }).join('');
     var b = document.getElementById('ncImportarLoja');
     if (b) b.classList.toggle('hidden', (state.storeItems || []).some(function (s) { return s.sourceId; }));
+    var bc = document.getElementById('ncImportarCursos');
+    if (bc) bc.classList.toggle('hidden', (state.courses || []).some(function (c) { return c.sourceId; }));
   };
 
   window.renderCardume = function () {
@@ -299,6 +305,14 @@
     };
   };
 
+  window.ncImportarCursos = async function () {
+    if (!confirm('Trazer os cursos da plataforma para o painel como RASCUNHO? Nada aparece no site até você publicar.')) return;
+    try {
+      var r = await api('/api/admin/courses/importar', { method: 'POST' });
+      showToast(r.importados + ' cursos importados como rascunho.'); await loadOverview();
+    } catch (e) { showToast(e.message, 'error'); }
+  };
+
   window.ncImportarLoja = async function () {
     if (!confirm('Trazer os 66 produtos da loja antiga para o painel? Os 6 materiais de exemplo ficam pausados, sem serem apagados.')) return;
     try {
@@ -381,6 +395,9 @@
   var emitir = document.querySelector('#subtab-depoimentos-certificates button[onclick*="certificate"]');
   if (emitir) emitir.insertAdjacentHTML('beforebegin', '<button type="button" onclick="ncImportarAlunos()" class="' + BTN_SEC + '">' + ic('upload_file') + 'Importar alunos do Excel</button>');
   if (emitir) emitir.parentElement.classList.add('items-center');
+
+  var novaFormacao = document.querySelector('#sec-formacoes button[onclick*="openCourseModal"]');
+  if (novaFormacao) novaFormacao.insertAdjacentHTML('beforebegin', '<button type="button" id="ncImportarCursos" onclick="ncImportarCursos()" class="' + BTN_SEC + ' mr-2">' + ic('cloud_download') + 'Importar cursos da plataforma</button>');
 
   var renderTudoOriginal = window.renderAll;
   window.renderAll = function () { renderTudoOriginal(); renderParceiros(); renderLeads(); };

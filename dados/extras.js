@@ -69,6 +69,7 @@
       img.src = s.imageUrl; img.alt = s.title; img.loading = 'lazy'; capa.appendChild(img);
     } else capa.appendChild(el('span', 'material-symbols-outlined absolute inset-0 m-auto h-fit w-fit text-outline-variant text-[72px]', 'toys'));
     capa.appendChild(el('span', 'absolute top-3 left-3 px-2.5 py-1 rounded-full text-label-caps font-label-caps uppercase tracking-wider shadow-sm text-on-primary bg-primary-container', s.category));
+    if (s.badge && s.badge !== 'Digital') capa.appendChild(el('span', 'absolute bottom-3 right-3 px-2.5 py-1 rounded-full text-label-caps font-label-caps uppercase shadow-sm ' + (s.badge === 'Pronta entrega' ? 'text-on-primary bg-[#587309]' : 'text-on-secondary-fixed bg-[#FAC61C]'), s.badge));
     a.appendChild(capa);
     var corpo = el('div', 'p-space-lg flex-1 flex flex-col justify-between'), cima = el('div', 'space-y-2');
     cima.appendChild(el('h2', 'text-on-secondary-fixed font-headline-sm text-headline-sm group-hover:text-primary transition-colors', s.title));
