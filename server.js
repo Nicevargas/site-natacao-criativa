@@ -1247,6 +1247,7 @@ registrarExtras(app, {
   appendAuditLog,
   arquivoLojaAntiga: path.join(__dirname, 'dados-antigos', 'loja.json'),
   arquivoCursos: path.join(__dirname, 'dados-antigos', 'cursos-ativeplay.json'),
+  arquivoProfessores: path.join(__dirname, 'dados-antigos', 'professores-cursos.json'),
 });
 
 // Leitura direta do banco Supabase: /api/status, /api/cursos, /api/certificados/:codigo...
